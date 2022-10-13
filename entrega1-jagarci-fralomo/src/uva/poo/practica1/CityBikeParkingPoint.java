@@ -1,5 +1,5 @@
 package uva.poo.practica1;
-import uva.poo.practica1.AnclajesParkingPoint; 
+import uva.poo.practica1.AnclajeParkingPoint; 
 /*
  * TODO
  * conocer cantidad de anclajes que tiene el punto de aparcamiento
@@ -21,8 +21,8 @@ import uva.poo.practica1.AnclajesParkingPoint;
 	 // anclajes 
 	 // posicionGPS
 	 // id del punto
-	 private AnclajesParkingPoint[] listaAnclajes;
-	 private double posicionGradosDecimales;
+	 private AnclajeParkingPoint[] listaAnclajes;
+	 private double posicionGradosDecimales; // FALTA LATITUD Y LONGITUD
 	 private int idPuntoAparcamiento;
 	 
 	 // Inicializadores
@@ -56,7 +56,7 @@ import uva.poo.practica1.AnclajesParkingPoint;
 	  * @param cantidadAnclajes cantidad de anclajes
 	  */
 	 public void setAnclajes(int cantidadAnclajes) {
-		 this.listaAnclajes=new AnclajesParkingPoint[cantidadAnclajes];
+		 this.listaAnclajes=new AnclajeParkingPoint[cantidadAnclajes];
 	 }
 	 
 	 /**

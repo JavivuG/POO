@@ -6,7 +6,7 @@ package uva.poo.practica1;
  * @author fran
  *
  */
-public class AnclajesParkingPoint {
+public class AnclajeParkingPoint {
 	private boolean reservado;
 	private boolean ocupado;
 	private boolean vacio;
@@ -14,7 +14,7 @@ public class AnclajesParkingPoint {
 	/**
 	 * Contructor por defecto (inicialmente esta ocupado, es decir, con una bici)
 	 */
-	public AnclajesParkingPoint() {
+	public AnclajeParkingPoint() {
 		setOcupado(true);
 		setReservado(false);
 		setVacio(false);
@@ -24,7 +24,7 @@ public class AnclajesParkingPoint {
 	 * Contructor dado un anclaje ya definido
 	 * @param anclaje
 	 */
-	public AnclajesParkingPoint(AnclajesParkingPoint anclaje) {
+	public AnclajeParkingPoint(AnclajeParkingPoint anclaje) {
 		setOcupado(anclaje.isOcupado());
 		setReservado(anclaje.isReservado());
 		setVacio(anclaje.isVacio());
