@@ -22,33 +22,79 @@ import uva.poo.practica1.AnclajeParkingPoint;
 	 // posicionGPS
 	 // id del punto
 	 private AnclajeParkingPoint[] listaAnclajes;
-	 private double posicionGradosDecimales; // FALTA LATITUD Y LONGITUD
+	 private double latitudGradosDecimales;
+	 private double longitudGradosDecimales;
+	 private static int generadorId=1;
 	 private int idPuntoAparcamiento;
 	 
 	 // Inicializadores
 	 /**
-	  * Constructor predeterminado, por defecto se inicia a 1 el numero de anclajes 
-	  * @param idPuntoAparcamiento Identificador que se le asigna al punto de Aparcamiento
+	  * Constructor predeterminado. Se debe indicar despues el numero de anclajes 
+	  * @param
+	  * @param
 	  */
-	 public CityBikeParkingPoint(int idPuntoAparcamiento) { 
+	 public CityBikeParkingPoint(double latitudGradosDecimales, double longitudGradosDecimales) { 
+		 idPuntoAparcamiento=generadorId++;
 		 
+		 this.latitudGradosDecimales=latitudGradosDecimales;
+		 this.longitudGradosDecimales=longitudGradosDecimales;
 	 }
 	 
 	 /**
 	  * Constructor para poner una cantidad determinada de anclajes
 	  * @param cantidadAnclajes Numero de anclajes que quiero que tenga el punto de aparcamiento
-	  * @param idPuntoAparcamiento Identificador que se le asigna al punto de Aparcamiento
+	  * 
 	  */
-	 public CityBikeParkingPoint(int cantidadAnclajes, int idPuntoAparcamiento) {
+	 public CityBikeParkingPoint(int cantidadAnclajes, double latitudGradosDecimales, double longitudGradosDecimales) {
+		 idPuntoAparcamiento=generadorId++;
+		 setAnclajes(cantidadAnclajes);
 		 
+		 this.latitudGradosDecimales=latitudGradosDecimales;
+		 this.longitudGradosDecimales=longitudGradosDecimales;
 	 }
 	 
+	 // METODOS
+	 /**
+	  * Devuelve el identificador del punto de Aparcamiento
+	  * @return identicador asociado al punto de aparcamiento
+	  */
+	 public int getIdPuntoAparcamiento() {
+		return idPuntoAparcamiento;
+	 }
 	 /**
 	  * Devuelve la cantidad de anclajes que tiene el punto de aparcamiento
 	  * @return cantidad de anclajes que tiene un punto de aparcamiento
 	  */
 	 public int getCantidadAnclajes() {
 		 return listaAnclajes.length;
+	 }
+	 
+	 /**
+	  * Devuelve la cantidad de anclajes con bici/que estan ocupados
+	  * @return la cantidad de anclajes que estan ocupados
+	  */
+	 public int getCantidadAnclajesOcupados() {
+		 int contadorOcupado=0;
+		 for (int i=0; i<getCantidadAnclajes(); i++) {
+			 if (listaAnclajes[i].isOcupado()) {
+				 contadorOcupado++;
+			 }
+		 }
+		 return contadorOcupado;
+	 }
+	 
+	 /**
+	  * Devuelve la cantidad de anclajes con bici/que estan ocupados
+	  * @return la cantidad de anclajes que estan ocupados
+	  */
+	 public int getCantidadAnclajesVacios() {
+		 int contadorVacios=0;
+		 for (int i=0; i<getCantidadAnclajes(); i++) {
+			 if (listaAnclajes[i].isVacio()) {
+				 contadorVacios++;
+			 }
+		 }
+		 return contadorVacios;
 	 }
 	 
 	 /**
@@ -60,36 +106,39 @@ import uva.poo.practica1.AnclajeParkingPoint;
 	 }
 	 
 	 /**
-	  * Devuelve la posicion GPS
+	  * Devuelve la posicion GPS en grados  decimales (opcion por defecto)
 	  * @return la posicion GPS en grados decimales
 	  */
-	 public double getPosicionGPS() {
+	 public double[] getPosicionGPS() {
+		 double[] posicionGPS=new double[2];
+		 posicionGPS[0]=latitudGradosDecimales;
+		 posicionGPS[1]=longitudGradosDecimales;
 		 
+		 return posicionGPS;
 	 }
-	 
+
 	 /**
-	  * 
-	  * @param 
+	  * Devuelve en un array de Strings la posicion GPS en grados minutos y segundos
+	  * @return posicion GPS en grados minutos y segundos
 	  */
-	 public double setPosicionGPS() {
+	 public String[] getPosicionGMS() {
+		 double[] posicionGD=getPosicionGPS();
+		 String[] posicionGMS=new String[2];
 		 
-	 }
-	 
-	 /**
-	  * 
-	  * @return posicion GPS en grados minutos y segundo
-	  */
-	 public getPosicionGMS() {
-		 double posicionGradosDecimales=getPosicionGPS();
-	 }
-	 
-	 /**
-	  * 
-	  * @param
-	  */
-	 public void setPosicionGMS() {
+		 int gradosLatitud=(int) posicionGD[0];
+		 int gradosLongitud=(int) posicionGD[1];
 		 
+		 double minutosLatitud=(int)((posicionGD[0]-gradosLatitud)*60);
+		 double minutosLongitud=(int)((posicionGD[1]-gradosLongitud)*60);
+		 double segundosLatitud=(((posicionGD[0]-gradosLatitud)*60)-minutosLatitud)*60;
+		 double segundosLongitud=(((posicionGD[1]-gradosLongitud)*60)-minutosLongitud)*60;
+		 
+		 posicionGMS[0]=gradosLatitud+"º "+minutosLatitud+"' "+segundosLatitud+"''";
+		 posicionGMS[1]=gradosLongitud+"º "+minutosLongitud+"' "+segundosLongitud+"''";
+
+		 return posicionGMS;
 	 }
 	 
 	 
+
 }

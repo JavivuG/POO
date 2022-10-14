@@ -23,7 +23,7 @@ public class CityBikeSystem {
 	// puntosDeAparcamiento
 	// radio
 	private double fianza;
-	private CityBikeParkingPoint PuntoAparcamiento;
+	private CityBikeParkingPoint[] listaPuntosAparcamiento;
 	private double radio;
 	
 	
