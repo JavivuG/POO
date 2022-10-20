@@ -1,11 +1,12 @@
 package uva.poo.practica1;
-import uva.poo.practica1.AnclajeParkingPoint; 
+import uva.poo.practica1.AnclajeParkingPoint;
+import java.util.UUID;
 /*
  * TODO
  * conocer cantidad de anclajes que tiene el punto de aparcamiento
  * conocer la cantidad de anclajes ocupados (en los que hay una bici aparcada) 
  * conocer la posición GPS en la que se encuentra el punto de aparcamiento
- * conocer el identificador del punto de aparcamiento
+ * conocer el identificador del punto de aparcamiento HECHO
  * dado una base de anclaje en ese aparcamiento1, saber si está vacío, reservado u ocupado
  * prestar una bici de una base de anclaje, devolver una bici a una base de anclaje
  * conocer la distancia del punto de aparcamiento a una coordenada GPS dada o a otro punto de aparcamiento de bicis dado.
@@ -24,20 +25,22 @@ import uva.poo.practica1.AnclajeParkingPoint;
 	 private AnclajeParkingPoint[] listaAnclajes;
 	 private double latitudGradosDecimales;
 	 private double longitudGradosDecimales;
-	 private static int generadorId=1;
-	 private int idPuntoAparcamiento;
+	 private String idPuntoAparcamiento=UUID.randomUUID().toString();;
 	 
 	 // Inicializadores
 	 /**
-	  * Constructor predeterminado. Se debe indicar despues el numero de anclajes 
+	  * Constructor por defecto. Inicializo a cero la posicion GPS. Se debe indicar despues el numero de anclajes 
+	  */
+	 public CityBikeParkingPoint() {
+		 setPosicionGPS(0,0);
+	 }
+	 /**
+	  * Constructor que solo indico posicion GPS. Se debe indicar despues el numero de anclajes 
 	  * @param
 	  * @param
 	  */
-	 public CityBikeParkingPoint(double latitudGradosDecimales, double longitudGradosDecimales) { 
-		 idPuntoAparcamiento=generadorId++;
-		 
-		 this.latitudGradosDecimales=latitudGradosDecimales;
-		 this.longitudGradosDecimales=longitudGradosDecimales;
+	 public CityBikeParkingPoint(double latitudGradosDecimales, double longitudGradosDecimales) {  
+		 setPosicionGPS(latitudGradosDecimales, longitudGradosDecimales);
 	 }
 	 
 	 /**
@@ -46,11 +49,8 @@ import uva.poo.practica1.AnclajeParkingPoint;
 	  * 
 	  */
 	 public CityBikeParkingPoint(int cantidadAnclajes, double latitudGradosDecimales, double longitudGradosDecimales) {
-		 idPuntoAparcamiento=generadorId++;
-		 setAnclajes(cantidadAnclajes);
-		 
-		 this.latitudGradosDecimales=latitudGradosDecimales;
-		 this.longitudGradosDecimales=longitudGradosDecimales;
+		 setCantidadAnclajes(cantidadAnclajes);
+		 setPosicionGPS(latitudGradosDecimales, longitudGradosDecimales);
 	 }
 	 
 	 // METODOS
@@ -58,7 +58,7 @@ import uva.poo.practica1.AnclajeParkingPoint;
 	  * Devuelve el identificador del punto de Aparcamiento
 	  * @return identicador asociado al punto de aparcamiento
 	  */
-	 public int getIdPuntoAparcamiento() {
+	 public String getIdPuntoAparcamiento() {
 		return idPuntoAparcamiento;
 	 }
 	 /**
@@ -101,8 +101,12 @@ import uva.poo.practica1.AnclajeParkingPoint;
 	  * Proporciona un valor para la cantidad de anclajes que tiene el punto de aparcamiento
 	  * @param cantidadAnclajes cantidad de anclajes
 	  */
-	 public void setAnclajes(int cantidadAnclajes) {
+	 public void setCantidadAnclajes(int cantidadAnclajes) {
 		 this.listaAnclajes=new AnclajeParkingPoint[cantidadAnclajes];
+	 }
+	 
+	 public AnclajeParkingPoint[] getListaAnclajes() {
+		 return this.listaAnclajes;
 	 }
 	 
 	 /**
@@ -115,6 +119,11 @@ import uva.poo.practica1.AnclajeParkingPoint;
 		 posicionGPS[1]=longitudGradosDecimales;
 		 
 		 return posicionGPS;
+	 }
+	 
+	 public void setPosicionGPS(double latitudGradosDecimales, double longitudGradosDecimales) {
+		 this.latitudGradosDecimales=latitudGradosDecimales;
+		 this.longitudGradosDecimales=longitudGradosDecimales;
 	 }
 
 	 /**
