@@ -5,7 +5,7 @@ import java.util.UUID;
  * TODO
  * conocer cantidad de anclajes que tiene el punto de aparcamiento HECHO
  * conocer la cantidad de anclajes ocupados (en los que hay una bici aparcada) HECHO
- * conocer la posición GPS en la que se encuentra el punto de aparcamiento
+ * conocer la posición GPS en la que se encuentra el punto de aparcamiento HECHO
  * conocer el identificador del punto de aparcamiento HECHO
  * dado una base de anclaje en ese aparcamiento1, saber si está vacío, reservado u ocupado HECHO
  * prestar una bici de una base de anclaje, devolver una bici a una base de anclaje
@@ -36,8 +36,8 @@ import java.util.UUID;
 	 }
 	 /**
 	  * Constructor que solo indico posicion GPS. Se debe indicar despues el numero de anclajes 
-	  * @param
-	  * @param
+	  * @param latitudGradosDecimales Latitud en grados decimales
+	  * @param longitudGradosDecimales Longitud en grados decimales
 	  */
 	 public CityBikeParkingPoint(double latitudGradosDecimales, double longitudGradosDecimales) {  
 		 setPosicionGPS(latitudGradosDecimales, longitudGradosDecimales);
@@ -154,15 +154,51 @@ import java.util.UUID;
 		 int gradosLatitud=(int) posicionGD[0];
 		 int gradosLongitud=(int) posicionGD[1];
 		 
-		 double minutosLatitud=(int)((posicionGD[0]-gradosLatitud)*60);
-		 double minutosLongitud=(int)((posicionGD[1]-gradosLongitud)*60);
-		 double segundosLatitud=(((posicionGD[0]-gradosLatitud)*60)-minutosLatitud)*60;
-		 double segundosLongitud=(((posicionGD[1]-gradosLongitud)*60)-minutosLongitud)*60;
+		 int minutosLatitud=(int)((posicionGD[0]-gradosLatitud)*60);
+		 int minutosLongitud=(int)((posicionGD[1]-gradosLongitud)*60);
+		 double segundosLatitud=truncaNumero((((posicionGD[0]-gradosLatitud)*60)-minutosLatitud)*60);
+		 double segundosLongitud=truncaNumero((((posicionGD[1]-gradosLongitud)*60)-minutosLongitud)*60);
 		 
 		 posicionGMS[0]=gradosLatitud+"º "+minutosLatitud+"' "+segundosLatitud+"''";
 		 posicionGMS[1]=gradosLongitud+"º "+minutosLongitud+"' "+segundosLongitud+"''";
 
 		 return posicionGMS;
+	 }
+	 
+	 /**
+	  * Trunca un numero a 3 cifras decimales
+	  * @param numero que se desea truncar
+	  * @return numero truncado
+	  */
+	 private double truncaNumero(double numero) {
+		 numero = numero * Math.pow(10, 3); 
+		 numero = Math.floor(numero); 
+		 numero = numero / Math.pow(10, 3);
+		 return numero;
+	 }
+	 
+	 /**
+	  * Calcula la distancia de un punto de aparcamiento a una posicion GPS dada
+	  * @param posicionGPS Posicion GPS
+	  * @return distancia entre el punto de aparcamiento y la posicion GPS dada
+	  */
+	 public double distanciaAPosicionGPS(double[] posicionGPS) {
+		 double distanciaLatitud=getPosicionGPS()[0]-posicionGPS[0];
+		 double distanciaLongitud=getPosicionGPS()[1]-posicionGPS[1];
+		 double distancia=Math.pow(Math.sin(distanciaLatitud/2),2)+Math.cos(posicionGPS[0])*Math.cos(getPosicionGPS()[0])+Math.pow(Math.sin(distanciaLongitud/2),2);
+		 
+		 return distancia;
+	 }
+	 
+	 
+	 /**
+	  * Calcula la distancia de un punto de aparcamiento a un punto de aparcamiento dado
+	  * @param otro Punto de aparcamiento 
+	  * @return distancia entre el punto de aparcamiento y la posicion GPS dada
+	  */
+	 public double distanciaAPuntoAparcamiento(CityBikeParkingPoint otro) {
+		 double[] posicionGPS=otro.getPosicionGPS();
+		 return distanciaAPosicionGPS(posicionGPS);
 	 }
 	 
 	 @Override
