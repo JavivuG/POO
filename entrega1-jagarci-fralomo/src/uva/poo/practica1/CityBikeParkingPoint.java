@@ -3,11 +3,11 @@ import uva.poo.practica1.AnclajeParkingPoint;
 import java.util.UUID;
 /*
  * TODO
- * conocer cantidad de anclajes que tiene el punto de aparcamiento
- * conocer la cantidad de anclajes ocupados (en los que hay una bici aparcada) 
+ * conocer cantidad de anclajes que tiene el punto de aparcamiento HECHO
+ * conocer la cantidad de anclajes ocupados (en los que hay una bici aparcada) HECHO
  * conocer la posición GPS en la que se encuentra el punto de aparcamiento
  * conocer el identificador del punto de aparcamiento HECHO
- * dado una base de anclaje en ese aparcamiento1, saber si está vacío, reservado u ocupado
+ * dado una base de anclaje en ese aparcamiento1, saber si está vacío, reservado u ocupado HECHO
  * prestar una bici de una base de anclaje, devolver una bici a una base de anclaje
  * conocer la distancia del punto de aparcamiento a una coordenada GPS dada o a otro punto de aparcamiento de bicis dado.
  */
@@ -84,8 +84,8 @@ import java.util.UUID;
 	 }
 	 
 	 /**
-	  * Devuelve la cantidad de anclajes con bici/que estan ocupados
-	  * @return la cantidad de anclajes que estan ocupados
+	  * Devuelve la cantidad de anclajes con bici/que estan vacios
+	  * @return la cantidad de anclajes que estan vacios
 	  */
 	 public int getCantidadAnclajesVacios() {
 		 int contadorVacios=0;
@@ -98,11 +98,28 @@ import java.util.UUID;
 	 }
 	 
 	 /**
+	  * Devuelve la cantidad de anclajes con bici/que estan reservados
+	  * @return la cantidad de anclajes que estan ocupados
+	  */
+	 public int getCantidadAnclajesReservados() {
+		 int contadorReservados=0;
+		 for (int i=0; i<getCantidadAnclajes(); i++) {
+			 if (listaAnclajes[i].isReservado()) {
+				 contadorReservados++;
+			 }
+		 }
+		 return contadorReservados;
+	 }
+	 
+	 /**
 	  * Proporciona un valor para la cantidad de anclajes que tiene el punto de aparcamiento
 	  * @param cantidadAnclajes cantidad de anclajes
 	  */
 	 public void setCantidadAnclajes(int cantidadAnclajes) {
 		 this.listaAnclajes=new AnclajeParkingPoint[cantidadAnclajes];
+		 for (int i=0; i<listaAnclajes.length; i++) {
+			 this.listaAnclajes[i]=new AnclajeParkingPoint();
+		 }
 	 }
 	 
 	 public AnclajeParkingPoint[] getListaAnclajes() {
@@ -147,6 +164,18 @@ import java.util.UUID;
 
 		 return posicionGMS;
 	 }
+	 
+	 @Override
+	 /**
+	  * Imprime el identificador, la posicion GPS, la cantidad de anclajes y la cantidad de anclajes ocupados de un punto de aparcamiento"
+	  */
+	 public String toString() {
+		 String identificador="Indetificador:"+ getIdPuntoAparcamiento() +"\n";
+		 String posicionGPS="Posicion GPS: ("+ getPosicionGPS()[0]+ ","+getPosicionGPS()[1]+")\n";
+		 String cantidadAnclajes="Cantidad de Anclajes: "+ getCantidadAnclajes()+"\n";
+		 String cantidadAnclajesOcupados="Cantidad de Anclajes Ocupados: "+getCantidadAnclajesOcupados()+"\n";
+		 return (identificador+posicionGPS+cantidadAnclajes+cantidadAnclajesOcupados);	 
+	}
 	 
 	 
 
