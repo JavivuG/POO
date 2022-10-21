@@ -134,9 +134,26 @@ public class CityBikeSystem {
 		 }
 		 return "El identificador no corresponde a ningun punto de aparcamiento";
 	 }
-	
-	
-	
+	 
+	 /**
+	  * Devuelve la cantidad de puntos de Aparcamiento que tiene el sistema
+	  * @return cantidad de puntos de aparcamiento del Sistema de bicis
+	  */
+	 public int getCantidadPuntosAparcamiento() {
+		 return getListaPuntosAparcamiento().size();
+	 }
+
+	 /**
+	  * Devuelve un String con el valor de la fianza del sistema y la cantidad de puntos de aparcamiento
+	  */
+	 @Override
+	 public String toString() {
+		 String fianza="Valor de fianza: "+ getFianza() +"\n";
+		 String cantidadPuntosAparcamiento="Cantidad de puntos de Aparcamiento: "+ getCantidadPuntosAparcamiento()+ "\n";
+		 
+		 return fianza+cantidadPuntosAparcamiento;
+	 }
+
 	
 	
 	

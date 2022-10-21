@@ -201,10 +201,10 @@ import java.util.UUID;
 		 return distanciaAPosicionGPS(posicionGPS);
 	 }
 	 
-	 @Override
 	 /**
-	  * Imprime el identificador, la posicion GPS, la cantidad de anclajes y la cantidad de anclajes ocupados de un punto de aparcamiento"
+	  * Devuelve un String con el identificador, la posicion GPS, la cantidad de anclajes y la cantidad de anclajes ocupados de un punto de aparcamiento
 	  */
+	 @Override
 	 public String toString() {
 		 String identificador="Indetificador:"+ getIdPuntoAparcamiento() +"\n";
 		 String posicionGPS="Posicion GPS: ("+ getPosicionGPS()[0]+ ","+getPosicionGPS()[1]+")\n";
