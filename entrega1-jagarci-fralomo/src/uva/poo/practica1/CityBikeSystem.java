@@ -1,4 +1,5 @@
 package uva.poo.practica1;
+import fabricante.externo.tarjetas.TarjetaMonedero;
 import java.util.ArrayList;
 
 /*
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  * obtener todos los puntos de aparcamiento con bicis disponibles (que tengan anclajes ocupados) 
  * obtener todos los puntos de aparcamiento en los que haya sitio para devolver una bici (es decir que tengan anclajes vacíos)
  * obtener PUNTOS DE APARCAMIENTO de bicis CERCANOS a una coordenada GPS dada dentro de un radio en metros dado donde se pueda dejar una
-bici, etc.
+bici, etc. HECHO
  */
 
 /**
@@ -46,17 +47,93 @@ public class CityBikeSystem {
 	 * Añade un CityBikeParkingPoint dado a la lista de parkings
 	 * @param parking a añadir
 	 */
-	
 	public void addCityBikeParkingPoint(CityBikeParkingPoint parking) {
 		listaPuntosAparcamiento.add(parking);
 	}
 	
-	public void remomeCityBikeParkingPoint(String id) {
+	public void removeCityBikeParkingPoint(String id) {
 		//Buscar otra forma
 		listaPuntosAparcamiento.removeIf(parking -> parking.getIdPuntoAparcamiento()==id);	
 	}
 	
+	/**
+	 * Devuelve lista de puntos de aparcamiento cercanos
+	 * @param posicionGPS
+	 * @param radio
+	 * @return lista de puntos de aparcamiento cercanos
+	 */
+	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanos(double[] posicionGPS, double radio){
+		listaPuntosAparcamiento=getListaPuntosAparcamiento();
+		ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanos = new ArrayList<CityBikeParkingPoint>();
+		
+		for(int i=0; i<listaPuntosAparcamiento.size(); i++) {
+			CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
+			double distanciaAPosicionGPS=puntoAparcamiento.distanciaAPosicionGPS(posicionGPS);
+			
+			if (distanciaAPosicionGPS<=radio) {
+				puntosAparcamientoCercanos.add(puntoAparcamiento);
+			}
+		}
+		return puntosAparcamientoCercanos;
+	}
 	
+	/**
+	 * Devuelve una lista de puntos de aparcamiento cercanos con anclajes vacios para dejar la bici dada una posicion GPS y un radio dado
+	 * @param posicionGPS 
+	 * @param radio
+	 * @return Lista de puntos de aparcamiento cercanos con anclajes vacios
+	 */
+	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanosVacios(double[] posicionGPS, double radio){
+		ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanos= getPuntosAparcamientoCercanos(posicionGPS, radio);
+		ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanosVacios= new ArrayList<CityBikeParkingPoint>(); 
+		
+		for(int i =0; i<puntosAparcamientoCercanos.size(); i++) {
+			CityBikeParkingPoint puntoAparcamiento= puntosAparcamientoCercanos.get(i);
+			
+			if (puntoAparcamiento.getCantidadAnclajesVacios()<=0) {
+				puntosAparcamientoCercanosVacios.add(puntoAparcamiento);
+			}
+		}
+		return puntosAparcamientoCercanosVacios;
+	}
+
+	/**
+	 * Devuelve una lista de puntos de aparcamiento cercanos con bicis disponibles dada una posicion GPS y un radio dado
+	 * @param posicionGPS
+	 * @param radio
+	 * @return lista de puntos de aparcamiento cercanos con bicis disponibles
+	 */
+	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanosOcupados(double[] posicionGPS, double radio){
+		ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanos= getPuntosAparcamientoCercanos(posicionGPS, radio);
+		ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanosOcupados= new ArrayList<CityBikeParkingPoint>(); 
+		
+		for(int i =0; i<puntosAparcamientoCercanos.size(); i++) {
+			CityBikeParkingPoint puntoAparcamiento= puntosAparcamientoCercanos.get(i);
+			
+			if (puntoAparcamiento.getCantidadAnclajesOcupados()<=0) {
+				puntosAparcamientoCercanosOcupados.add(puntoAparcamiento);
+			}
+		}
+		return puntosAparcamientoCercanosOcupados;
+	}
+	
+	 /**
+	  * Devuelve los datos correspondientes a un determinado punto de aparcamiento dado su identificador
+	  * @param identificador del punto de aparcamiento que quiero
+	  * @return datos del punto de aparcamiento correspondiente
+	  */
+	 public String getDatosPuntoAparcamiento(String identificador) {
+		 ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento= getListaPuntosAparcamiento();
+		 for(int i=0; i<listaPuntosAparcamiento.size(); i++) {
+			 CityBikeParkingPoint puntoAparcamiento= listaPuntosAparcamiento.get(i);
+			 String idPuntoAparcamiento=puntoAparcamiento.getIdPuntoAparcamiento();
+			 
+			 if (idPuntoAparcamiento.equals(identificador)) {
+				 return puntoAparcamiento.toString();
+			 }
+		 }
+		 return "El identificador no corresponde a ningun punto de aparcamiento";
+	 }
 	
 	
 	
