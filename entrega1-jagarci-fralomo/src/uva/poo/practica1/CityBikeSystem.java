@@ -7,8 +7,8 @@ import java.util.ArrayList;
  * añadir un punto de aparcamiento de bicis y eliminarlo DONE
  * modificar la cantidad establecida para la fianza DONE
  * obtener todos los puntos de aparcamientos de bicis que hay en la ciudad DONE
- * obtener todos los puntos de aparcamiento con bicis disponibles (que tengan anclajes ocupados) 
- * obtener todos los puntos de aparcamiento en los que haya sitio para devolver una bici (es decir que tengan anclajes vacíos)
+ * obtener todos los puntos de aparcamiento con bicis disponibles (que tengan anclajes ocupados) HECHO
+ * obtener todos los puntos de aparcamiento en los que haya sitio para devolver una bici (es decir que tengan anclajes vacíos) HECHO
  * obtener PUNTOS DE APARCAMIENTO de bicis CERCANOS a una coordenada GPS dada dentro de un radio en metros dado donde se pueda dejar una
 bici, etc. HECHO
  */
@@ -51,9 +51,63 @@ public class CityBikeSystem {
 		listaPuntosAparcamiento.add(parking);
 	}
 	
+	/**
+	 * Quitar un punto de aparcamiento del sistema dado su identificador
+	 * @param id
+	 */
 	public void removeCityBikeParkingPoint(String id) {
 		//Buscar otra forma
-		listaPuntosAparcamiento.removeIf(parking -> parking.getIdPuntoAparcamiento()==id);	
+		ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento=getListaPuntosAparcamiento();
+		for(int i=0; i<listaPuntosAparcamiento.size(); i++) {
+			CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
+			if (id==puntoAparcamiento.getIdPuntoAparcamiento()) {
+				listaPuntosAparcamiento.remove(puntoAparcamiento);
+			}
+		}
+	}
+	
+	/**
+	 * Quitar un punto de aparcamiento del sistema
+	 * @param puntoAparcamiento
+	 */
+	public void removeCityBikeParkingPoint(CityBikeParkingPoint puntoAparcamiento) {
+		//Buscar otra forma
+		String id=puntoAparcamiento.getIdPuntoAparcamiento();
+		removeCityBikeParkingPoint(id);
+	}
+	
+	/**
+	 * Devuelve una lista de puntos de aparcamientos que tienen bicis disponibles
+	 * @return lista de puntos de aparcamientos que tienen bicis disponibles
+	 */
+	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoBicisDisponibles(){
+		ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento=getListaPuntosAparcamiento();
+		ArrayList<CityBikeParkingPoint> puntosAparcamientoBicisDisponibles=new ArrayList<CityBikeParkingPoint>();
+		for (int i=0; i<listaPuntosAparcamiento.size(); i++) {
+			CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
+			
+			if (puntoAparcamiento.getCantidadAnclajesOcupados()>0) {
+				puntosAparcamientoBicisDisponibles.add(puntoAparcamiento);
+			}
+		}
+		return puntosAparcamientoBicisDisponibles;
+	}
+	
+	/**
+	 * Devuelve una lista de puntos de aparcamientos en los que haya sitio para devolver una bici
+	 * @return lista de puntos de aparcamientos con anclajes vacios
+	 */
+	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoAnclajesVacios(){
+		ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento=getListaPuntosAparcamiento();
+		ArrayList<CityBikeParkingPoint> puntosAparcamientoAnclajesVacios=new ArrayList<CityBikeParkingPoint>();
+		for (int i=0; i<listaPuntosAparcamiento.size(); i++) {
+			CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
+			
+			if (puntoAparcamiento.getCantidadAnclajesVacios()>0) {
+				puntosAparcamientoAnclajesVacios.add(puntoAparcamiento);
+			}
+		}
+		return puntosAparcamientoAnclajesVacios;
 	}
 	
 	/**
@@ -90,7 +144,7 @@ public class CityBikeSystem {
 		for(int i =0; i<puntosAparcamientoCercanos.size(); i++) {
 			CityBikeParkingPoint puntoAparcamiento= puntosAparcamientoCercanos.get(i);
 			
-			if (puntoAparcamiento.getCantidadAnclajesVacios()<=0) {
+			if (puntoAparcamiento.getCantidadAnclajesVacios()>0) {
 				puntosAparcamientoCercanosVacios.add(puntoAparcamiento);
 			}
 		}
@@ -110,7 +164,7 @@ public class CityBikeSystem {
 		for(int i =0; i<puntosAparcamientoCercanos.size(); i++) {
 			CityBikeParkingPoint puntoAparcamiento= puntosAparcamientoCercanos.get(i);
 			
-			if (puntoAparcamiento.getCantidadAnclajesOcupados()<=0) {
+			if (puntoAparcamiento.getCantidadAnclajesOcupados()>0) {
 				puntosAparcamientoCercanosOcupados.add(puntoAparcamiento);
 			}
 		}

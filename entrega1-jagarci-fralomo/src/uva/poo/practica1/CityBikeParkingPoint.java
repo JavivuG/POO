@@ -122,6 +122,10 @@ import java.util.UUID;
 		 }
 	 }
 	 
+	 /**
+	  * Devuelve la lista de anclajes
+	  * @return lista de objetos anclaje
+	  */
 	 public AnclajeParkingPoint[] getListaAnclajes() {
 		 return this.listaAnclajes;
 	 }
@@ -183,9 +187,13 @@ import java.util.UUID;
 	  * @return distancia entre el punto de aparcamiento y la posicion GPS dada
 	  */
 	 public double distanciaAPosicionGPS(double[] posicionGPS) {
+		 double radioTierra=6371;
 		 double distanciaLatitud=getPosicionGPS()[0]-posicionGPS[0];
 		 double distanciaLongitud=getPosicionGPS()[1]-posicionGPS[1];
-		 double distancia=Math.pow(Math.sin(distanciaLatitud/2),2)+Math.cos(posicionGPS[0])*Math.cos(getPosicionGPS()[0])+Math.pow(Math.sin(distanciaLongitud/2),2);
+		 
+		 double a=Math.pow(Math.sin(distanciaLatitud/2),2)+Math.cos(posicionGPS[0])*Math.cos(getPosicionGPS()[0])+Math.pow(Math.sin(distanciaLongitud/2),2);
+		 double c=2*Math.asin(Math.min(1, Math.sqrt(a)));
+		 double distancia=radioTierra*c;
 		 
 		 return distancia;
 	 }
