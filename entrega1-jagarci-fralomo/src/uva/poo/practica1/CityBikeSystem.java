@@ -58,6 +58,7 @@ public class CityBikeSystem {
 	 * @param parking a añadir
 	 */
 	public void addCityBikeParkingPoint(CityBikeParkingPoint parking) {
+		if (parking==null) throw new IllegalArgumentException("Llamada incorrecta: Parking==null");
 		listaPuntosAparcamiento.add(parking);
 	}
 	
@@ -66,14 +67,14 @@ public class CityBikeSystem {
 	 * @param id
 	 */
 	public void removeCityBikeParkingPoint(String id) {
-		//Buscar otra forma
 		ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento=getListaPuntosAparcamiento();
-		for(int i=0; i<listaPuntosAparcamiento.size(); i++) {
-			CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
-			if (id==puntoAparcamiento.getIdPuntoAparcamiento()) {
-				listaPuntosAparcamiento.remove(puntoAparcamiento);
-			}
+		if (estaEnListaPuntosAparcamiento(id)) {
+			listaPuntosAparcamiento.remove(indexPuntoAparcamiento(id));
 		}
+		else {
+			throw new IllegalStateException("Parking Point no esta en CityBikeSystem");
+		}
+		setListaPuntosAparcamiento(listaPuntosAparcamiento);
 	}
 	
 	/**
@@ -81,10 +82,53 @@ public class CityBikeSystem {
 	 * @param puntoAparcamiento
 	 */
 	public void removeCityBikeParkingPoint(CityBikeParkingPoint puntoAparcamiento) {
-		//Buscar otra forma
 		String id=puntoAparcamiento.getIdPuntoAparcamiento();
 		removeCityBikeParkingPoint(id);
 	}
+	
+	public int indexPuntoAparcamiento(String id) {
+		ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento=getListaPuntosAparcamiento();
+		for(int i=0; i<listaPuntosAparcamiento.size(); i++) {
+			CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
+			if (id==puntoAparcamiento.getIdPuntoAparcamiento()) {
+				return i;
+			}	
+		}
+		return -1;
+	}
+	
+	public int indexPuntoAparcamiento(CityBikeParkingPoint otro) {
+		String id=otro.getIdPuntoAparcamiento();
+		return indexPuntoAparcamiento(id);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public boolean estaEnListaPuntosAparcamiento(String id) {
+		ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento=getListaPuntosAparcamiento();
+		for(int i=0; i<listaPuntosAparcamiento.size(); i++) {
+			CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
+			if (id==puntoAparcamiento.getIdPuntoAparcamiento()) {
+				return true;
+			}	
+		}
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @param otro
+	 * @return
+	 */
+	public boolean estaEnListaPuntosAparcamiento(CityBikeParkingPoint otro) {
+		String id = otro.getIdPuntoAparcamiento();
+		return estaEnListaPuntosAparcamiento(id);
+	}
+
+	
 	
 	/**
 	 * Devuelve una lista de puntos de aparcamientos que tienen bicis disponibles
