@@ -133,7 +133,11 @@ import java.util.UUID;
 	  * @return lista de objetos anclaje
 	  */
 	 public AnclajeParkingPoint[] getListaAnclajes() {
-		 return this.listaAnclajes;
+		 AnclajeParkingPoint[] clon=new AnclajeParkingPoint[listaAnclajes.length];
+		 for (int i=0; i<listaAnclajes.length; i++) {
+			 clon[i]=listaAnclajes[i];
+		 }
+		 return clon;
 	 }
 	 
 	 /**

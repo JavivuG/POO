@@ -25,15 +25,30 @@ public class CityBikeSystem {
 
 	private double fianza;
 	private ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento;
-
+	
+	/**
+	 * Devuelve el valor de la fianza de CityBikeSystem
+	 * @return valor de la fianza
+	 */
 	public double getFianza() {
 		return fianza;
 	}
-
+	
+	/**
+	 * Proporciona un nuevo valor a la fianza del CityBikeSystem
+	 * @param fianza
+	 */
 	public void setFianza(double fianza) {
+		if (fianza<0) {
+			throw new IllegalStateException("No puede tener fianza menor que 0");
+		}
 		this.fianza = fianza;
 	}
 
+	/**
+	 * Devuelve la lista de puntos de aparcamiento del sistema
+	 * @return lista de puntos de aparcamiento del sistema 
+	 */
 	public ArrayList<CityBikeParkingPoint> getListaPuntosAparcamiento() {
 		ArrayList<CityBikeParkingPoint> clon= new ArrayList<CityBikeParkingPoint>();
 		for (int i=0 ; i<listaPuntosAparcamiento.size() ; i++) {
@@ -43,6 +58,10 @@ public class CityBikeSystem {
 		return clon;
 	}
 
+	/**
+	 * Proporciona una nueva lista de puntos de aparcamiento al sistema
+	 * @param listaPuntosAparcamiento
+	 */
 	public void setListaPuntosAparcamiento(ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento) {
 		ArrayList<CityBikeParkingPoint> clon= new ArrayList<CityBikeParkingPoint>();
 		for (int i=0 ; i<listaPuntosAparcamiento.size() ; i++) {
@@ -56,15 +75,19 @@ public class CityBikeSystem {
 	/**
 	 * Añade un CityBikeParkingPoint dado a la lista de parkings
 	 * @param parking a añadir
+	 * @throws 
 	 */
-	public void addCityBikeParkingPoint(CityBikeParkingPoint parking) {
-		if (parking==null) throw new IllegalArgumentException("Llamada incorrecta: Parking==null");
-		listaPuntosAparcamiento.add(parking);
+	public void addCityBikeParkingPoint(CityBikeParkingPoint puntoAparcamiento) {
+		if (puntoAparcamiento==null) {
+			throw new IllegalArgumentException("Llamada incorrecta: Parking==null");
+		} 
+		listaPuntosAparcamiento.add(puntoAparcamiento);
 	}
 	
 	/**
 	 * Quitar un punto de aparcamiento del sistema dado su identificador
 	 * @param id
+	 * @throws
 	 */
 	public void removeCityBikeParkingPoint(String id) {
 		ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento=getListaPuntosAparcamiento();
@@ -82,46 +105,61 @@ public class CityBikeSystem {
 	 * @param puntoAparcamiento
 	 */
 	public void removeCityBikeParkingPoint(CityBikeParkingPoint puntoAparcamiento) {
+		if (puntoAparcamiento==null) {
+			throw new IllegalArgumentException("Llamada incorrecta: Parking==null");
+		}
+		
 		String id=puntoAparcamiento.getIdPuntoAparcamiento();
 		removeCityBikeParkingPoint(id);
 	}
 	
+	/**
+	 * Devuelve la posicion en la lista del punto de aparcamiento
+	 * @param id
+	 * @return posicion en la lista del punto de aparcamiento, -1 si no esta en la lista
+	 */
 	public int indexPuntoAparcamiento(String id) {
 		ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento=getListaPuntosAparcamiento();
-		for(int i=0; i<listaPuntosAparcamiento.size(); i++) {
-			CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
-			if (id==puntoAparcamiento.getIdPuntoAparcamiento()) {
-				return i;
-			}	
+		if (estaEnListaPuntosAparcamiento(id)) {
+			for(int i=0; i<listaPuntosAparcamiento.size(); i++) {
+				CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
+				if (id==puntoAparcamiento.getIdPuntoAparcamiento()) {
+					return i;
+				}	
+			}
 		}
 		return -1;
+
 	}
 	
+	/**
+	 * Devuelve la posicion en la lista del punto de aparcamiento
+	 * @param id
+	 * @return posicion en la lista del punto de aparcamiento, -1 si no esta en la lista
+	 */
 	public int indexPuntoAparcamiento(CityBikeParkingPoint otro) {
 		String id=otro.getIdPuntoAparcamiento();
 		return indexPuntoAparcamiento(id);
 	}
 	
 	/**
-	 * 
+	 * Indica si un punto de aparcamiendo dado su identificador esta en la lista del sistema
 	 * @param id
-	 * @return
+	 * @return true si esta en la lista, false de lo contrario
 	 */
 	public boolean estaEnListaPuntosAparcamiento(String id) {
-		ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento=getListaPuntosAparcamiento();
-		for(int i=0; i<listaPuntosAparcamiento.size(); i++) {
-			CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
-			if (id==puntoAparcamiento.getIdPuntoAparcamiento()) {
-				return true;
-			}	
+		if(indexPuntoAparcamiento(id)!=-1) {
+			return true;
 		}
-		return false;
+		else {
+			return false;
+		}
 	}
 	
 	/**
-	 * 
-	 * @param otro
-	 * @return
+	 * Indica si un punto de aparcamiendo esta en la lista del sistema
+	 * @param punto de Aparcamiento
+	 * @return true si esta en la lista, false de lo contrario
 	 */
 	public boolean estaEnListaPuntosAparcamiento(CityBikeParkingPoint otro) {
 		String id = otro.getIdPuntoAparcamiento();

@@ -103,15 +103,15 @@ public class AnclajeParkingPoint {
 	 * Obtiene el estado de un anclaje
 	 * @return estado del anclaje
 	 */
-	public boolean getEstado() {
+	public String getEstado() {
 		if (isReservado() && (isOcupado()==false && isVacio()==false)) {
-			return reservado;
+			return ("Reservado");
 		}
 		else if(isOcupado() && (isReservado()==false && isVacio()==false)){
-			return ocupado;
+			return ("Ocupado");
 		}
 		else if(isVacio() && (isReservado()==false && isOcupado()==false)) {
-			return vacio;
+			return ("Vacio");
 		}
 		else {
 			throw new IllegalStateException("No puede tener varios estados al mismo tiempo");
