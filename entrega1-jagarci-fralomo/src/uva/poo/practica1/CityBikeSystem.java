@@ -302,9 +302,9 @@ public class CityBikeSystem {
 
 	 /**
 	 * Permite a un cliente alquilar la bicicleta de un anclaje y se le descuenta la fianza de su TarjetaMonedero
-	 * **@param** tarjeta del cliente que quiere alquilar la bicicleta
-	 * **@param** anclaje del que se quiere alquilar la bicicleta
-	 * **@throws** IllegalStateException El anclade del que se quiere alquilar la bicicleta está vacío o reservado.
+	 * @param tarjeta del cliente que quiere alquilar la bicicleta
+	 * @param anclaje del que se quiere alquilar la bicicleta
+	 * @throws IllegalStateException El anclade del que se quiere alquilar la bicicleta está vacío o reservado.
 	 */
 	 public void alquilarBici(TarjetaMonedero tarjeta,AnclajeParkingPoint anclaje) {
 		 if (anclaje.isOcupado()) {
@@ -317,9 +317,9 @@ public class CityBikeSystem {
 
 	 /**
 	 * Permite al cliente devolver una bicicleta alquilada y se le devuelve la fianza en su TarjetaMonedero
-	 * **@param** tarjeta del cliente que quiere devolver la bicicleta
-	 * **@param** anclaje donde se quiere devolver la bicicleta
-	 * **@throws** IllegalStateException El anclaje donde se quiere dejar la bicicleta está ocupado por otra bicicleta.
+	 * @param tarjeta del cliente que quiere devolver la bicicleta
+	 * @param anclaje donde se quiere devolver la bicicleta
+	 * @throws IllegalStateException El anclaje donde se quiere dejar la bicicleta está ocupado por otra bicicleta.
 	 */
 	 public void devolverBici(TarjetaMonedero tarjeta,AnclajeParkingPoint anclaje) {
 		 if (anclaje.isVacio()) {
@@ -333,14 +333,14 @@ public class CityBikeSystem {
 	 
 	 /**
 	 * Permite al cliente reservar la bicicleta de un anclaje y se le decuenta la fianza de su TarjetaMonedero
-	 * **@param** tarjeta del cliente que quiere reservar la bicicleta
-	 * **@param** anclaje del que se quiere reserervar la bicicleta
-	 * **@throws** IllegalStateException El anclaje del que se quiere reservar la bicicleta está vacío o ya reservado para otro cliente.
+	 * @param tarjeta del cliente que quiere reservar la bicicleta
+	 * @param anclaje del que se quiere reserervar la bicicleta
+	 * @throws IllegalStateException El anclaje del que se quiere reservar la bicicleta está vacío o ya reservado para otro cliente.
 	 */
 	 public void reservarBici(TarjetaMonedero tarjeta,AnclajeParkingPoint anclaje) {
-		 if(anclaje.isOcupado() && !anclaje.isReservado()) {
+		 if(anclaje.isOcupado()) {
 			 tarjeta.descontarDelSaldo("***REMOVED***", fianza);
-			 anclaje.setOcupado(true);
+			 anclaje.setReservado(true);
 		 }
 		 else {
 			 throw new IllegalStateException("El anclaje del que se quiere reservar la bicicleta está vacío o ya reservado para otro cliente.");
