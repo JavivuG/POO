@@ -98,5 +98,24 @@ public class AnclajeParkingPoint {
 			this.vacio=vacio;
 		}
 	}
+	
+	/**
+	 * Obtiene el estado de un anclaje
+	 * @return estado del anclaje
+	 */
+	public boolean getEstado() {
+		if (isReservado() && (isOcupado()==false && isVacio()==false)) {
+			return reservado;
+		}
+		else if(isOcupado() && (isReservado()==false && isVacio()==false)){
+			return ocupado;
+		}
+		else if(isVacio() && (isReservado()==false && isOcupado()==false)) {
+			return vacio;
+		}
+		else {
+			throw new IllegalStateException("No puede tener varios estados al mismo tiempo");
+		}
+	}
 
 }

@@ -49,6 +49,9 @@ import java.util.UUID;
 	  * 
 	  */
 	 public CityBikeParkingPoint(int cantidadAnclajes, double latitudGradosDecimales, double longitudGradosDecimales) {
+		 if (cantidadAnclajes<=0) {
+			 throw new IllegalStateException("La cantidad de anclajes no puede ser menor o igual que 0");
+		 }
 		 setCantidadAnclajes(cantidadAnclajes);
 		 setPosicionGPS(latitudGradosDecimales, longitudGradosDecimales);
 	 }
@@ -116,6 +119,9 @@ import java.util.UUID;
 	  * @param cantidadAnclajes cantidad de anclajes
 	  */
 	 public void setCantidadAnclajes(int cantidadAnclajes) {
+		 if (cantidadAnclajes<=0) {
+			 throw new IllegalStateException("La cantidad de anclajes no puede ser menor o igual que 0");
+		 }
 		 this.listaAnclajes=new AnclajeParkingPoint[cantidadAnclajes];
 		 for (int i=0; i<listaAnclajes.length; i++) {
 			 this.listaAnclajes[i]=new AnclajeParkingPoint();
