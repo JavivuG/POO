@@ -27,7 +27,7 @@ public class CityBikeSystem {
 	private ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento;
 	
 	/**
-	 * Inicializador
+	 * Inicializador base
 	 */
 	public CityBikeSystem() {
 		setFianza(0);
@@ -36,9 +36,9 @@ public class CityBikeSystem {
 	}
 	
 	/**
-	 * 
-	 * @param fianza
-	 * @param cantidadPuntosAparcamiento
+	 * Inicializa una instancia de CityBikeSystem a partir de los parámetros fianza y cantidad de puntos de aparcamiento
+	 * @param fianza dinero necesario para alquilar una bici que al devolverla es reembolsado al cliente
+	 * @param cantidadPuntosAparcamiento cantidad de puntos de aparcamiento gestionados por la instancia
 	 */
 	public CityBikeSystem(double fianza, int cantidadPuntosAparcamiento) {
 		if (fianza>=0 && cantidadPuntosAparcamiento>0) {
@@ -52,8 +52,8 @@ public class CityBikeSystem {
 	}
 	
 	/**
-	 * 
-	 * @param original
+	 * Inicializa una instancia de CityBikeSystem copiando otra
+	 * @param original instancia a copiar
 	 */
 	public CityBikeSystem(CityBikeSystem original) {
 		if (original!=null) {
@@ -124,7 +124,7 @@ public class CityBikeSystem {
 
 	/**
 	 * Proporciona una nueva lista de puntos de aparcamiento al sistema
-	 * @param listaPuntosAparcamiento
+	 * @param listaPuntosAparcamiento lista que se le desea proporcionar
 	 */
 	public void setListaPuntosAparcamiento(ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento) {
 		if (listaPuntosAparcamiento==null || listaPuntosAparcamiento.size()<=0) {
@@ -142,7 +142,7 @@ public class CityBikeSystem {
 	/**
 	 * Añade un CityBikeParkingPoint dado a la lista de parkings
 	 * @param parking a añadir
-	 * @throws 
+	 * @throws IllegalArgumentException Llamada incorrecta: Parking==null
 	 */
 	public void addCityBikeParkingPoint(CityBikeParkingPoint puntoAparcamiento) {
 		if (puntoAparcamiento==null) {
@@ -155,8 +155,8 @@ public class CityBikeSystem {
 	
 	/**
 	 * Quitar un punto de aparcamiento del sistema dado su identificador
-	 * @param id
-	 * @throws
+	 * @param id del punto de aparcamiento a eliminar
+	 * @throws IllegalArgumentException Parking Point no esta en CityBikeSystem
 	 */
 	public void removeCityBikeParkingPoint(String id) {
 		if (estaEnListaPuntosAparcamiento(id) && getListaPuntosAparcamiento().size()>=2) {
@@ -170,7 +170,7 @@ public class CityBikeSystem {
 	
 	/**
 	 * Quitar un punto de aparcamiento del sistema dado el punto
-	 * @param puntoAparcamiento
+	 * @param puntoAparcamiento punto de aparcamiento a eliminar
 	 */
 	public void removeCityBikeParkingPoint(CityBikeParkingPoint puntoAparcamiento) {
 		if (puntoAparcamiento==null) {
@@ -184,7 +184,7 @@ public class CityBikeSystem {
 	
 	/**
 	 * Devuelve la posicion en la lista del punto de aparcamiento
-	 * @param id
+	 * @param id del punto de aparcamiento del que se desea saber la posición en la lista
 	 * @return posicion en la lista del punto de aparcamiento, -1 si no esta en la lista
 	 */
 	public int indexPuntoAparcamiento(String id) {
@@ -199,7 +199,7 @@ public class CityBikeSystem {
 	
 	/**
 	 * Devuelve la posicion en la lista del punto de aparcamiento
-	 * @param id
+	 * @param id del punto de aparcamiento del que se desea saber la posición en la lista
 	 * @return posicion en la lista del punto de aparcamiento, -1 si no esta en la lista
 	 */
 	public int indexPuntoAparcamiento(CityBikeParkingPoint otro) {
@@ -212,7 +212,7 @@ public class CityBikeSystem {
 	
 	/**
 	 * Indica si un punto de aparcamiendo dado su identificador esta en la lista del sistema
-	 * @param id
+	 * @param id del punto de aparcamiento del que se desea saber si esta en la lista o no
 	 * @return true si esta en la lista, false de lo contrario
 	 */
 	public boolean estaEnListaPuntosAparcamiento(String id) {
@@ -226,7 +226,7 @@ public class CityBikeSystem {
 	
 	/**
 	 * Indica si un punto de aparcamiendo esta en la lista del sistema
-	 * @param punto de Aparcamiento
+	 * @param punto de Aparcamiento del que se desea saber si esta en la lista o no
 	 * @return true si esta en la lista, false de lo contrario
 	 */
 	public boolean estaEnListaPuntosAparcamiento(CityBikeParkingPoint otro) {
@@ -276,8 +276,8 @@ public class CityBikeSystem {
 	
 	/**
 	 * Devuelve lista de puntos de aparcamiento cercanos
-	 * @param posicionGPS
-	 * @param radio
+	 * @param posicionGPS desde donde se desean saber los puntos cercanos
+	 * @param radio de búsqueda alrededor de la posición inicial
 	 * @return lista de puntos de aparcamiento cercanos
 	 */
 	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanos(double[] posicionGPS, double radio){
@@ -303,8 +303,8 @@ public class CityBikeSystem {
 	
 	/**
 	 * Devuelve una lista de puntos de aparcamiento cercanos con anclajes vacios para dejar la bici dada una posicion GPS y un radio dado
-	 * @param posicionGPS 
-	 * @param radio
+	 * @param posicionGPS desde donde se desean saber los puntos cercanos con anclajes vacíos
+	 * @param radio de búsqueda alrededor de la posición inicial
 	 * @return Lista de puntos de aparcamiento cercanos con anclajes vacios
 	 */
 	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanosVacios(double[] posicionGPS, double radio){
@@ -330,8 +330,8 @@ public class CityBikeSystem {
 
 	/**
 	 * Devuelve una lista de puntos de aparcamiento cercanos con bicis disponibles dada una posicion GPS y un radio dado
-	 * @param posicionGPS
-	 * @param radio
+	 * @param posicionGPS desde donde se desean saber los puntos cercanos con bicis disponibles
+	 * @param radio de búsqueda alrededor de la posición inicial
 	 * @return lista de puntos de aparcamiento cercanos con bicis disponibles
 	 */
 	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanosOcupados(double[] posicionGPS, double radio){
