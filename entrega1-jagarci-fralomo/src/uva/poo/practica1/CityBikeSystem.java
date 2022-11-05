@@ -31,6 +31,7 @@ public class CityBikeSystem {
 	 */
 	public CityBikeSystem() {
 		setFianza(0);
+		listaPuntosAparcamiento= new ArrayList<CityBikeParkingPoint>();
 		setCantidadPuntosAparcamiento(1);
 	}
 	
@@ -40,8 +41,14 @@ public class CityBikeSystem {
 	 * @param cantidadPuntosAparcamiento
 	 */
 	public CityBikeSystem(double fianza, int cantidadPuntosAparcamiento) {
-		setFianza(fianza);
-		setCantidadPuntosAparcamiento(cantidadPuntosAparcamiento);
+		if (fianza>=0 && cantidadPuntosAparcamiento>0) {
+			setFianza(fianza);
+			listaPuntosAparcamiento= new ArrayList<CityBikeParkingPoint>();
+			setCantidadPuntosAparcamiento(cantidadPuntosAparcamiento);
+		}
+		else {
+			throw new IllegalArgumentException("No puede tener fianza menor que 0 ni cantidad de puntos de aparcamiento menor que 1");
+		}
 	}
 	
 	/**
@@ -49,8 +56,14 @@ public class CityBikeSystem {
 	 * @param original
 	 */
 	public CityBikeSystem(CityBikeSystem original) {
-		setFianza(original.getFianza());
-		setListaPuntosAparcamiento(original.getListaPuntosAparcamiento());
+		if (original!=null) {
+			setFianza(original.getFianza());
+			setListaPuntosAparcamiento(original.getListaPuntosAparcamiento());
+		}
+		else {
+			throw new IllegalArgumentException("Llamada incorrecta: CityBikeSystem==null");
+		}
+		
 	}
 	
 	/**
@@ -69,14 +82,30 @@ public class CityBikeSystem {
 		if (fianza<0) {
 			throw new IllegalArgumentException("No puede tener fianza menor que 0");
 		}
-		this.fianza = fianza;
+		else{
+			this.fianza = fianza;
+		}
 	}
 	
+	/**
+	 * Devuelve la cantidad de puntos de Aparcamiento que tiene el sistema
+	 * @return cantidad de puntos de aparcamiento del Sistema de bicis
+	 */
+	public int getCantidadPuntosAparcamiento() {
+		return getListaPuntosAparcamiento().size();
+	}
+	 
+	 
 	public void setCantidadPuntosAparcamiento(int n) {
-		listaPuntosAparcamiento.clear();
-		for (int i= 0 ; i<n ; i++) {
-			CityBikeParkingPoint p= new CityBikeParkingPoint();
-			listaPuntosAparcamiento.add(p);
+		if (n<1) {
+			throw new IllegalArgumentException("No puede tener un número de aparcamientos menor que 0");
+		}
+		else {
+			listaPuntosAparcamiento.clear();
+			for (int i= 0 ; i<n ; i++) {
+				CityBikeParkingPoint p= new CityBikeParkingPoint();
+				listaPuntosAparcamiento.add(p);
+			}
 		}
 	}
 	
@@ -98,13 +127,16 @@ public class CityBikeSystem {
 	 * @param listaPuntosAparcamiento
 	 */
 	public void setListaPuntosAparcamiento(ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento) {
-		ArrayList<CityBikeParkingPoint> clon= new ArrayList<CityBikeParkingPoint>();
-		for (int i=0 ; i<listaPuntosAparcamiento.size() ; i++) {
-			clon.add(listaPuntosAparcamiento.get(i));
+		if (listaPuntosAparcamiento==null || listaPuntosAparcamiento.size()<=0) {
+			throw new IllegalArgumentException("LLamada incorrecta: lista nula o vacía");
 		}
-		
-		this.listaPuntosAparcamiento= clon;
-		
+		else {
+			ArrayList<CityBikeParkingPoint> clon= new ArrayList<CityBikeParkingPoint>();
+			for (int i=0 ; i<listaPuntosAparcamiento.size() ; i++) {
+				clon.add(listaPuntosAparcamiento.get(i));
+			}
+			this.listaPuntosAparcamiento= clon;
+		}
 	}
 	
 	/**
@@ -116,7 +148,9 @@ public class CityBikeSystem {
 		if (puntoAparcamiento==null) {
 			throw new IllegalArgumentException("Llamada incorrecta: Parking==null");
 		} 
-		listaPuntosAparcamiento.add(puntoAparcamiento);
+		else {
+			listaPuntosAparcamiento.add(puntoAparcamiento);
+		}
 	}
 	
 	/**
@@ -125,8 +159,7 @@ public class CityBikeSystem {
 	 * @throws
 	 */
 	public void removeCityBikeParkingPoint(String id) {
-		ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento=getListaPuntosAparcamiento();
-		if (estaEnListaPuntosAparcamiento(id)) {
+		if (estaEnListaPuntosAparcamiento(id) && getListaPuntosAparcamiento().size()>=2) {
 			listaPuntosAparcamiento.remove(indexPuntoAparcamiento(id));
 		}
 		else {
@@ -136,16 +169,17 @@ public class CityBikeSystem {
 	}
 	
 	/**
-	 * Quitar un punto de aparcamiento del sistema
+	 * Quitar un punto de aparcamiento del sistema dado el punto
 	 * @param puntoAparcamiento
 	 */
 	public void removeCityBikeParkingPoint(CityBikeParkingPoint puntoAparcamiento) {
 		if (puntoAparcamiento==null) {
 			throw new IllegalArgumentException("Llamada incorrecta: Parking==null");
 		}
-		
-		String id=puntoAparcamiento.getIdPuntoAparcamiento();
-		removeCityBikeParkingPoint(id);
+		else {
+			String id=puntoAparcamiento.getIdPuntoAparcamiento();
+			removeCityBikeParkingPoint(id);
+		}
 	}
 	
 	/**
@@ -154,17 +188,13 @@ public class CityBikeSystem {
 	 * @return posicion en la lista del punto de aparcamiento, -1 si no esta en la lista
 	 */
 	public int indexPuntoAparcamiento(String id) {
-		ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento=getListaPuntosAparcamiento();
-		if (estaEnListaPuntosAparcamiento(id)) {
-			for(int i=0; i<listaPuntosAparcamiento.size(); i++) {
-				CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
-				if (id==puntoAparcamiento.getIdPuntoAparcamiento()) {
-					return i;
-				}	
-			}
+		for(int i=0; i<listaPuntosAparcamiento.size(); i++) {
+			CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
+			if (id==puntoAparcamiento.getIdPuntoAparcamiento()) {
+				return i;
+			}	
 		}
 		return -1;
-
 	}
 	
 	/**
@@ -203,8 +233,11 @@ public class CityBikeSystem {
 		if (otro==null) {
 			throw new IllegalArgumentException("Llamada incorrecta: Parking==null");
 		}
-		String id = otro.getIdPuntoAparcamiento();
-		return estaEnListaPuntosAparcamiento(id);
+		else {
+			String id = otro.getIdPuntoAparcamiento();
+			return estaEnListaPuntosAparcamiento(id);
+		}
+		
 	}
 
 	
@@ -214,7 +247,6 @@ public class CityBikeSystem {
 	 * @return lista de puntos de aparcamientos que tienen bicis disponibles
 	 */
 	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoBicisDisponibles(){
-		ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento=getListaPuntosAparcamiento();
 		ArrayList<CityBikeParkingPoint> puntosAparcamientoBicisDisponibles=new ArrayList<CityBikeParkingPoint>();
 		for (int i=0; i<listaPuntosAparcamiento.size(); i++) {
 			CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
@@ -231,7 +263,6 @@ public class CityBikeSystem {
 	 * @return lista de puntos de aparcamientos con anclajes vacios
 	 */
 	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoAnclajesVacios(){
-		ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento=getListaPuntosAparcamiento();
 		ArrayList<CityBikeParkingPoint> puntosAparcamientoAnclajesVacios=new ArrayList<CityBikeParkingPoint>();
 		for (int i=0; i<listaPuntosAparcamiento.size(); i++) {
 			CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
@@ -250,19 +281,24 @@ public class CityBikeSystem {
 	 * @return lista de puntos de aparcamiento cercanos
 	 */
 	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanos(double[] posicionGPS, double radio){
-		
-		listaPuntosAparcamiento=getListaPuntosAparcamiento();
-		ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanos = new ArrayList<CityBikeParkingPoint>();
-		
-		for(int i=0; i<listaPuntosAparcamiento.size(); i++) {
-			CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
-			double distanciaAPosicionGPS=puntoAparcamiento.distanciaAPosicionGPS(posicionGPS);
-			
-			if (distanciaAPosicionGPS<=radio) {
-				puntosAparcamientoCercanos.add(puntoAparcamiento);
-			}
+		if (radio<=0) {
+			throw new IllegalArgumentException("Llamada incorrecta: radio<=0");
 		}
-		return puntosAparcamientoCercanos;
+		else if(posicionGPS[0]<-90 || posicionGPS[0]>90 || posicionGPS[1]<-180 || posicionGPS[1]>180) {
+			throw new IllegalArgumentException("Llamada incorrecta: Coordenadas GPS fuera de los límites");
+		}
+		else {
+			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanos = new ArrayList<CityBikeParkingPoint>();
+			for(int i=0; i<listaPuntosAparcamiento.size(); i++) {
+				CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
+				double distanciaAPosicionGPS=puntoAparcamiento.distanciaAPosicionGPS(posicionGPS);
+				if (distanciaAPosicionGPS<=radio) {
+					puntosAparcamientoCercanos.add(puntoAparcamiento);
+				}
+			}
+			return puntosAparcamientoCercanos;
+		}
+		
 	}
 	
 	/**
@@ -272,17 +308,24 @@ public class CityBikeSystem {
 	 * @return Lista de puntos de aparcamiento cercanos con anclajes vacios
 	 */
 	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanosVacios(double[] posicionGPS, double radio){
-		ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanos= getPuntosAparcamientoCercanos(posicionGPS, radio);
-		ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanosVacios= new ArrayList<CityBikeParkingPoint>(); 
-		
-		for(int i =0; i<puntosAparcamientoCercanos.size(); i++) {
-			CityBikeParkingPoint puntoAparcamiento= puntosAparcamientoCercanos.get(i);
-			
-			if (puntoAparcamiento.getCantidadAnclajesVacios()>0) {
-				puntosAparcamientoCercanosVacios.add(puntoAparcamiento);
-			}
+		if (radio<=0) {
+			throw new IllegalArgumentException("Llamada incorrecta: radio<=0");
 		}
-		return puntosAparcamientoCercanosVacios;
+		else if(posicionGPS[0]<-90 || posicionGPS[0]>90 || posicionGPS[1]<-180 || posicionGPS[1]>180) {
+			throw new IllegalArgumentException("Llamada incorrecta: Coordenadas GPS fuera de los límites");
+		}
+		else {
+			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanos= getPuntosAparcamientoCercanos(posicionGPS, radio);
+			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanosVacios= new ArrayList<CityBikeParkingPoint>(); 
+			for(int i =0; i<puntosAparcamientoCercanos.size(); i++) {
+				CityBikeParkingPoint puntoAparcamiento= puntosAparcamientoCercanos.get(i);
+				if (puntoAparcamiento.getCantidadAnclajesVacios()>0) {
+					puntosAparcamientoCercanosVacios.add(puntoAparcamiento);
+				}
+			}
+			return puntosAparcamientoCercanosVacios;
+		}
+		
 	}
 
 	/**
@@ -292,17 +335,26 @@ public class CityBikeSystem {
 	 * @return lista de puntos de aparcamiento cercanos con bicis disponibles
 	 */
 	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanosOcupados(double[] posicionGPS, double radio){
-		ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanos= getPuntosAparcamientoCercanos(posicionGPS, radio);
-		ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanosOcupados= new ArrayList<CityBikeParkingPoint>(); 
-		
-		for(int i =0; i<puntosAparcamientoCercanos.size(); i++) {
-			CityBikeParkingPoint puntoAparcamiento= puntosAparcamientoCercanos.get(i);
-			
-			if (puntoAparcamiento.getCantidadAnclajesOcupados()>0) {
-				puntosAparcamientoCercanosOcupados.add(puntoAparcamiento);
-			}
+		if (radio<=0) {
+			throw new IllegalArgumentException("Llamada incorrecta: radio<=0");
 		}
-		return puntosAparcamientoCercanosOcupados;
+		else if(posicionGPS[0]<-90 || posicionGPS[0]>90 || posicionGPS[1]<-180 || posicionGPS[1]>180) {
+			throw new IllegalArgumentException("Llamada incorrecta: Coordenadas GPS fuera de los límites");
+		}
+		else {
+			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanos= getPuntosAparcamientoCercanos(posicionGPS, radio);
+			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanosOcupados= new ArrayList<CityBikeParkingPoint>(); 
+			
+			for(int i =0; i<puntosAparcamientoCercanos.size(); i++) {
+				CityBikeParkingPoint puntoAparcamiento= puntosAparcamientoCercanos.get(i);
+				
+				if (puntoAparcamiento.getCantidadAnclajesOcupados()>0) {
+					puntosAparcamientoCercanosOcupados.add(puntoAparcamiento);
+				}
+			}
+			return puntosAparcamientoCercanosOcupados;
+		}
+		
 	}
 	
 	 /**
@@ -320,15 +372,7 @@ public class CityBikeSystem {
 				 return puntoAparcamiento.toString();
 			 }
 		 }
-		 return "El identificador no corresponde a ningun punto de aparcamiento";
-	 }
-	 
-	 /**
-	  * Devuelve la cantidad de puntos de Aparcamiento que tiene el sistema
-	  * @return cantidad de puntos de aparcamiento del Sistema de bicis
-	  */
-	 public int getCantidadPuntosAparcamiento() {
-		 return getListaPuntosAparcamiento().size();
+		 throw new IllegalArgumentException("El identificador no corresponde a ningun punto de aparcamiento");
 	 }
 
 	 /**
@@ -349,12 +393,19 @@ public class CityBikeSystem {
 	 * @throws IllegalStateException El anclade del que se quiere alquilar la bicicleta está vacío o reservado.
 	 */
 	 public void alquilarBici(TarjetaMonedero tarjeta,AnclajeParkingPoint anclaje) {
-		 if (anclaje.isOcupado()) {
+		 if (tarjeta==null) {
+			 throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
+		 }
+		 else if (tarjeta.getSaldoActual()<getFianza()) {
+			 throw new IllegalStateException("No hay saldo suficiente en la tarjeta para pagar la fianza");
+		 }
+		 else if (anclaje.isOcupado()){
 			 tarjeta.descontarDelSaldo("***REMOVED***", fianza);
 		 	 anclaje.setVacio(true);
-	 	}else {
-	 		throw new IllegalStateException("El anclaje del que se quiere alquilar la bicicleta está vacío o reservado.");
-	 	}
+		 }
+		 else {
+			 throw new IllegalStateException("El anclaje del que se quiere alquilar la bicicleta está vacío o reservado.");
+		 }
 	 }
 
 	 /**
@@ -364,7 +415,10 @@ public class CityBikeSystem {
 	 * @throws IllegalStateException El anclaje donde se quiere dejar la bicicleta está ocupado por otra bicicleta.
 	 */
 	 public void devolverBici(TarjetaMonedero tarjeta,AnclajeParkingPoint anclaje) {
-		 if (anclaje.isVacio()) {
+		 if (tarjeta==null) {
+			 throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
+		 }
+		 else if (anclaje.isVacio()){
 			 tarjeta.recargaSaldo("A156Bv09_1zXo894", fianza);
 			 anclaje.setOcupado(true);
 		 }
@@ -380,15 +434,22 @@ public class CityBikeSystem {
 	 * @throws IllegalStateException El anclaje del que se quiere reservar la bicicleta está vacío o ya reservado para otro cliente.
 	 */
 	 public void reservarBici(TarjetaMonedero tarjeta,AnclajeParkingPoint anclaje) {
-		 if(anclaje.isOcupado()) {
+		 if (tarjeta==null) {
+			 throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
+		 }
+		 else if (tarjeta.getSaldoActual()<getFianza()) {
+			 throw new IllegalStateException("No hay saldo suficiente en la tarjeta para pagar la fianza");
+		 }
+		 else if(anclaje.isOcupado()) {
 			 tarjeta.descontarDelSaldo("***REMOVED***", fianza);
 			 anclaje.setReservado(true);
 		 }
 		 else {
 			 throw new IllegalStateException("El anclaje del que se quiere reservar la bicicleta está vacío o ya reservado para otro cliente.");
 		 }
+		 
 	 }
-	
+	 
 	
 	
 	
