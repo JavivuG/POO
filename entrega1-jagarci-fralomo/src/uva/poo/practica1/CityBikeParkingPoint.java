@@ -13,8 +13,8 @@ import java.util.UUID;
  */
 /**
  * 
- * @author javier
- * @author francisco
+ * @author jagarci
+ * @author fralomo
  *
  */
  public class CityBikeParkingPoint {
@@ -38,19 +38,27 @@ import java.util.UUID;
 	  * Constructor que solo indico posicion GPS. Se debe indicar despues el numero de anclajes 
 	  * @param latitudGradosDecimales Latitud en grados decimales
 	  * @param longitudGradosDecimales Longitud en grados decimales
+	  * @throws IllegalArgumenException si latitudGradosDecimales o longitudGradosDecimales son menores que 0
 	  */
-	 public CityBikeParkingPoint(double latitudGradosDecimales, double longitudGradosDecimales) {  
+	 public CityBikeParkingPoint(double latitudGradosDecimales, double longitudGradosDecimales) {
+		 if (latitudGradosDecimales<0 || longitudGradosDecimales<0) {
+			 throw new IllegalArgumentException("Llamada incorrecta: latitudGradosDecimales o longitudGradosDecimales deben ser mayores o iguales que 0");
+		 }
 		 setPosicionGPS(latitudGradosDecimales, longitudGradosDecimales);
 	 }
 	 
 	 /**
 	  * Constructor para poner una cantidad determinada de anclajes
 	  * @param cantidadAnclajes Numero de anclajes que quiero que tenga el punto de aparcamiento
-	  * 
+	  * @throws IllegalStateException si cantidad de anclajes es menor que cero
+	  * @throws IllegalArgumenException si latitudGradosDecimales o longitudGradosDecimales son menores que 0
 	  */
 	 public CityBikeParkingPoint(int cantidadAnclajes, double latitudGradosDecimales, double longitudGradosDecimales) {
 		 if (cantidadAnclajes<=0) {
 			 throw new IllegalStateException("La cantidad de anclajes no puede ser menor o igual que 0");
+		 }
+		 else if(latitudGradosDecimales<0 || longitudGradosDecimales<0) {
+			 throw new IllegalArgumentException("Llamada incorrecta: latitudGradosDecimales o longitudGradosDecimales deben ser mayores o iguales que 0");
 		 }
 		 setCantidadAnclajes(cantidadAnclajes);
 		 setPosicionGPS(latitudGradosDecimales, longitudGradosDecimales);
@@ -117,6 +125,7 @@ import java.util.UUID;
 	 /**
 	  * Proporciona un valor para la cantidad de anclajes que tiene el punto de aparcamiento
 	  * @param cantidadAnclajes cantidad de anclajes
+	  * @throws IllegalStateException si cantidad de Anclajes menor o igual que cero
 	  */
 	 public void setCantidadAnclajes(int cantidadAnclajes) {
 		 if (cantidadAnclajes<=0) {
@@ -152,7 +161,16 @@ import java.util.UUID;
 		 return posicionGPS;
 	 }
 	 
+	 /**
+	  * Proporciona un nuevo valor para la posicion en grados decimales de la longitud y la latitud
+	  * @param latitudGradosDecimales
+	  * @param longitudGradosDecimales
+	  * @throws IllegalArgumenException si latitudGradosDecimales o longitudGradosDecimales son menores que 0
+	  */
 	 public void setPosicionGPS(double latitudGradosDecimales, double longitudGradosDecimales) {
+		 if (latitudGradosDecimales<0 || longitudGradosDecimales<0) {
+			 throw new IllegalArgumentException("Llamada incorrecta: latitudGradosDecimales o longitudGradosDecimales deben ser mayores o iguales que 0");
+		 }
 		 this.latitudGradosDecimales=latitudGradosDecimales;
 		 this.longitudGradosDecimales=longitudGradosDecimales;
 	 }
@@ -197,18 +215,25 @@ import java.util.UUID;
 	  * @return distancia entre el punto de aparcamiento y la posicion GPS dada
 	  */
 	 public double distanciaAPosicionGPS(double[] posicionGPS) {
-		 double radioTierra=6371;
-		 double distanciaLatitud=getPosicionGPS()[0]-posicionGPS[0];
-		 double distanciaLongitud=getPosicionGPS()[1]-posicionGPS[1];
-		 
-		 double a=Math.pow(Math.sin(distanciaLatitud/2),2)+Math.cos(posicionGPS[0])*Math.cos(getPosicionGPS()[0])+Math.pow(Math.sin(distanciaLongitud/2),2);
-		 double c=2*Math.asin(Math.min(1, Math.sqrt(a)));
-		 double distancia=radioTierra*c;
-		 
+		 double lat1rad = Math.toRadians(getPosicionGPS()[0]);
+		 double lon1rad = Math.toRadians(getPosicionGPS()[1]);
+		 double lat2rad = Math.toRadians(posicionGPS[0]);
+		 double lon2rad = Math.toRadians(posicionGPS[1]);
+
+		 double difLatitud = lat1rad - lat2rad;
+		 double difLongitud = lon1rad - lon2rad;
+		 double a = Math.pow(Math.sin(difLatitud/2), 2) +
+		            Math.cos(lat1rad) *
+		            Math.cos(lat2rad) *
+		            Math.pow(Math.sin(difLongitud/2), 2);
+		 double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+		 double radioTierraKm = 6371.0;
+		 double distancia = radioTierraKm * c;
+
 		 return distancia;
 	 }
-	 
-	 
+	
 	 /**
 	  * Calcula la distancia de un punto de aparcamiento a un punto de aparcamiento dado
 	  * @param otro Punto de aparcamiento 

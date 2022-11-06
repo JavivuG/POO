@@ -23,8 +23,12 @@ public class AnclajeParkingPoint {
 	/**
 	 * Contructor dado un anclaje ya definido
 	 * @param anclaje
+	 * @throws IllegalArgumentException si {@code fuente==null}
 	 */
 	public AnclajeParkingPoint(AnclajeParkingPoint anclaje) {
+		if (anclaje==null) {
+			throw new IllegalArgumentException("Llamada incorrecta: anclaje==null");
+		}
 		setOcupado(anclaje.isOcupado());
 		setReservado(anclaje.isReservado());
 		setVacio(anclaje.isVacio());
@@ -102,6 +106,7 @@ public class AnclajeParkingPoint {
 	/**
 	 * Obtiene el estado de un anclaje
 	 * @return estado del anclaje
+	 * @throws IllegalStateException si no se tiene ningun estado
 	 */
 	public String getEstado() {
 		if (isReservado() && (isOcupado()==false && isVacio()==false)) {
@@ -114,7 +119,7 @@ public class AnclajeParkingPoint {
 			return ("Vacio");
 		}
 		else {
-			throw new IllegalStateException("No puede tener varios estados al mismo tiempo");
+			throw new IllegalStateException("Error: No tiene ningun estado");
 		}
 	}
 
