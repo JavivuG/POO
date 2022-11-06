@@ -33,6 +33,7 @@ import java.util.UUID;
 	  */
 	 public CityBikeParkingPoint() {
 		 setPosicionGPS(0,0);
+		 setCantidadAnclajes(1);
 	 }
 	 /**
 	  * Constructor que solo indico posicion GPS. Se debe indicar despues el numero de anclajes 
@@ -45,6 +46,7 @@ import java.util.UUID;
 			 throw new IllegalArgumentException("Llamada incorrecta: latitudGradosDecimales o longitudGradosDecimales deben ser mayores o iguales que 0");
 		 }
 		 setPosicionGPS(latitudGradosDecimales, longitudGradosDecimales);
+		 setCantidadAnclajes(1);
 	 }
 	 
 	 /**
