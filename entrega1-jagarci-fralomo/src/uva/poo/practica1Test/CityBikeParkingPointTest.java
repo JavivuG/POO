@@ -1,6 +1,7 @@
 package uva.poo.practica1Test;
 import uva.poo.practica1.AnclajeParkingPoint;
 import uva.poo.practica1.CityBikeParkingPoint;
+import uva.poo.practica1.CityBikeSystem;
 
 import static org.junit.Assert.*;
 
@@ -86,6 +87,37 @@ public class CityBikeParkingPointTest {
 		CityBikeParkingPoint cbp=new CityBikeParkingPoint();
 		cbp.setCantidadAnclajes(-2);
 	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testDistanciaAPuntoAparcamientoNull() {
+		CityBikeParkingPoint cbp=new CityBikeParkingPoint();
+		CityBikeParkingPoint cbp2= null;
+		cbp.distanciaAPuntoAparcamiento(cbp2);
+	}
+	
+	@Test (expected=IllegalArgumentException.class)
+	public void testGetPuntosAparcamientoCercanosLatitudMenorLimite() {
+		CityBikeParkingPoint cbp=new CityBikeParkingPoint();
+		cbp.distanciaAPosicionGPS(-91, 0);
+	}
+	
+	@Test (expected=IllegalArgumentException.class)
+	public void testGetPuntosAparcamientoCercanosLatitudMayorLimite() {
+		CityBikeParkingPoint cbp=new CityBikeParkingPoint();
+		cbp.distanciaAPosicionGPS(91, 0);
+		}
+	
+	@Test (expected=IllegalArgumentException.class)
+	public void testGetPuntosAparcamientoCercanosLongitudMenorLimite() {
+		CityBikeParkingPoint cbp=new CityBikeParkingPoint();
+		cbp.distanciaAPosicionGPS(0, -181);
+		}
+	
+	@Test (expected=IllegalArgumentException.class)
+	public void testGetPuntosAparcamientoCercanosLongitudMayorLimite() {
+		CityBikeParkingPoint cbp=new CityBikeParkingPoint();
+		cbp.distanciaAPosicionGPS(0, 181);
+		}
 	
 	// Tests metodo getCantidadAnclajes
 	@Test

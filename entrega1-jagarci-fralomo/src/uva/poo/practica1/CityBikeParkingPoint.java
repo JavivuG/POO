@@ -218,6 +218,9 @@ import java.util.UUID;
 	  * @return distancia entre el punto de aparcamiento y la posicion GPS dada
 	  */
 	 public double distanciaAPosicionGPS(double posicionGPSLatitud, double posicionGPSLongitud) {
+		 if(posicionGPSLatitud<-90 || posicionGPSLatitud>90 || posicionGPSLongitud<-180 || posicionGPSLongitud>180) {
+			 throw new IllegalArgumentException("Llamada incorrecta: Coordenadas GPS fuera de los límites");
+		 }
 		 double lat1rad = Math.toRadians(getPosicionGPS()[0]);
 		 double lon1rad = Math.toRadians(getPosicionGPS()[1]);
 		 double lat2rad = Math.toRadians(posicionGPSLatitud);
@@ -241,8 +244,12 @@ import java.util.UUID;
 	  * Calcula la distancia de un punto de aparcamiento a un punto de aparcamiento dado
 	  * @param otro Punto de aparcamiento 
 	  * @return distancia entre el punto de aparcamiento y la posicion GPS dada
+	  * throws IllegalArgumentException Entrada incorrecta: otro==null
 	  */
 	 public double distanciaAPuntoAparcamiento(CityBikeParkingPoint otro) {
+		 if (otro==null) {
+			 throw new IllegalArgumentException("Entrada incorrecta: otro==null");
+		 }
 		 double[] posicionGPS=otro.getPosicionGPS();
 		 return distanciaAPosicionGPS(posicionGPS[0], posicionGPS[1]);
 	 }
