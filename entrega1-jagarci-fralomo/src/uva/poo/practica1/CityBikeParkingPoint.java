@@ -12,6 +12,7 @@ import java.util.UUID;
 	 private AnclajeParkingPoint[] listaAnclajes;
 	 private double latitudGradosDecimales;
 	 private double longitudGradosDecimales;
+	 private boolean cantidadAnclajesYaEstablecida=false;
 	 private String idPuntoAparcamiento=UUID.randomUUID().toString();;
 	 
 	 // Inicializadores
@@ -116,16 +117,23 @@ import java.util.UUID;
 	 /**
 	  * Proporciona un valor para la cantidad de anclajes que tiene el punto de aparcamiento
 	  * @param cantidadAnclajes cantidad de anclajes
-	  * @throws IllegalStateException si cantidad de Anclajes menor o igual que cero
+	  * @throws IllegalStateException si cantidad de Anclajes menor o igual que cero o si ya se habia establecido una cantidad de anclajes
 	  */
 	 public void setCantidadAnclajes(int cantidadAnclajes) {
 		 if (cantidadAnclajes<=0) {
 			 throw new IllegalStateException("La cantidad de anclajes no puede ser menor o igual que 0");
 		 }
-		 this.listaAnclajes=new AnclajeParkingPoint[cantidadAnclajes];
-		 for (int i=0; i<listaAnclajes.length; i++) {
-			 this.listaAnclajes[i]=new AnclajeParkingPoint();
+		 else if (cantidadAnclajesYaEstablecida==false) {
+			 this.listaAnclajes=new AnclajeParkingPoint[cantidadAnclajes];
+			 for (int i=0; i<listaAnclajes.length; i++) {
+				 this.listaAnclajes[i]=new AnclajeParkingPoint();
+			 }
+			 this.cantidadAnclajesYaEstablecida=true;
 		 }
+		 else {
+			 throw new IllegalStateException("No se puede modificar la cantidad de anclajes ya establecida");
+		 }
+
 	 }
 	 
 	 /**

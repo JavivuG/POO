@@ -73,11 +73,7 @@ public class CityBikeParkingPointTest {
 	// Tests setCantidadAnclajes
 	@Test
 	public void testSetCantidadAnclajes() {
-		CityBikeParkingPoint cbp=new CityBikeParkingPoint();
-		
-		assertEquals(1,cbp.getCantidadAnclajes());
-		
-		cbp.setCantidadAnclajes(4);
+		CityBikeParkingPoint cbp=new CityBikeParkingPoint(4,3,2);
 		
 		assertEquals(cbp.getCantidadAnclajes(),4);
 	}
@@ -128,8 +124,7 @@ public class CityBikeParkingPointTest {
 	// Tests metodo getCantidadAnclajes
 	@Test
 	public void testGetCantidadAnclajes() {
-		CityBikeParkingPoint cbp=new CityBikeParkingPoint();
-		cbp.setCantidadAnclajes(4);
+		CityBikeParkingPoint cbp=new CityBikeParkingPoint(4,3,2);
 		
 		assertEquals(4,cbp.getCantidadAnclajes());
 	}
