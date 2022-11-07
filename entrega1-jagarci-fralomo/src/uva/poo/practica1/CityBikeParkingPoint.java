@@ -1,16 +1,7 @@
 package uva.poo.practica1;
 import uva.poo.practica1.AnclajeParkingPoint;
 import java.util.UUID;
-/*
- * TODO
- * conocer cantidad de anclajes que tiene el punto de aparcamiento HECHO
- * conocer la cantidad de anclajes ocupados (en los que hay una bici aparcada) HECHO
- * conocer la posición GPS en la que se encuentra el punto de aparcamiento HECHO
- * conocer el identificador del punto de aparcamiento HECHO
- * dado una base de anclaje en ese aparcamiento1, saber si está vacío, reservado u ocupado HECHO
- * prestar una bici de una base de anclaje, devolver una bici a una base de anclaje
- * conocer la distancia del punto de aparcamiento a una coordenada GPS dada o a otro punto de aparcamiento de bicis dado.
- */
+
 /**
  * Tipo de datos que representa un punto de aparcamiento de bicis
  * @author jagarci
@@ -18,10 +9,6 @@ import java.util.UUID;
  *
  */
  public class CityBikeParkingPoint {
-	 // ATRIBUTOS
-	 // anclajes 
-	 // posicionGPS
-	 // id del punto
 	 private AnclajeParkingPoint[] listaAnclajes;
 	 private double latitudGradosDecimales;
 	 private double longitudGradosDecimales;
@@ -216,6 +203,7 @@ import java.util.UUID;
 	  * @param posicionGPS Latitud en grados decimales
 	  * @param posicionGPS Longitud en grados decimales
 	  * @return distancia entre el punto de aparcamiento y la posicion GPS dada
+	  * @throws IllegalArgumentException si las coordenadas GPS estan fuera de los limites
 	  */
 	 public double distanciaAPosicionGPS(double posicionGPSLatitud, double posicionGPSLongitud) {
 		 if(posicionGPSLatitud<-90 || posicionGPSLatitud>90 || posicionGPSLongitud<-180 || posicionGPSLongitud>180) {
@@ -244,7 +232,7 @@ import java.util.UUID;
 	  * Calcula la distancia de un punto de aparcamiento a un punto de aparcamiento dado
 	  * @param otro Punto de aparcamiento 
 	  * @return distancia entre el punto de aparcamiento y la posicion GPS dada
-	  * throws IllegalArgumentException Entrada incorrecta: otro==null
+	  * @throws IllegalArgumentException Entrada incorrecta: otro==null
 	  */
 	 public double distanciaAPuntoAparcamiento(CityBikeParkingPoint otro) {
 		 if (otro==null) {

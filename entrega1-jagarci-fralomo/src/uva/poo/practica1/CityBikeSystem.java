@@ -2,16 +2,6 @@ package uva.poo.practica1;
 import fabricante.externo.tarjetas.TarjetaMonedero;
 import java.util.ArrayList;
 
-/*
- * TODO
- * añadir un punto de aparcamiento de bicis y eliminarlo DONE
- * modificar la cantidad establecida para la fianza DONE
- * obtener todos los puntos de aparcamientos de bicis que hay en la ciudad DONE
- * obtener todos los puntos de aparcamiento con bicis disponibles (que tengan anclajes ocupados) HECHO
- * obtener todos los puntos de aparcamiento en los que haya sitio para devolver una bici (es decir que tengan anclajes vacíos) HECHO
- * obtener PUNTOS DE APARCAMIENTO de bicis CERCANOS a una coordenada GPS dada dentro de un radio en metros dado donde se pueda dejar una
-bici, etc. HECHO
- */
 
 /**
  * Tipo de Datos que representa el sistema de un aparcamiento de bicis de, por ejemplo,una ciudad.
@@ -19,10 +9,6 @@ bici, etc. HECHO
  * @author fralomo
  */
 public class CityBikeSystem {
-	// ATRIBUTOS
-	// fianza
-	// puntosDeAparcamiento
-
 	private double fianza;
 	private ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento;
 	
@@ -39,6 +25,7 @@ public class CityBikeSystem {
 	 * Inicializa una instancia de CityBikeSystem a partir de los parámetros fianza y cantidad de puntos de aparcamiento
 	 * @param fianza dinero necesario para alquilar una bici que al devolverla es reembolsado al cliente
 	 * @param cantidadPuntosAparcamiento cantidad de puntos de aparcamiento gestionados por la instancia
+	 * @throws IllegalArgumentException Si fianza menor que 0 o punto de aparcamiento menor que 1
 	 */
 	public CityBikeSystem(double fianza, int cantidadPuntosAparcamiento) {
 		if (fianza>=0 && cantidadPuntosAparcamiento>0) {
@@ -54,6 +41,7 @@ public class CityBikeSystem {
 	/**
 	 * Inicializa una instancia de CityBikeSystem copiando otra
 	 * @param original instancia a copiar
+	 * @throws IllegalArgumentException si punto de aparcamiento de copia es null
 	 */
 	public CityBikeSystem(CityBikeSystem original) {
 		if (original!=null) {
@@ -77,6 +65,7 @@ public class CityBikeSystem {
 	/**
 	 * Proporciona un nuevo valor a la fianza del CityBikeSystem
 	 * @param fianza
+	 * @throws IllegalArgumentException si fianza menor que 0
 	 */
 	public void setFianza(double fianza) {
 		if (fianza<0) {
@@ -95,7 +84,11 @@ public class CityBikeSystem {
 		return getListaPuntosAparcamiento().size();
 	}
 	 
-	 
+	 /**
+	  * Proporciona una cantidad determinada de puntos de aparcamiento
+	  * @param n Puntos de aparcamiento que se desean crear
+	  * @throws IllegalArgumentException Si número de aparcamientos indicado es menor que 0
+	  */
 	public void setCantidadPuntosAparcamiento(int n) {
 		if (n<1) {
 			throw new IllegalArgumentException("No puede tener un número de aparcamientos menor que 0");
@@ -125,6 +118,7 @@ public class CityBikeSystem {
 	/**
 	 * Proporciona una nueva lista de puntos de aparcamiento al sistema
 	 * @param listaPuntosAparcamiento lista que se le desea proporcionar
+	 * @throws IllegalArgumentException si la lista es nula o vacia
 	 */
 	public void setListaPuntosAparcamiento(ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento) {
 		if (listaPuntosAparcamiento==null || listaPuntosAparcamiento.size()<=0) {
@@ -171,10 +165,11 @@ public class CityBikeSystem {
 	/**
 	 * Quitar un punto de aparcamiento del sistema dado el punto
 	 * @param puntoAparcamiento punto de aparcamiento a eliminar
+	 * @throws IllegalArgumentException si puntoAparcamiento==null
 	 */
 	public void removeCityBikeParkingPoint(CityBikeParkingPoint puntoAparcamiento) {
 		if (puntoAparcamiento==null) {
-			throw new IllegalArgumentException("Llamada incorrecta: Parking==null");
+			throw new IllegalArgumentException("Llamada incorrecta: puntoAparcamiento==null");
 		}
 		else {
 			String id=puntoAparcamiento.getIdPuntoAparcamiento();
@@ -201,12 +196,13 @@ public class CityBikeSystem {
 	 * Devuelve la posicion en la lista del punto de aparcamiento
 	 * @param id del punto de aparcamiento del que se desea saber la posición en la lista
 	 * @return posicion en la lista del punto de aparcamiento, -1 si no esta en la lista
+	 * @throws IllegalArgumentException si puntoAparcamiento==null
 	 */
-	public int indexPuntoAparcamiento(CityBikeParkingPoint otro) {
-		if (otro==null) {
-			throw new IllegalArgumentException("Llamada incorrecta: Parking==null");
+	public int indexPuntoAparcamiento(CityBikeParkingPoint puntoAparcamiento) {
+		if (puntoAparcamiento==null) {
+			throw new IllegalArgumentException("Llamada incorrecta: puntoAparcamiento==null");
 		}
-		String id=otro.getIdPuntoAparcamiento();
+		String id=puntoAparcamiento.getIdPuntoAparcamiento();
 		return indexPuntoAparcamiento(id);
 	}
 	
@@ -228,13 +224,14 @@ public class CityBikeSystem {
 	 * Indica si un punto de aparcamiendo esta en la lista del sistema
 	 * @param punto de Aparcamiento del que se desea saber si esta en la lista o no
 	 * @return true si esta en la lista, false de lo contrario
+	 * @throws IllegalArgumentException si puntoAparcamiento==null
 	 */
-	public boolean estaEnListaPuntosAparcamiento(CityBikeParkingPoint otro) {
-		if (otro==null) {
-			throw new IllegalArgumentException("Llamada incorrecta: Parking==null");
+	public boolean estaEnListaPuntosAparcamiento(CityBikeParkingPoint puntoAparcamiento) {
+		if (puntoAparcamiento==null) {
+			throw new IllegalArgumentException("Llamada incorrecta: puntoAparcamiento==null");
 		}
 		else {
-			String id = otro.getIdPuntoAparcamiento();
+			String id = puntoAparcamiento.getIdPuntoAparcamiento();
 			return estaEnListaPuntosAparcamiento(id);
 		}
 		
@@ -279,6 +276,7 @@ public class CityBikeSystem {
 	 * @param posicionGPS desde donde se desean saber los puntos cercanos
 	 * @param radio de búsqueda alrededor de la posición inicial
 	 * @return lista de puntos de aparcamiento cercanos
+	 * @throws IllegalArgumentException si radio<=0 o coordenadas GPS fuera de los limites
 	 */
 	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanos(double[] posicionGPS, double radio){
 		if (radio<=0) {
@@ -306,6 +304,7 @@ public class CityBikeSystem {
 	 * @param posicionGPS desde donde se desean saber los puntos cercanos con anclajes vacíos
 	 * @param radio de búsqueda alrededor de la posición inicial
 	 * @return Lista de puntos de aparcamiento cercanos con anclajes vacios
+	 * @throws IllegalArgumentException si radio<=0 o coordenadas GPS fuera de los limites
 	 */
 	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanosVacios(double[] posicionGPS, double radio){
 		if (radio<=0) {
@@ -333,6 +332,7 @@ public class CityBikeSystem {
 	 * @param posicionGPS desde donde se desean saber los puntos cercanos con bicis disponibles
 	 * @param radio de búsqueda alrededor de la posición inicial
 	 * @return lista de puntos de aparcamiento cercanos con bicis disponibles
+	 * @throws IllegalArgumentException si radio<=0 o coordenadas GPS fuera de los limites
 	 */
 	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanosOcupados(double[] posicionGPS, double radio){
 		if (radio<=0) {
@@ -361,6 +361,7 @@ public class CityBikeSystem {
 	  * Devuelve los datos correspondientes a un determinado punto de aparcamiento dado su identificador
 	  * @param identificador del punto de aparcamiento que quiero
 	  * @return datos del punto de aparcamiento correspondiente
+	  * @throws IllegalArgumentException si el identificador no corresponde a ningun punto de aparcamiento
 	  */
 	 public String getDatosPuntoAparcamiento(String identificador) {
 		 ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento= getListaPuntosAparcamiento();
@@ -390,7 +391,8 @@ public class CityBikeSystem {
 	 * Permite a un cliente alquilar la bicicleta de un anclaje y se le descuenta la fianza de su TarjetaMonedero
 	 * @param tarjeta del cliente que quiere alquilar la bicicleta
 	 * @param anclaje del que se quiere alquilar la bicicleta
-	 * @throws IllegalStateException El anclade del que se quiere alquilar la bicicleta está vacío o reservado.
+	 * @throws IllegalStateException El anclade del que se quiere alquilar la bicicleta está vacío o reservado o si no hay saldo suficiente en la tarjeta
+	 * @throws IllegalArgumentException si tarjeta==null
 	 */
 	 public void alquilarBici(TarjetaMonedero tarjeta,AnclajeParkingPoint anclaje) {
 		 if (tarjeta==null) {
@@ -413,6 +415,7 @@ public class CityBikeSystem {
 	 * @param tarjeta del cliente que quiere devolver la bicicleta
 	 * @param anclaje donde se quiere devolver la bicicleta
 	 * @throws IllegalStateException El anclaje donde se quiere dejar la bicicleta está ocupado por otra bicicleta.
+	 * @throws IllegalArgumentException si tarjeta==null
 	 */
 	 public void devolverBici(TarjetaMonedero tarjeta,AnclajeParkingPoint anclaje) {
 		 if (tarjeta==null) {
@@ -431,7 +434,8 @@ public class CityBikeSystem {
 	 * Permite al cliente reservar la bicicleta de un anclaje y se le decuenta la fianza de su TarjetaMonedero
 	 * @param tarjeta del cliente que quiere reservar la bicicleta
 	 * @param anclaje del que se quiere reserervar la bicicleta
-	 * @throws IllegalStateException El anclaje del que se quiere reservar la bicicleta está vacío o ya reservado para otro cliente.
+	 * @throws IllegalStateException El anclaje del que se quiere reservar la bicicleta está vacío o ya reservado para otro cliente o si no hay saldo suficiente en la tarjeta
+	 * @throws IllegalArgumentException si tarjeta==null
 	 */
 	 public void reservarBici(TarjetaMonedero tarjeta,AnclajeParkingPoint anclaje) {
 		 if (tarjeta==null) {
