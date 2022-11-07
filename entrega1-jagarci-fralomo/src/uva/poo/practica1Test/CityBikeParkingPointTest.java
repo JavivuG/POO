@@ -8,6 +8,12 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Test de la clase CityBikeParkingPoint
+ * @author jagarci
+ * @author fralomo
+ *
+ */
 public class CityBikeParkingPointTest {
 
 	

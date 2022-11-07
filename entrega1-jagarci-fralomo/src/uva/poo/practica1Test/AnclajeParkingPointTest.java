@@ -5,6 +5,12 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Test de la clase AnclajeParkingPoint
+ * @author jagarci
+ * @author fralomo
+ *
+ */
 public class AnclajeParkingPointTest {
 	
 	

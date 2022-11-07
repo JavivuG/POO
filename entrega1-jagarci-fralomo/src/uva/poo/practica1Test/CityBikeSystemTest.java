@@ -11,6 +11,12 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 import uva.poo.practica1.CityBikeParkingPoint;
 import uva.poo.practica1.CityBikeSystem;
 
+/**
+ * Test de la clase CityBikeSystemTest
+ * @author jagarci
+ * @author fralomo
+ *
+ */
 public class CityBikeSystemTest {
 	
 	CityBikeSystem cbs;
