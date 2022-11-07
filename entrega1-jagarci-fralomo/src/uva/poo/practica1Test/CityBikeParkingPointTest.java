@@ -29,6 +29,7 @@ public class CityBikeParkingPointTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testInicializarIndicandoPosicionGPSNegativa() {
+		@SuppressWarnings("unused")
 		CityBikeParkingPoint cbp=new CityBikeParkingPoint(-3,-4.5);
 	}
 	
@@ -62,10 +63,13 @@ public class CityBikeParkingPointTest {
 		assertNotNull(cbp.getIdPuntoAparcamiento());
 	}
 	
-	// Tests setAnclajes
+	// Tests setCantidadAnclajes
 	@Test
 	public void testSetCantidadAnclajes() {
 		CityBikeParkingPoint cbp=new CityBikeParkingPoint();
+		
+		assertEquals(1,cbp.getCantidadAnclajes());
+		
 		cbp.setCantidadAnclajes(4);
 		
 		assertEquals(cbp.getCantidadAnclajes(),4);
@@ -175,8 +179,22 @@ public class CityBikeParkingPointTest {
 	}
 	
 	// Test metodo distanciaAPosicionGPS
+	@Test
 	public void testDistanciaAPosicionGPS() {
+		CityBikeParkingPoint cbp=new CityBikeParkingPoint(4,8);
 		
+		double distanciaEsperada=248.02380226345218;
+		assertEquals(cbp.distanciaAPosicionGPS(5.0,6.0),distanciaEsperada,0.0001);
+	}
+	
+	// Test metodo distanciaAPuntoAparcamiento
+	@Test
+	public void testDistanciaAPuntoAparcamiento() {
+		CityBikeParkingPoint cbp=new CityBikeParkingPoint(4,8);
+		CityBikeParkingPoint otro=new CityBikeParkingPoint(5,6);
+		
+		double distanciaEsperada=248.02380226345218;
+		assertEquals(cbp.distanciaAPuntoAparcamiento(otro),distanciaEsperada,0.0001);
 	}
 	
 	

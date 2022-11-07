@@ -14,9 +14,9 @@ bici, etc. HECHO
  */
 
 /**
- * 
- * @author javier
- * @author francisco
+ * Tipo de Datos que representa el sistema de un aparcamiento de bicis de, por ejemplo,una ciudad.
+ * @author jagarci
+ * @author fralomo
  */
 public class CityBikeSystem {
 	// ATRIBUTOS
@@ -291,7 +291,7 @@ public class CityBikeSystem {
 			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanos = new ArrayList<CityBikeParkingPoint>();
 			for(int i=0; i<listaPuntosAparcamiento.size(); i++) {
 				CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
-				double distanciaAPosicionGPS=puntoAparcamiento.distanciaAPosicionGPS(posicionGPS);
+				double distanciaAPosicionGPS=puntoAparcamiento.distanciaAPosicionGPS(posicionGPS[0],posicionGPS[1]);
 				if (distanciaAPosicionGPS<=radio) {
 					puntosAparcamientoCercanos.add(puntoAparcamiento);
 				}

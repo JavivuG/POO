@@ -12,7 +12,7 @@ import java.util.UUID;
  * conocer la distancia del punto de aparcamiento a una coordenada GPS dada o a otro punto de aparcamiento de bicis dado.
  */
 /**
- * 
+ * Tipo de datos que representa un punto de aparcamiento de bicis
  * @author jagarci
  * @author fralomo
  *
@@ -29,14 +29,14 @@ import java.util.UUID;
 	 
 	 // Inicializadores
 	 /**
-	  * Constructor por defecto. Inicializo a cero la posicion GPS. Se debe indicar despues el numero de anclajes 
+	  * Constructor por defecto. Inicializo a cero la posicion GPS y a 1 el numero de Anclajes
 	  */
 	 public CityBikeParkingPoint() {
 		 setPosicionGPS(0,0);
 		 setCantidadAnclajes(1);
 	 }
 	 /**
-	  * Constructor que solo indico posicion GPS. Se debe indicar despues el numero de anclajes 
+	  * Constructor que solo indico posicion GPS y a 1 el numero de Anclajes
 	  * @param latitudGradosDecimales Latitud en grados decimales
 	  * @param longitudGradosDecimales Longitud en grados decimales
 	  * @throws IllegalArgumenException si latitudGradosDecimales o longitudGradosDecimales son menores que 0
@@ -213,14 +213,15 @@ import java.util.UUID;
 	 
 	 /**
 	  * Calcula la distancia de un punto de aparcamiento a una posicion GPS dada
-	  * @param posicionGPS Posicion GPS
+	  * @param posicionGPS Latitud en grados decimales
+	  * @param posicionGPS Longitud en grados decimales
 	  * @return distancia entre el punto de aparcamiento y la posicion GPS dada
 	  */
-	 public double distanciaAPosicionGPS(double[] posicionGPS) {
+	 public double distanciaAPosicionGPS(double posicionGPSLatitud, double posicionGPSLongitud) {
 		 double lat1rad = Math.toRadians(getPosicionGPS()[0]);
 		 double lon1rad = Math.toRadians(getPosicionGPS()[1]);
-		 double lat2rad = Math.toRadians(posicionGPS[0]);
-		 double lon2rad = Math.toRadians(posicionGPS[1]);
+		 double lat2rad = Math.toRadians(posicionGPSLatitud);
+		 double lon2rad = Math.toRadians(posicionGPSLongitud);
 
 		 double difLatitud = lat1rad - lat2rad;
 		 double difLongitud = lon1rad - lon2rad;
@@ -243,7 +244,7 @@ import java.util.UUID;
 	  */
 	 public double distanciaAPuntoAparcamiento(CityBikeParkingPoint otro) {
 		 double[] posicionGPS=otro.getPosicionGPS();
-		 return distanciaAPosicionGPS(posicionGPS);
+		 return distanciaAPosicionGPS(posicionGPS[0], posicionGPS[1]);
 	 }
 	 
 	 /**

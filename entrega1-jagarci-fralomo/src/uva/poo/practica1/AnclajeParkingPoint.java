@@ -2,8 +2,8 @@ package uva.poo.practica1;
 
 /**
  * Tipo de datos que representa un anclaje en un punto de aparcamiento
- * @author javier
- * @author fran
+ * @author jagarci
+ * @author fralomo
  *
  */
 public class AnclajeParkingPoint {
