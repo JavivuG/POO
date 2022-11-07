@@ -85,6 +85,12 @@ public class CityBikeParkingPointTest {
 	}
 	
 	@Test(expected=IllegalStateException.class)
+	public void testSetCantidadAnclajesConCuandoYaSeHabiaEstablecido() {
+		CityBikeParkingPoint cbp=new CityBikeParkingPoint();
+		cbp.setCantidadAnclajes(5);
+	}
+	
+	@Test(expected=IllegalStateException.class)
 	public void testSetCantidadAnclajesConMenosDe0Anclajes() {
 		CityBikeParkingPoint cbp=new CityBikeParkingPoint();
 		cbp.setCantidadAnclajes(-2);
