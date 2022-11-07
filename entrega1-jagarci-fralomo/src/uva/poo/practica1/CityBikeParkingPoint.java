@@ -26,7 +26,7 @@ import java.util.UUID;
 	  * Constructor que solo indico posicion GPS y a 1 el numero de Anclajes
 	  * @param latitudGradosDecimales Latitud en grados decimales
 	  * @param longitudGradosDecimales Longitud en grados decimales
-	  * @throws IllegalArgumenException si latitudGradosDecimales o longitudGradosDecimales son menores que 0
+	  * @throws IllegalArgumentException si latitudGradosDecimales o longitudGradosDecimales son menores que 0
 	  */
 	 public CityBikeParkingPoint(double latitudGradosDecimales, double longitudGradosDecimales) {
 		 if (latitudGradosDecimales<0 || longitudGradosDecimales<0) {
@@ -39,8 +39,10 @@ import java.util.UUID;
 	 /**
 	  * Constructor para poner una cantidad determinada de anclajes
 	  * @param cantidadAnclajes Numero de anclajes que quiero que tenga el punto de aparcamiento
+	  * @param latitudGradosDecimales Latitud en grados decimales
+	  * @param longitudGradosDecimales Longitud en grados decimales
 	  * @throws IllegalStateException si cantidad de anclajes es menor que cero
-	  * @throws IllegalArgumenException si latitudGradosDecimales o longitudGradosDecimales son menores que 0
+	  * @throws IllegalArgumentException si latitudGradosDecimales o longitudGradosDecimales son menores que 0
 	  */
 	 public CityBikeParkingPoint(int cantidadAnclajes, double latitudGradosDecimales, double longitudGradosDecimales) {
 		 if (cantidadAnclajes<=0) {
@@ -152,9 +154,9 @@ import java.util.UUID;
 	 
 	 /**
 	  * Proporciona un nuevo valor para la posicion en grados decimales de la longitud y la latitud
-	  * @param latitudGradosDecimales
-	  * @param longitudGradosDecimales
-	  * @throws IllegalArgumenException si latitudGradosDecimales o longitudGradosDecimales son menores que 0
+	  * @param latitudGradosDecimales Latitud en grados decimale
+	  * @param longitudGradosDecimales Longitud en grados decimale
+	  * @throws IllegalArgumentException si latitudGradosDecimales o longitudGradosDecimales son menores que 0
 	  */
 	 public void setPosicionGPS(double latitudGradosDecimales, double longitudGradosDecimales) {
 		 if (latitudGradosDecimales<0 || longitudGradosDecimales<0) {
@@ -200,8 +202,8 @@ import java.util.UUID;
 	 
 	 /**
 	  * Calcula la distancia de un punto de aparcamiento a una posicion GPS dada
-	  * @param posicionGPS Latitud en grados decimales
-	  * @param posicionGPS Longitud en grados decimales
+	  * @param posicionGPSLatitud Latitud en grados decimales
+	  * @param posicionGPSLongitud Longitud en grados decimales
 	  * @return distancia entre el punto de aparcamiento y la posicion GPS dada
 	  * @throws IllegalArgumentException si las coordenadas GPS estan fuera de los limites
 	  */

@@ -64,7 +64,7 @@ public class CityBikeSystem {
 	
 	/**
 	 * Proporciona un nuevo valor a la fianza del CityBikeSystem
-	 * @param fianza
+	 * @param fianza Valor de la fianza que se establece al sistema
 	 * @throws IllegalArgumentException si fianza menor que 0
 	 */
 	public void setFianza(double fianza) {
@@ -135,7 +135,7 @@ public class CityBikeSystem {
 	
 	/**
 	 * Añade un CityBikeParkingPoint dado a la lista de parkings
-	 * @param parking a añadir
+	 * @param puntoAparcamiento a añadir
 	 * @throws IllegalArgumentException Llamada incorrecta: Parking==null
 	 */
 	public void addCityBikeParkingPoint(CityBikeParkingPoint puntoAparcamiento) {
@@ -194,7 +194,7 @@ public class CityBikeSystem {
 	
 	/**
 	 * Devuelve la posicion en la lista del punto de aparcamiento
-	 * @param id del punto de aparcamiento del que se desea saber la posición en la lista
+	 * @param puntoAparcamiento que se desea saber la posición en la lista
 	 * @return posicion en la lista del punto de aparcamiento, -1 si no esta en la lista
 	 * @throws IllegalArgumentException si puntoAparcamiento==null
 	 */
@@ -222,7 +222,7 @@ public class CityBikeSystem {
 	
 	/**
 	 * Indica si un punto de aparcamiendo esta en la lista del sistema
-	 * @param punto de Aparcamiento del que se desea saber si esta en la lista o no
+	 * @param puntoAparcamiento del que se desea saber si esta en la lista o no
 	 * @return true si esta en la lista, false de lo contrario
 	 * @throws IllegalArgumentException si puntoAparcamiento==null
 	 */
@@ -276,7 +276,7 @@ public class CityBikeSystem {
 	 * @param posicionGPS desde donde se desean saber los puntos cercanos
 	 * @param radio de búsqueda alrededor de la posición inicial
 	 * @return lista de puntos de aparcamiento cercanos
-	 * @throws IllegalArgumentException si radio<=0 o coordenadas GPS fuera de los limites
+	 * @throws IllegalArgumentException si radio es menor o igual 0 o si las coordenadas GPS fuera de los limites
 	 */
 	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanos(double[] posicionGPS, double radio){
 		if (radio<=0) {
@@ -304,7 +304,7 @@ public class CityBikeSystem {
 	 * @param posicionGPS desde donde se desean saber los puntos cercanos con anclajes vacíos
 	 * @param radio de búsqueda alrededor de la posición inicial
 	 * @return Lista de puntos de aparcamiento cercanos con anclajes vacios
-	 * @throws IllegalArgumentException si radio<=0 o coordenadas GPS fuera de los limites
+	 * @throws IllegalArgumentException si radio menor o igual que 0 o coordenadas GPS fuera de los limites
 	 */
 	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanosVacios(double[] posicionGPS, double radio){
 		if (radio<=0) {
@@ -332,7 +332,7 @@ public class CityBikeSystem {
 	 * @param posicionGPS desde donde se desean saber los puntos cercanos con bicis disponibles
 	 * @param radio de búsqueda alrededor de la posición inicial
 	 * @return lista de puntos de aparcamiento cercanos con bicis disponibles
-	 * @throws IllegalArgumentException si radio<=0 o coordenadas GPS fuera de los limites
+	 * @throws IllegalArgumentException si radio menor o igual que 0 o coordenadas GPS fuera de los limites
 	 */
 	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanosOcupados(double[] posicionGPS, double radio){
 		if (radio<=0) {

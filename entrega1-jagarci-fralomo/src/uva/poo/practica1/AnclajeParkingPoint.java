@@ -22,7 +22,7 @@ public class AnclajeParkingPoint {
 	
 	/**
 	 * Contructor dado un anclaje ya definido
-	 * @param anclaje
+	 * @param anclaje que se desea copiar
 	 * @throws IllegalArgumentException si {@code fuente==null}
 	 */
 	public AnclajeParkingPoint(AnclajeParkingPoint anclaje) {
@@ -44,7 +44,7 @@ public class AnclajeParkingPoint {
 	
 	/**
 	 * Pongo el estado del anclaje en reservado
-	 * @param vacio true si pongo el anclaje reservado y false si no pongo estado reservado
+	 * @param reservado true si pongo el anclaje reservado y false si no pongo estado reservado
 	 */
 	public void setReservado(boolean reservado) {
 		if ((isOcupado() || isVacio()) && reservado==true) {
@@ -67,7 +67,7 @@ public class AnclajeParkingPoint {
 	
 	/**
 	 * Pongo el estado del anclaje en ocupado
-	 * @param vacio true si pongo el anclaje ocupado y false si no pongo estado ocupado
+	 * @param ocupado true si pongo el anclaje ocupado y false si no pongo estado ocupado
 	 */
 	public void setOcupado(boolean ocupado) {
 		if ((isReservado() || isVacio()) && ocupado==true) {
