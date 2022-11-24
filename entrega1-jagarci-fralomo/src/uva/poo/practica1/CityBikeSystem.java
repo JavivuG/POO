@@ -17,7 +17,7 @@ public class CityBikeSystem {
 	 */
 	public CityBikeSystem() {
 		setFianza(0);
-		listaPuntosAparcamiento= new ArrayList<CityBikeParkingPoint>();
+		listaPuntosAparcamiento= new ArrayList<>();
 		setCantidadPuntosAparcamiento(1);
 	}
 	
@@ -30,7 +30,7 @@ public class CityBikeSystem {
 	public CityBikeSystem(double fianza, int cantidadPuntosAparcamiento) {
 		if (fianza>=0 && cantidadPuntosAparcamiento>0) {
 			setFianza(fianza);
-			listaPuntosAparcamiento= new ArrayList<CityBikeParkingPoint>();
+			listaPuntosAparcamiento= new ArrayList<>();
 			setCantidadPuntosAparcamiento(cantidadPuntosAparcamiento);
 		}
 		else {
@@ -107,7 +107,7 @@ public class CityBikeSystem {
 	 * @return lista de puntos de aparcamiento del sistema 
 	 */
 	public ArrayList<CityBikeParkingPoint> getListaPuntosAparcamiento() {
-		ArrayList<CityBikeParkingPoint> clon= new ArrayList<CityBikeParkingPoint>();
+		ArrayList<CityBikeParkingPoint> clon= new ArrayList<>();
 		for (int i=0 ; i<listaPuntosAparcamiento.size() ; i++) {
 			clon.add(listaPuntosAparcamiento.get(i).clone());
 		}
@@ -121,11 +121,11 @@ public class CityBikeSystem {
 	 * @throws IllegalArgumentException si la lista es nula o vacia
 	 */
 	public void setListaPuntosAparcamiento(ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento) {
-		if (listaPuntosAparcamiento==null || listaPuntosAparcamiento.size()<=0) {
+		if (listaPuntosAparcamiento==null || listaPuntosAparcamiento.isEmpty()) {
 			throw new IllegalArgumentException("LLamada incorrecta: lista nula o vacía");
 		}
 		else {
-			ArrayList<CityBikeParkingPoint> clon= new ArrayList<CityBikeParkingPoint>();
+			ArrayList<CityBikeParkingPoint> clon= new ArrayList<>();
 			for (int i=0 ; i<listaPuntosAparcamiento.size() ; i++) {
 				clon.add(listaPuntosAparcamiento.get(i).clone());
 			}
@@ -244,7 +244,7 @@ public class CityBikeSystem {
 	 * @return lista de puntos de aparcamientos que tienen bicis disponibles
 	 */
 	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoBicisDisponibles(){
-		ArrayList<CityBikeParkingPoint> puntosAparcamientoBicisDisponibles=new ArrayList<CityBikeParkingPoint>();
+		ArrayList<CityBikeParkingPoint> puntosAparcamientoBicisDisponibles=new ArrayList<>();
 		for (int i=0; i<listaPuntosAparcamiento.size(); i++) {
 			CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
 			
@@ -260,7 +260,7 @@ public class CityBikeSystem {
 	 * @return lista de puntos de aparcamientos con anclajes vacios
 	 */
 	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoAnclajesVacios(){
-		ArrayList<CityBikeParkingPoint> puntosAparcamientoAnclajesVacios=new ArrayList<CityBikeParkingPoint>();
+		ArrayList<CityBikeParkingPoint> puntosAparcamientoAnclajesVacios=new ArrayList<>();
 		for (int i=0; i<listaPuntosAparcamiento.size(); i++) {
 			CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
 			
@@ -286,7 +286,7 @@ public class CityBikeSystem {
 			throw new IllegalArgumentException("Llamada incorrecta: Coordenadas GPS fuera de los límites");
 		}
 		else {
-			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanos = new ArrayList<CityBikeParkingPoint>();
+			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanos = new ArrayList<>();
 			for(int i=0; i<listaPuntosAparcamiento.size(); i++) {
 				CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
 				double distanciaAPosicionGPS=puntoAparcamiento.distanciaAPosicionGPS(posicionGPS[0],posicionGPS[1]);
@@ -315,7 +315,7 @@ public class CityBikeSystem {
 		}
 		else {
 			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanos= getPuntosAparcamientoCercanos(posicionGPS, radio);
-			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanosVacios= new ArrayList<CityBikeParkingPoint>(); 
+			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanosVacios= new ArrayList<>(); 
 			for(int i =0; i<puntosAparcamientoCercanos.size(); i++) {
 				CityBikeParkingPoint puntoAparcamiento= puntosAparcamientoCercanos.get(i);
 				if (puntoAparcamiento.getCantidadAnclajesVacios()>0) {
@@ -343,7 +343,7 @@ public class CityBikeSystem {
 		}
 		else {
 			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanos= getPuntosAparcamientoCercanos(posicionGPS, radio);
-			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanosOcupados= new ArrayList<CityBikeParkingPoint>(); 
+			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanosOcupados= new ArrayList<>(); 
 			
 			for(int i =0; i<puntosAparcamientoCercanos.size(); i++) {
 				CityBikeParkingPoint puntoAparcamiento= puntosAparcamientoCercanos.get(i);
