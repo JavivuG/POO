@@ -109,7 +109,7 @@ public class CityBikeSystem {
 	public ArrayList<CityBikeParkingPoint> getListaPuntosAparcamiento() {
 		ArrayList<CityBikeParkingPoint> clon= new ArrayList<CityBikeParkingPoint>();
 		for (int i=0 ; i<listaPuntosAparcamiento.size() ; i++) {
-			clon.add(listaPuntosAparcamiento.get(i));
+			clon.add(listaPuntosAparcamiento.get(i).clone());
 		}
 		
 		return clon;
@@ -127,7 +127,7 @@ public class CityBikeSystem {
 		else {
 			ArrayList<CityBikeParkingPoint> clon= new ArrayList<CityBikeParkingPoint>();
 			for (int i=0 ; i<listaPuntosAparcamiento.size() ; i++) {
-				clon.add(listaPuntosAparcamiento.get(i));
+				clon.add(listaPuntosAparcamiento.get(i).clone());
 			}
 			this.listaPuntosAparcamiento= clon;
 		}

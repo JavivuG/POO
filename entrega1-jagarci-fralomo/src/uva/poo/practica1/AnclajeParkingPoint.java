@@ -122,5 +122,10 @@ public class AnclajeParkingPoint {
 			throw new IllegalStateException("Error: No tiene ningun estado");
 		}
 	}
-
+	
+	@Override
+	public AnclajeParkingPoint clone() {
+		return new AnclajeParkingPoint(this);
+	}
+	
 }

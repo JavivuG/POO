@@ -148,6 +148,10 @@ import java.util.UUID;
 		 return clon;
 	 }
 	 
+	 public void setListaAnclajes(AnclajeParkingPoint[] listaAnclajes) {
+		 this.listaAnclajes= listaAnclajes;
+	 }
+	 
 	 /**
 	  * Devuelve la posicion GPS en grados  decimales (opcion por defecto)
 	  * @return la posicion GPS en grados decimales
@@ -251,6 +255,15 @@ import java.util.UUID;
 		 double[] posicionGPS=otro.getPosicionGPS();
 		 return distanciaAPosicionGPS(posicionGPS[0], posicionGPS[1]);
 	 }
+	 
+	 @Override
+	 public CityBikeParkingPoint clone() {
+		 CityBikeParkingPoint clon= new CityBikeParkingPoint();
+	     clon.setPosicionGPS(this.latitudGradosDecimales, this.latitudGradosDecimales);
+         clon.idPuntoAparcamiento= this.idPuntoAparcamiento;
+         clon.setListaAnclajes(getListaAnclajes());
+         return clon;
+     }
 	 
 	 /**
 	  * Devuelve un String con el identificador, la posicion GPS, la cantidad de anclajes y la cantidad de anclajes ocupados de un punto de aparcamiento
