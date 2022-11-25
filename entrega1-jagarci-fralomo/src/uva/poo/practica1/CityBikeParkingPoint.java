@@ -11,7 +11,7 @@ import java.util.UUID;
  public class CityBikeParkingPoint {
 	 private AnclajeParkingPoint[] listaAnclajes;
 	 private CoordenadaParkingPoint coordenadaGPS;
-	 private String idPuntoAparcamiento=UUID.randomUUID().toString();;
+	 private String idPuntoAparcamiento=UUID.randomUUID().toString();
 	 
 	 // Inicializadores
 	 /**
@@ -168,7 +168,5 @@ import java.util.UUID;
 		 String cantidadAnclajesOcupados="Cantidad de Anclajes Ocupados: "+getCantidadAnclajesOcupados()+"\n";
 		 return (identificador+posicionGPS+cantidadAnclajes+cantidadAnclajesOcupados);	 
 	}
-	 
-	 
 
 }

@@ -12,20 +12,13 @@ public class CityBikeSystem {
 	private double fianza;
 	private ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento;
 	
-	/**
-	 * Inicializador base
-	 */
-	public CityBikeSystem() {
-		setFianza(0);
-		listaPuntosAparcamiento= new ArrayList<>();
-		setCantidadPuntosAparcamiento(1);
-	}
-	
+	// Inicializadores
 	/**
 	 * Inicializa una instancia de CityBikeSystem a partir de los parámetros fianza y cantidad de puntos de aparcamiento
 	 * @param fianza dinero necesario para alquilar una bici que al devolverla es reembolsado al cliente
 	 * @param cantidadPuntosAparcamiento cantidad de puntos de aparcamiento gestionados por la instancia
-	 * @throws IllegalArgumentException Si fianza menor que 0 o punto de aparcamiento menor que 1
+	 * @throws IllegalArgumentException Si fianza menor que 0
+	 * @throws IllegalArgumentException Si punto de aparcamiento menor que 1
 	 */
 	public CityBikeSystem(double fianza, int cantidadPuntosAparcamiento) {
 		if (fianza>=0 && cantidadPuntosAparcamiento>0) {
@@ -33,8 +26,11 @@ public class CityBikeSystem {
 			listaPuntosAparcamiento= new ArrayList<>();
 			setCantidadPuntosAparcamiento(cantidadPuntosAparcamiento);
 		}
-		else {
-			throw new IllegalArgumentException("No puede tener fianza menor que 0 ni cantidad de puntos de aparcamiento menor que 1");
+		else if(fianza<0) {
+			throw new IllegalArgumentException("No puede tener fianza menor que 0");
+		}
+		else if(cantidadPuntosAparcamiento<1) {
+			throw new IllegalArgumentException("No puede tener cantidad de puntos de aparcamiento menor que 1");
 		}
 	}
 	
@@ -185,11 +181,11 @@ public class CityBikeSystem {
 	public int indexPuntoAparcamiento(String id) {
 		for(int i=0; i<listaPuntosAparcamiento.size(); i++) {
 			CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
-			if (id==puntoAparcamiento.getIdPuntoAparcamiento()) {
+			if (id.equals(puntoAparcamiento.getIdPuntoAparcamiento())) {
 				return i;
 			}	
 		}
-		return -1;
+		throw new IllegalStateException("No existe el punto de aparcamiento en el sistema");
 	}
 	
 	/**
@@ -276,20 +272,21 @@ public class CityBikeSystem {
 	 * @param posicionGPS desde donde se desean saber los puntos cercanos
 	 * @param radio de búsqueda alrededor de la posición inicial
 	 * @return lista de puntos de aparcamiento cercanos
-	 * @throws IllegalArgumentException si radio es menor o igual 0 o si las coordenadas GPS fuera de los limites
+	 * @throws IllegalArgumentException si radio es menor o igual 0 
+	 * @throws IllegalArgumentException si las coordenadas GPS fuera de los limites
 	 */
-	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanos(double[] posicionGPS, double radio){
+	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanos(CoordenadaParkingPoint coordenadaGPS, double radio){
 		if (radio<=0) {
 			throw new IllegalArgumentException("Llamada incorrecta: radio<=0");
 		}
-		else if(posicionGPS[0]<-90 || posicionGPS[0]>90 || posicionGPS[1]<-180 || posicionGPS[1]>180) {
+		else if(coordenadaGPS.getCoordenadaGPSLatitud()<-90 || coordenadaGPS.getCoordenadaGPSLatitud()>90 || coordenadaGPS.getCoordenadaGPSLongitud()<-180 || coordenadaGPS.getCoordenadaGPSLongitud()>180) {
 			throw new IllegalArgumentException("Llamada incorrecta: Coordenadas GPS fuera de los límites");
 		}
 		else {
 			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanos = new ArrayList<>();
 			for(int i=0; i<listaPuntosAparcamiento.size(); i++) {
 				CityBikeParkingPoint puntoAparcamiento=listaPuntosAparcamiento.get(i);
-				double distanciaAPosicionGPS=puntoAparcamiento.distanciaAPosicionGPS(posicionGPS[0],posicionGPS[1]);
+				double distanciaAPosicionGPS=coordenadaGPS.distanciaAPosicionGPS(coordenadaGPS);
 				if (distanciaAPosicionGPS<=radio) {
 					puntosAparcamientoCercanos.add(puntoAparcamiento);
 				}
@@ -304,17 +301,18 @@ public class CityBikeSystem {
 	 * @param posicionGPS desde donde se desean saber los puntos cercanos con anclajes vacíos
 	 * @param radio de búsqueda alrededor de la posición inicial
 	 * @return Lista de puntos de aparcamiento cercanos con anclajes vacios
-	 * @throws IllegalArgumentException si radio menor o igual que 0 o coordenadas GPS fuera de los limites
+	 * @throws IllegalArgumentException si radio menor o igual que 0 
+	 * @throws IllegalArgumentException coordenadas GPS fuera de los limites
 	 */
-	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanosVacios(double[] posicionGPS, double radio){
+	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanosVacios(CoordenadaParkingPoint coordenadaGPS, double radio){
 		if (radio<=0) {
 			throw new IllegalArgumentException("Llamada incorrecta: radio<=0");
 		}
-		else if(posicionGPS[0]<-90 || posicionGPS[0]>90 || posicionGPS[1]<-180 || posicionGPS[1]>180) {
+		else if(coordenadaGPS.getCoordenadaGPSLatitud()<-90 || coordenadaGPS.getCoordenadaGPSLatitud()>90 || coordenadaGPS.getCoordenadaGPSLongitud()<-180 || coordenadaGPS.getCoordenadaGPSLongitud()>180) {
 			throw new IllegalArgumentException("Llamada incorrecta: Coordenadas GPS fuera de los límites");
 		}
 		else {
-			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanos= getPuntosAparcamientoCercanos(posicionGPS, radio);
+			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanos= getPuntosAparcamientoCercanos(coordenadaGPS, radio);
 			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanosVacios= new ArrayList<>(); 
 			for(int i =0; i<puntosAparcamientoCercanos.size(); i++) {
 				CityBikeParkingPoint puntoAparcamiento= puntosAparcamientoCercanos.get(i);
@@ -332,17 +330,18 @@ public class CityBikeSystem {
 	 * @param posicionGPS desde donde se desean saber los puntos cercanos con bicis disponibles
 	 * @param radio de búsqueda alrededor de la posición inicial
 	 * @return lista de puntos de aparcamiento cercanos con bicis disponibles
-	 * @throws IllegalArgumentException si radio menor o igual que 0 o coordenadas GPS fuera de los limites
+	 * @throws IllegalArgumentException si radio menor o igual que 0 
+	 * @throws IllegalArgumentException coordenadas GPS fuera de los limites
 	 */
-	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanosOcupados(double[] posicionGPS, double radio){
+	public ArrayList<CityBikeParkingPoint> getPuntosAparcamientoCercanosOcupados(CoordenadaParkingPoint coordenadaGPS, double radio){
 		if (radio<=0) {
 			throw new IllegalArgumentException("Llamada incorrecta: radio<=0");
 		}
-		else if(posicionGPS[0]<-90 || posicionGPS[0]>90 || posicionGPS[1]<-180 || posicionGPS[1]>180) {
+		else if(coordenadaGPS.getCoordenadaGPSLatitud()<-90 || coordenadaGPS.getCoordenadaGPSLatitud()>90 || coordenadaGPS.getCoordenadaGPSLongitud()<-180 || coordenadaGPS.getCoordenadaGPSLongitud()>180) {
 			throw new IllegalArgumentException("Llamada incorrecta: Coordenadas GPS fuera de los límites");
 		}
 		else {
-			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanos= getPuntosAparcamientoCercanos(posicionGPS, radio);
+			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanos= getPuntosAparcamientoCercanos(coordenadaGPS, radio);
 			ArrayList<CityBikeParkingPoint> puntosAparcamientoCercanosOcupados= new ArrayList<>(); 
 			
 			for(int i =0; i<puntosAparcamientoCercanos.size(); i++) {
@@ -434,8 +433,9 @@ public class CityBikeSystem {
 	 * Permite al cliente reservar la bicicleta de un anclaje y se le decuenta la fianza de su TarjetaMonedero
 	 * @param tarjeta del cliente que quiere reservar la bicicleta
 	 * @param anclaje del que se quiere reserervar la bicicleta
-	 * @throws IllegalStateException El anclaje del que se quiere reservar la bicicleta está vacío o ya reservado para otro cliente o si no hay saldo suficiente en la tarjeta
+	 * @throws IllegalStateException El anclaje del que se quiere reservar la bicicleta está vacío o ya reservado para otro cliente
 	 * @throws IllegalArgumentException si tarjeta==null
+	 * @throws IllegalStateException si no hay saldo suficiente en la tarjeta
 	 */
 	 public void reservarBici(TarjetaMonedero tarjeta,AnclajeParkingPoint anclaje) {
 		 if (tarjeta==null) {
