@@ -70,6 +70,6 @@ public class BateriaBike {
 	
 	@Override
 	public String toString() {
-		return "Bateria: "+ voltaje+" voltios, "+cargaAh+" amperios/hora.\n";
+		return "Bateria: "+ getVoltaje()+" voltios, "+getCarga()+" amperios/hora, "+ getEnergiaAlmacenada()+" kw/h.\n";
 	}
 }

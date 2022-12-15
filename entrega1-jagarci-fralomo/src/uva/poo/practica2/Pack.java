@@ -6,7 +6,7 @@ package uva.poo.practica2;
  * @author fralomo
  *
  */
-public class Pack implements Resource {
+public abstract class Pack implements Resource {
 	private Bike[] listaBicis;
 	
 	

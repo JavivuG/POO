@@ -7,6 +7,7 @@ import uva.poo.practica2.BateriaBike;
  * @author fralomo
  */
 public class ElectricBike extends Bike {
+	private int talla;
 	private BateriaBike bateria;
 	private double parMotorNM;
 	
@@ -23,13 +24,33 @@ public class ElectricBike extends Bike {
 	 * @throws IllegalStateException si bateria no tiene voltaje de 24, 36 o 48 voltios
 	 */
 	public ElectricBike(String marca, String modelo, int talla, double peso, int numPlatos, int numPinones, BateriaBike bateria, double parMotorNM) {
-		super(marca, modelo, talla, peso, numPlatos, numPinones);
-
+		super(marca, modelo, peso, numPlatos, numPinones);
 		if(parMotorNM<=0) {
 			throw new IllegalStateException("El motor no puede tener par motor menor o igual que 0");
 		}
-		this.bateria=bateria;
-		this.parMotorNM=parMotorNM;
+		setTalla(talla);
+		setBateria(bateria);
+		setParMotorNM(parMotorNM);
+	}
+	
+	/**
+	 * 
+	 * @param talla
+	 * @throws IllegalArgumentException si la talla es menor o igual que 0
+	 */
+	public void setTalla(int talla) {
+		if (talla <= 0) {
+			throw new IllegalArgumentException("La talla no puede ser menor o igual que 0");
+		}
+		this.talla=talla;
+	}
+	
+	/**
+	 * 
+	 * @return talla 
+	 */
+	public int getTalla() {
+		return talla;
 	}
 
 	/**
@@ -66,26 +87,29 @@ public class ElectricBike extends Bike {
 	
 	@Override
 	/**
-	 * 
+	 * @params deposit
+	 * @throws IllegalArgumentException si el deposito es menor o igual que 0
 	 */
 	public double getDepositToPay(double deposit) {
 		double incremento=0;
-		if (bateria.getVoltaje()==24) {
-			incremento=0.1;
-		}
-		else if (bateria.getVoltaje()==36) {
-			incremento=0.15;
-		}
-		else if (bateria.getVoltaje()==48) {
-			incremento=0.2;
-		}
+        if (deposit<=0) {
+        	throw new IllegalArgumentException("El deposito no puede ser menor o igual que 0");
+        }
+        else {
+    		if (bateria.getVoltaje()==36) {
+    			incremento=0.1;
+    		}
+    		else if (bateria.getVoltaje()==48) {
+    			incremento=0.2;
+    		}
+        	return deposit + (deposit * incremento);
+        }
 		
-		return deposit + (deposit * incremento);
 	}
 	
 	@Override
 	public String toString() {
-		return super.toString()+ bateria.toString()+ "Par motor: "+ parMotorNM +" newtons/metro.\n";
+		return super.toString()+ "Talla: "+getTalla()+".\n"+ bateria.toString()+ "Par motor: "+ getParMotorNM() +" newtons/metro.\n";
 	}
 	
 	

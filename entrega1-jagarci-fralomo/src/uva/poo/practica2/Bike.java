@@ -12,29 +12,33 @@ public abstract class Bike implements Resource {
 	private String identificador=UUID.randomUUID().toString();
 	private String marca;
 	private String modelo;
-	public int talla;
 	private double peso;
 	private int numPlatos;
 	private int numPinones;
 	
 	// Inicializadores
 	/**
-	 * 
+	 * Constructor de una bicicleta indicando la marca, modelo, peso, numero de platos y numero de pinones
 	 * @param marca
 	 * @param modelo
 	 * @param peso
 	 * @param numPlatos
 	 * @param numPinones
+	 * @throws IllegalArgumentException si el numero de platos es menor que 1
+	 * @throws IllegalArgumentException si el numero de pinones es menor que 1
 	 */
-	public Bike(String marca, String modelo,int talla, double peso, int numPlatos, int numPinones) {
-		this.marca=marca;
-		this.modelo=modelo;
-		this.talla=talla;
-		this.peso=peso;
-		this.numPlatos=numPlatos;
-		this.numPinones=numPinones;
+	public Bike(String marca, String modelo, double peso, int numPlatos, int numPinones) {
+		setMarca(marca);
+		setModelo(modelo);
+		setPeso(peso);
+		setNumPlatos(numPlatos);
+		setNumPinones(numPinones);
 	}
 	
+	/**
+	 * Devuelve el identificador de una bicicleta
+	 * @return identificador
+	 */
 	public String getIdentificador() {
 		return identificador;
 	}
@@ -64,7 +68,7 @@ public abstract class Bike implements Resource {
 	}
 
 	/**
-	 * 
+	 * Proporciona el modelo de la bici
 	 * @param modelo
 	 */
 	public void setModelo(String modelo) {
@@ -73,7 +77,7 @@ public abstract class Bike implements Resource {
 
 	/**
 	 * Proporciona un valor para peso de la bici en kilogramos
-	 * @return
+	 * @return peso
 	 */
 	public double getPeso() {
 		return peso;
@@ -82,8 +86,12 @@ public abstract class Bike implements Resource {
 	/**
 	 * Devuelve el valor del peso de la bici en kilogramos
 	 * @param peso
+	 * @throws IllegalArgumentException si el peso es menor o igual que 0
 	 */
 	public void setPeso(double peso) {
+		if (peso<=0) {
+			throw new IllegalArgumentException("El peso no puede ser menor o igual que 0");
+		}
 		this.peso = peso;
 	}
 
@@ -100,6 +108,10 @@ public abstract class Bike implements Resource {
 	 * @param numPlatos
 	 */
 	public void setNumPlatos(int numPlatos) {
+		if (numPlatos<1) {
+			throw new IllegalArgumentException("No puede tener menos de 1 plato");
+		}
+	
 		this.numPlatos = numPlatos;
 	}
 
@@ -116,6 +128,9 @@ public abstract class Bike implements Resource {
 	 * @param numPinones
 	 */
 	public void setNumPinones(int numPinones) {
+		if (numPinones<1) {
+			throw new IllegalArgumentException("No puede tener menos de 1 pinon");
+		}
 		this.numPinones = numPinones;
 	}
 	
@@ -126,7 +141,7 @@ public abstract class Bike implements Resource {
 	
 	@Override
 	public String toString() {
-		return "Bike: "+identificador+", marca: "+marca+", modelo: "+modelo+", talla: "+talla+", "+peso+" kg., "+numPlatos+" platos, "+numPinones+" pinones.\n";
+		return "Bike: "+getIdentificador()+", Marca: "+getMarca()+", Modelo: "+getModelo()+", "+getPeso()+" kg., "+ getNumPlatos()+" platos, "+ getNumPinones()+" pinones.\n";
 	}
 	
 	
