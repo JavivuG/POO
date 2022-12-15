@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * @author fralomo
  */
 public class CityBikeSystem {
-	private double fianza;
 	private ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento;
 	
 	// Inicializadores
@@ -20,14 +19,10 @@ public class CityBikeSystem {
 	 * @throws IllegalArgumentException Si fianza menor que 0
 	 * @throws IllegalArgumentException Si punto de aparcamiento menor que 1
 	 */
-	public CityBikeSystem(double fianza, int cantidadPuntosAparcamiento) {
-		if (fianza>=0 && cantidadPuntosAparcamiento>0) {
-			setFianza(fianza);
+	public CityBikeSystem(int cantidadPuntosAparcamiento) {
+		if (cantidadPuntosAparcamiento>0) {
 			listaPuntosAparcamiento= new ArrayList<>();
 			setCantidadPuntosAparcamiento(cantidadPuntosAparcamiento);
-		}
-		else if(fianza<0) {
-			throw new IllegalArgumentException("No puede tener fianza menor que 0");
 		}
 		else if(cantidadPuntosAparcamiento<1) {
 			throw new IllegalArgumentException("No puede tener cantidad de puntos de aparcamiento menor que 1");
@@ -41,35 +36,12 @@ public class CityBikeSystem {
 	 */
 	public CityBikeSystem(CityBikeSystem original) {
 		if (original!=null) {
-			setFianza(original.getFianza());
 			setListaPuntosAparcamiento(original.getListaPuntosAparcamiento());
 		}
 		else {
 			throw new IllegalArgumentException("Llamada incorrecta: CityBikeSystem==null");
 		}
 		
-	}
-	
-	/**
-	 * Devuelve el valor de la fianza de CityBikeSystem
-	 * @return valor de la fianza
-	 */
-	public double getFianza() {
-		return fianza;
-	}
-	
-	/**
-	 * Proporciona un nuevo valor a la fianza del CityBikeSystem
-	 * @param fianza Valor de la fianza que se establece al sistema
-	 * @throws IllegalArgumentException si fianza menor que 0
-	 */
-	public void setFianza(double fianza) {
-		if (fianza<0) {
-			throw new IllegalArgumentException("No puede tener fianza menor que 0");
-		}
-		else{
-			this.fianza = fianza;
-		}
 	}
 	
 	/**
@@ -92,7 +64,7 @@ public class CityBikeSystem {
 		else {
 			listaPuntosAparcamiento.clear();
 			for (int i= 0 ; i<n ; i++) {
-				CityBikeParkingPoint p= new CityBikeParkingPoint();
+				CityBikeParkingPoint p= new CityBikeParkingPoint(1, 0, 0);
 				listaPuntosAparcamiento.add(p);
 			}
 		}
@@ -129,6 +101,11 @@ public class CityBikeSystem {
 		}
 	}
 	
+	public void setFianzaGlobal(double fianza) {
+		for (int i=0 ; i<listaPuntosAparcamiento.size() ; i++) {
+			listaPuntosAparcamiento.get(i).setFianza(fianza);
+		}
+	}
 	/**
 	 * Añade un CityBikeParkingPoint dado a la lista de parkings
 	 * @param puntoAparcamiento a añadir
@@ -380,78 +357,8 @@ public class CityBikeSystem {
 	  */
 	 @Override
 	 public String toString() {
-		 String fianza="Valor de fianza: "+ getFianza() +"\n";
-		 String cantidadPuntosAparcamiento="Cantidad de puntos de Aparcamiento: "+ getCantidadPuntosAparcamiento()+ "\n";
-		 
-		 return fianza+cantidadPuntosAparcamiento;
+		 return "Cantidad de puntos de Aparcamiento: "+ getCantidadPuntosAparcamiento()+ "\n";
 	 }
 
-	 /**
-	 * Permite a un cliente alquilar la bicicleta de un anclaje y se le descuenta la fianza de su TarjetaMonedero
-	 * @param tarjeta del cliente que quiere alquilar la bicicleta
-	 * @param anclaje del que se quiere alquilar la bicicleta
-	 * @throws IllegalStateException El anclade del que se quiere alquilar la bicicleta está vacío o reservado o si no hay saldo suficiente en la tarjeta
-	 * @throws IllegalArgumentException si tarjeta==null
-	 */
-	 public void alquilarBici(TarjetaMonedero tarjeta,AnclajeParkingPoint anclaje) {
-		 if (tarjeta==null) {
-			 throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
-		 }
-		 else if (tarjeta.getSaldoActual()<getFianza()) {
-			 throw new IllegalStateException("No hay saldo suficiente en la tarjeta para pagar la fianza");
-		 }
-		 else if (anclaje.isOcupado()){
-			 tarjeta.descontarDelSaldo("***REMOVED***", fianza);
-		 	 anclaje.setVacio(true);
-		 }
-		 else {
-			 throw new IllegalStateException("El anclaje del que se quiere alquilar la bicicleta está vacío o reservado.");
-		 }
-	 }
-
-	 /**
-	 * Permite al cliente devolver una bicicleta alquilada y se le devuelve la fianza en su TarjetaMonedero
-	 * @param tarjeta del cliente que quiere devolver la bicicleta
-	 * @param anclaje donde se quiere devolver la bicicleta
-	 * @throws IllegalStateException El anclaje donde se quiere dejar la bicicleta está ocupado por otra bicicleta.
-	 * @throws IllegalArgumentException si tarjeta==null
-	 */
-	 public void devolverBici(TarjetaMonedero tarjeta,AnclajeParkingPoint anclaje) {
-		 if (tarjeta==null) {
-			 throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
-		 }
-		 else if (anclaje.isVacio()){
-			 tarjeta.recargaSaldo("A156Bv09_1zXo894", fianza);
-			 anclaje.setOcupado(true);
-		 }
-		 else {
-			 throw new IllegalStateException("El anclaje donde se quiere dejar la bicicleta está ocupado por otra bicicleta.");
-		 }
-	 }
-	 
-	 /**
-	 * Permite al cliente reservar la bicicleta de un anclaje y se le decuenta la fianza de su TarjetaMonedero
-	 * @param tarjeta del cliente que quiere reservar la bicicleta
-	 * @param anclaje del que se quiere reserervar la bicicleta
-	 * @throws IllegalStateException El anclaje del que se quiere reservar la bicicleta está vacío o ya reservado para otro cliente
-	 * @throws IllegalArgumentException si tarjeta==null
-	 * @throws IllegalStateException si no hay saldo suficiente en la tarjeta
-	 */
-	 public void reservarBici(TarjetaMonedero tarjeta,AnclajeParkingPoint anclaje) {
-		 if (tarjeta==null) {
-			 throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
-		 }
-		 else if (tarjeta.getSaldoActual()<getFianza()) {
-			 throw new IllegalStateException("No hay saldo suficiente en la tarjeta para pagar la fianza");
-		 }
-		 else if(anclaje.isOcupado()) {
-			 tarjeta.descontarDelSaldo("***REMOVED***", fianza);
-			 anclaje.setReservado(true);
-		 }
-		 else {
-			 throw new IllegalStateException("El anclaje del que se quiere reservar la bicicleta está vacío o ya reservado para otro cliente.");
-		 }
-		 
-	 }
 
 }

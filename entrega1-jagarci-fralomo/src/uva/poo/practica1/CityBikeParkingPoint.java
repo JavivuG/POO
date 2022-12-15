@@ -1,6 +1,10 @@
 package uva.poo.practica1;
 import uva.poo.practica1.AnclajeParkingPoint;
+
+import java.util.Arrays;
 import java.util.UUID;
+
+import fabricante.externo.tarjetas.TarjetaMonedero;
 
 /**
  * Tipo de datos que representa un punto de aparcamiento de bicis
@@ -12,6 +16,7 @@ import java.util.UUID;
 	 private AnclajeParkingPoint[] listaAnclajes;
 	 private CoordenadaParkingPoint coordenadaGPS;
 	 private String idPuntoAparcamiento=UUID.randomUUID().toString();
+	 private double fianza;
 	 
 	 // Inicializadores
 	 /**
@@ -52,6 +57,25 @@ import java.util.UUID;
 	 }
 	 
 	 // METODOS
+	 /**
+	 * Devuelve el valor de la fianza de CityBikeSystem
+	 * @return valor de la fianza
+	 */
+	 public double getFianza() {
+		 return fianza;
+	 }
+	 
+	 /**
+	 * Proporciona un nuevo valor a la fianza del CityBikeSystem
+	 * @param fianza Valor de la fianza que se establece al sistema
+	 * @throws IllegalArgumentException si fianza menor que 0
+	 */
+	 public void setFianza(double fianza) {
+		 if (fianza<0) {
+				throw new IllegalArgumentException("No puede tener fianza menor que 0");
+			}
+		 this.fianza= fianza;
+	 }
 	 /**
 	  * 
 	  * @return
@@ -168,5 +192,82 @@ import java.util.UUID;
 		 String cantidadAnclajesOcupados="Cantidad de Anclajes Ocupados: "+getCantidadAnclajesOcupados()+"\n";
 		 return (identificador+posicionGPS+cantidadAnclajes+cantidadAnclajesOcupados);	 
 	}
+	 
+	 /**
+		 * Permite a un cliente alquilar la bicicleta de un anclaje y se le descuenta la fianza de su TarjetaMonedero
+		 * @param tarjeta del cliente que quiere alquilar la bicicleta
+		 * @param anclaje del que se quiere alquilar la bicicleta
+		 * @throws IllegalStateException El anclade del que se quiere alquilar la bicicleta está vacío o reservado o si no hay saldo suficiente en la tarjeta
+		 * @throws IllegalArgumentException si tarjeta==null
+		 */
+		 public void alquilarBici(TarjetaMonedero tarjeta,AnclajeParkingPoint anclaje) {
+			 if (tarjeta==null) {
+				 throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
+			 }
+			 else if (tarjeta.getSaldoActual()<getFianza()) {
+				 throw new IllegalStateException("No hay saldo suficiente en la tarjeta para pagar la fianza");
+			 }
+			 else if (!Arrays.asList(listaAnclajes).contains(anclaje)) {
+				 throw new IllegalArgumentException("Llamada incorrecta: El anclaje elegido no pertenece a este ParkingPoint");
+			 }
+			 else if (anclaje.isOcupado()){
+				 tarjeta.descontarDelSaldo("***REMOVED***", fianza);
+			 	 anclaje.setVacio(true);
+			 }
+			 else {
+				 throw new IllegalStateException("El anclaje del que se quiere alquilar la bicicleta está vacío o reservado.");
+			 }
+		 }
+
+		 /**
+		 * Permite al cliente devolver una bicicleta alquilada y se le devuelve la fianza en su TarjetaMonedero
+		 * @param tarjeta del cliente que quiere devolver la bicicleta
+		 * @param anclaje donde se quiere devolver la bicicleta
+		 * @throws IllegalStateException El anclaje donde se quiere dejar la bicicleta está ocupado por otra bicicleta.
+		 * @throws IllegalArgumentException si tarjeta==null
+		 */
+		 public void devolverBici(TarjetaMonedero tarjeta,AnclajeParkingPoint anclaje) {
+			 if (tarjeta==null) {
+				 throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
+			 }
+			 else if (!Arrays.asList(listaAnclajes).contains(anclaje)) {
+				 throw new IllegalArgumentException("Llamada incorrecta: El anclaje elegido no pertenece a este ParkingPoint");
+			 }
+			 else if (anclaje.isVacio()){
+				 tarjeta.recargaSaldo("A156Bv09_1zXo894", fianza);
+				 anclaje.setOcupado(true);
+			 }
+			 else {
+				 throw new IllegalStateException("El anclaje donde se quiere dejar la bicicleta está ocupado por otra bicicleta.");
+			 }
+		 }
+		 
+		 /**
+		 * Permite al cliente reservar la bicicleta de un anclaje y se le decuenta la fianza de su TarjetaMonedero
+		 * @param tarjeta del cliente que quiere reservar la bicicleta
+		 * @param anclaje del que se quiere reserervar la bicicleta
+		 * @throws IllegalStateException El anclaje del que se quiere reservar la bicicleta está vacío o ya reservado para otro cliente
+		 * @throws IllegalArgumentException si tarjeta==null
+		 * @throws IllegalStateException si no hay saldo suficiente en la tarjeta
+		 */
+		 public void reservarBici(TarjetaMonedero tarjeta,AnclajeParkingPoint anclaje) {
+			 if (tarjeta==null) {
+				 throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
+			 }
+			 else if (!Arrays.asList(listaAnclajes).contains(anclaje)) {
+				 throw new IllegalArgumentException("Llamada incorrecta: El anclaje elegido no pertenece a este ParkingPoint");
+			 }
+			 else if (tarjeta.getSaldoActual()<getFianza()) {
+				 throw new IllegalStateException("No hay saldo suficiente en la tarjeta para pagar la fianza");
+			 }
+			 else if(anclaje.isOcupado()) {
+				 tarjeta.descontarDelSaldo("***REMOVED***", fianza);
+				 anclaje.setReservado(true);
+			 }
+			 else {
+				 throw new IllegalStateException("El anclaje del que se quiere reservar la bicicleta está vacío o ya reservado para otro cliente.");
+			 }
+			 
+		 }
 
 }
