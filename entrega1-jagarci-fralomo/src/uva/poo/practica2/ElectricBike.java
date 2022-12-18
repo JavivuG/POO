@@ -6,7 +6,7 @@ import uva.poo.practica2.BateriaBike;
  * @author jagarci
  * @author fralomo
  */
-public class ElectricBike extends Bike {
+public class ElectricBike extends AdultBike {
 	private int talla;
 	private BateriaBike bateria;
 	private double parMotorNM;
@@ -23,36 +23,15 @@ public class ElectricBike extends Bike {
 	 * @param parMotorNM
 	 * @throws IllegalStateException si bateria no tiene voltaje de 24, 36 o 48 voltios
 	 */
-	public ElectricBike(String marca, String modelo, int talla, double peso, int numPlatos, int numPinones, BateriaBike bateria, double parMotorNM) {
-		super(marca, modelo, peso, numPlatos, numPinones);
+	public ElectricBike(String marca, String modelo, String talla, double peso, int numPlatos, int numPinones, BateriaBike bateria, double parMotorNM) {
+		super(marca, modelo, talla,  peso, numPlatos,  numPinones);
 		if(parMotorNM<=0) {
 			throw new IllegalStateException("El motor no puede tener par motor menor o igual que 0");
 		}
-		setTalla(talla);
 		setBateria(bateria);
 		setParMotorNM(parMotorNM);
 	}
 	
-	/**
-	 * 
-	 * @param talla
-	 * @throws IllegalArgumentException si la talla es menor o igual que 0
-	 */
-	public void setTalla(int talla) {
-		if (talla <= 0) {
-			throw new IllegalArgumentException("La talla no puede ser menor o igual que 0");
-		}
-		this.talla=talla;
-	}
-	
-	/**
-	 * 
-	 * @return talla 
-	 */
-	public int getTalla() {
-		return talla;
-	}
-
 	/**
 	 * 
 	 * @return

@@ -1,6 +1,8 @@
 package uva.poo.practica2;
 import java.util.UUID;
 
+import uva.poo.practica1.CityBikeParkingPoint;
+
 /**
  * 
  * 
@@ -143,6 +145,8 @@ public abstract class Bike implements Resource {
 	public String toString() {
 		return "Bike: "+getIdentificador()+", Marca: "+getMarca()+", Modelo: "+getModelo()+", "+getPeso()+" kg., "+ getNumPlatos()+" platos, "+ getNumPinones()+" pinones.\n";
 	}
+	
+
 	
 	
 	

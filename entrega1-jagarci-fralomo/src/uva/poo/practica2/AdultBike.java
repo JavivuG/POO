@@ -44,4 +44,6 @@ public class AdultBike extends Bike {
 	public String toString() {
 		return super.toString() + "Talla: "+ getTalla();
 	}
+	
+	
 }
