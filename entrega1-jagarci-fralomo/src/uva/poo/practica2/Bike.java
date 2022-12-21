@@ -3,7 +3,7 @@ import java.util.UUID;
 
 /**
  * 
- * 
+ * Tipo de datos que representa un bici
  * @author jagarci
  * @author fralomo
  *
@@ -19,13 +19,11 @@ public abstract class Bike implements Resource {
 	// Inicializadores
 	/**
 	 * Constructor de una bicicleta indicando la marca, modelo, peso, numero de platos y numero de pinones
-	 * @param marca
-	 * @param modelo
-	 * @param peso
-	 * @param numPlatos
-	 * @param numPinones
-	 * @throws IllegalArgumentException si el numero de platos es menor que 1
-	 * @throws IllegalArgumentException si el numero de pinones es menor que 1
+	 * @param marca Marca de la bici (String)
+	 * @param modelo Modelo de la bici (String)
+	 * @param peso Peso de la bici en kilogramos
+	 * @param numPlatos Numero de platos de la bici
+	 * @param numPinones Numero de pinones de la bici
 	 */
 	public Bike(String marca, String modelo, double peso, int numPlatos, int numPinones) {
 		setMarca(marca);
@@ -41,7 +39,7 @@ public abstract class Bike implements Resource {
 	
 	/**
 	 * Devuelve el identificador de una bicicleta
-	 * @return identificador
+	 * @return identificador Identificador de la bici
 	 */
 	public String getIdentificador() {
 		return identificador;
@@ -57,7 +55,7 @@ public abstract class Bike implements Resource {
 
 	/**
 	 * Proporciona un valor para la marca de la bici
-	 * @param marca
+	 * @param marca Marca de la bici
 	 */
 	public void setMarca(String marca) {
 		this.marca = marca;
@@ -65,7 +63,7 @@ public abstract class Bike implements Resource {
 
 	/**
 	 * Devuelve el modelo de la bici
-	 * @return modelo
+	 * @return modelo Modelo de la bici
 	 */
 	public String getModelo() {
 		return modelo;
@@ -73,7 +71,7 @@ public abstract class Bike implements Resource {
 
 	/**
 	 * Proporciona el modelo de la bici
-	 * @param modelo
+	 * @param modelo Modelo de la bici
 	 */
 	public void setModelo(String modelo) {
 		this.modelo = modelo;
@@ -81,7 +79,7 @@ public abstract class Bike implements Resource {
 
 	/**
 	 * Proporciona un valor para peso de la bici en kilogramos
-	 * @return peso
+	 * @return peso Peso de la bici en kilogramos
 	 */
 	public double getPeso() {
 		return peso;
@@ -101,15 +99,16 @@ public abstract class Bike implements Resource {
 
 	/**
 	 * Devuelve el numero de platos de la bici
-	 * @return numPlatos
+	 * @return numPlatos Numero de platos de la bici
 	 */
 	public int getNumPlatos() {
 		return numPlatos;
 	}
 
 	/**
-	 * 
+	 * Proporciona un valor para el numero de platos de la bici
 	 * @param numPlatos
+	 * @throws IllegalArgumentException si el numero de platos es menor que 1
 	 */
 	public void setNumPlatos(int numPlatos) {
 		if (numPlatos<1) {
@@ -120,16 +119,17 @@ public abstract class Bike implements Resource {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Devuelve el numero de pinones de la bici
+	 * @return numPinones Numero de pinones de la bici
 	 */
 	public int getNumPinones() {
 		return numPinones;
 	}
 
 	/**
-	 * 
+	 * Proporciona un valor para el numero de pinones de la bici
 	 * @param numPinones
+	 * @throws IllegalArgumentException si el numero de pinones es menor que 1
 	 */
 	public void setNumPinones(int numPinones) {
 		if (numPinones<1) {
@@ -138,24 +138,35 @@ public abstract class Bike implements Resource {
 		this.numPinones = numPinones;
 	}
 	
-	/**
-	 * 
-	 */
 	public abstract double getDepositToPay(double deposit);
 	
 	public abstract Bike clone();
 	
 	@Override
+	/**
+	 * Devuelve un String con las caracteristicas de la bici
+	 */
 	public String toString() {
 		return "Bike: "+getIdentificador()+", Marca: "+getMarca()+", Modelo: "+getModelo()+", "+getPeso()+" kg., "+ getNumPlatos()+" platos, "+ getNumPinones()+" pinones.\n";
 	}
 	
 	@Override
+	/**
+	 * Devuelve true o false si una bici es igual a otra bici. En el caso de que sean distinto tipo de bici devuelve false
+	 * @param otro Bici con la que se quiere comparar
+	 * @throws IllegalArgumentException si otro==null
+	 */
 	public boolean equals(Object otro) {
 		if (otro==null) {
-			throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
+			throw new IllegalArgumentException("Llamada incorrecta: otro==null");
 		}
-		return getIdentificador().equals(((Bike) otro).getIdentificador());
+		else {
+			if (otro instanceof Bike) {
+				return getIdentificador().equals(((Bike) otro).getIdentificador());
+			}
+			return false;
+		}
+		
 	}
 
 	

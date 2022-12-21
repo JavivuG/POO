@@ -1,6 +1,5 @@
 package uva.poo.practica2;
 
-import uva.poo.practica1.CityBikeParkingPoint;
 
 /**
  * Tipo de datos que representa una bici de adulto 
@@ -71,13 +70,21 @@ public class AdultBike extends Bike {
 	
 	@Override
 	/**
-	 * Devuelve true o false si una bici de adulto es igual a otra bici de adulto
+	 * Devuelve true o false si una bici de adulto es igual a otra bici de adulto. En el caso de que sean distinto tipo de bici devuelve false
+	 * @param otro Bici con la que se quiere comparar
+	 * @throws IllegalArgumentExceptio si otro==null
 	 */
 	public boolean equals(Object otro) {
 		if (otro==null) {
-			throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
+			throw new IllegalArgumentException("Llamada incorrecta: otro==null");
 		}
-		return getIdentificador().equals(((AdultBike) otro).getIdentificador());
+		else {
+			if (otro instanceof AdultBike) {
+				return getIdentificador().equals(((AdultBike) otro).getIdentificador());
+			}
+			return false;
+		}
+		
 	}
 	
 	@Override

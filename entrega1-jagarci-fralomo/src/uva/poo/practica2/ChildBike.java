@@ -1,7 +1,7 @@
 package uva.poo.practica2;
 
 /**
- * 
+ * Tipo de dato que representa una bici infantil
  * @author jagarci
  * @author fralomo
  *
@@ -9,6 +9,16 @@ package uva.poo.practica2;
 public class ChildBike extends Bike {
 	private int talla;
 	
+	// Inicizalidores
+	/**
+	 * Constructor de una bici infantil
+	 * @param marca Marca de la bici (String)
+	 * @param modelo Modelo de la bici (String)
+	 * @param talla Talla de la bici un numero par entre 12 y 26
+	 * @param peso Peso de la bici
+	 * @param numPlatos Numero de platos de la bici
+	 * @param numPinones Numero de pinones de la bici
+	 */
 	public ChildBike(String marca, String modelo, int talla, double peso, int numPlatos, int numPinones) {
 		super(marca, modelo, peso, numPlatos, numPinones);
 		setTalla(talla);
@@ -35,14 +45,19 @@ public class ChildBike extends Bike {
 		
 	}
 	
+	/**
+	 * Devuelve talla de la bici infantil
+	 * @return talla Talla de la bici, un numero par entre 12 y 26
+	 */
 	public int getTalla() {
 		return talla;
 	}
+	
     @Override
     /**
-     * 
-     * @param deposit
-     * @returns deposit*0.85
+     * Devuelve el deposito a pagar
+     * @param deposit Deposito inicial
+     * @returns deposit*0.85 Deposito pagar
      * @throws IllegalArgumentException si el deposito es menor o igual que 0
      */
     public double getDepositToPay(double deposit) {
@@ -53,19 +68,38 @@ public class ChildBike extends Bike {
     }
     
     @Override
+    /**
+     * Devuelve un String con las caracteristicas de la bici y la talla
+     */
     public String toString() {
     	return super.toString() + "Talla: "+ getTalla();
     }
     
     @Override
+    /**
+     * Metodo para comparar si dos bicis infantiles son iguales. En el caso de que sean distinto tipo de bici devuelve false
+     * @param otro Bici con la que se quiere comparar
+     * @throws IllegalArgumentExceptio si otro==null
+     */
     public boolean equals(Object otro) {
 		if (otro==null) {
-			throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
+			throw new IllegalArgumentException("Llamada incorrecta: otro==null");
 		}
-    	return getIdentificador().equals(((ChildBike) otro).getIdentificador());
+		else {
+			if(otro instanceof ChildBike) {
+				return getIdentificador().equals(((ChildBike) otro).getIdentificador());
+			}
+			return false;
+		}
+		
+    	
     } 
     
     @Override
+    /**
+     * Metodo para clonar una bici infantil
+     * @returns clon Clon de la bici infantil
+     */
 	 public Bike clone() {
     	ChildBike clon= new ChildBike( getMarca(), getModelo(), getTalla(), getPeso(), getNumPlatos(), getNumPinones());
     	clon.setIdentificador(getIdentificador());

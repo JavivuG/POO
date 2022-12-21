@@ -31,7 +31,7 @@ public class BateriaBike {
 	
 	/**
 	 * Proporciona un valor para el voltaje de la bateria
-	 * @param voltaje
+	 * @param voltaje Voltaje de la bateria en voltios
 	 */
 	public void setVoltaje(int voltaje) {
 		this.voltaje=voltaje;
@@ -39,7 +39,7 @@ public class BateriaBike {
 	
 	/**
 	 * Devuelve el voltaje de la bateria
-	 * @return
+	 * @return voltaje Voltaje de la bateria en voltios
 	 */
 	public int getVoltaje() {
 		return voltaje;
@@ -47,7 +47,7 @@ public class BateriaBike {
 	
 	/**
 	 * Proporciona un valor para la carga de la bateria
-	 * @param cargaAh Carga de la bateria
+	 * @param cargaAh Carga de la bateria en AmperioHora(Ah)
 	 */
 	public void setCarga(double cargaAh) {
 		this.cargaAh=cargaAh;
@@ -63,13 +63,15 @@ public class BateriaBike {
 	
 	/**
 	 * Devuelve energía almacenada en la batería en kilowatiosHora
-	 * @return voltaje*cargaAh Energia almacenada en la bateria en kilowatiosHora
 	 */
 	public double getEnergiaAlmacenada() {
 		return voltaje * cargaAh;
 	}
 	
 	@Override
+	/**
+	 * Devuelve un String con el voltaje, carga y energia almacenada de la bateria de la bici
+	 */
 	public String toString() {
 		return "Bateria: "+ getVoltaje()+" voltios, "+getCarga()+" amperios/hora, "+ getEnergiaAlmacenada()+" kw/h.\n";
 	}
