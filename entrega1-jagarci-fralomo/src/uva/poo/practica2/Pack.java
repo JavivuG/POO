@@ -30,7 +30,7 @@ public abstract class Pack implements Resource {
 		else {
 			ArrayList<Bike> clon= new ArrayList<>();
 			for (int i=0 ; i<listaBicis.size() ; i++) {
-				clon.add(listaBicis.get(i)); // HACER CLONE
+				clon.add(listaBicis.get(i).clone()); // HACER CLONE
 			}
 			this.listaBicis= clon;
 		}
@@ -43,7 +43,7 @@ public abstract class Pack implements Resource {
 	public ArrayList<Bike> getListaBicis(){
 		ArrayList<Bike> clon= new ArrayList<>();
 		for (int i=0 ; i<listaBicis.size() ; i++) {
-			clon.add(listaBicis.get(i)); // HACER CLONE
+			clon.add(listaBicis.get(i).clone()); // HACER CLONE
 		}
 		
 		return clon;
@@ -51,13 +51,23 @@ public abstract class Pack implements Resource {
 	
 	/**
 	 * 
+	 * @param bici
 	 */
+	public void addBike(Bike bici) {
+		ArrayList<Bike> listaBicis= getListaBicis();
+		listaBicis.add(bici);
+		setListaBicis(listaBicis);
+	}
+	
+	public abstract void quitaBike(Bike bici);
+
 	public abstract double getDepositToPay(double deposit);
 	
 	public double sumaDepositos(double deposit){
 		double sumaDepositos=0;
-		for (int i=0; i<getListaBicis().size(); i++) {
-			sumaDepositos+=getListaBicis().get(i).getDepositToPay(deposit);
+		ArrayList<Bike> listaBicis= getListaBicis();
+		for (int i=0; i<listaBicis.size(); i++) {
+			sumaDepositos+=listaBicis.get(i).getDepositToPay(deposit);
 		}
 		return sumaDepositos;
 	}

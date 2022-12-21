@@ -1,8 +1,6 @@
 package uva.poo.practica2;
 import java.util.UUID;
 
-import uva.poo.practica1.CityBikeParkingPoint;
-
 /**
  * 
  * 
@@ -35,6 +33,10 @@ public abstract class Bike implements Resource {
 		setPeso(peso);
 		setNumPlatos(numPlatos);
 		setNumPinones(numPinones);
+	}
+	
+	protected void setIdentificador(String identificador) {
+		this.identificador=identificador;
 	}
 	
 	/**
@@ -141,11 +143,20 @@ public abstract class Bike implements Resource {
 	 */
 	public abstract double getDepositToPay(double deposit);
 	
+	public abstract Bike clone();
+	
 	@Override
 	public String toString() {
 		return "Bike: "+getIdentificador()+", Marca: "+getMarca()+", Modelo: "+getModelo()+", "+getPeso()+" kg., "+ getNumPlatos()+" platos, "+ getNumPinones()+" pinones.\n";
 	}
 	
+	@Override
+	public boolean equals(Object otro) {
+		if (otro==null) {
+			throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
+		}
+		return getIdentificador().equals(((Bike) otro).getIdentificador());
+	}
 
 	
 	

@@ -56,4 +56,19 @@ public class ChildBike extends Bike {
     public String toString() {
     	return super.toString() + "Talla: "+ getTalla();
     }
+    
+    @Override
+    public boolean equals(Object otro) {
+		if (otro==null) {
+			throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
+		}
+    	return getIdentificador().equals(((ChildBike) otro).getIdentificador());
+    } 
+    
+    @Override
+	 public Bike clone() {
+    	ChildBike clon= new ChildBike( getMarca(), getModelo(), getTalla(), getPeso(), getNumPlatos(), getNumPinones());
+    	clon.setIdentificador(getIdentificador());
+    	return clon;
+    }
 }

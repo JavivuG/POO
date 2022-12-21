@@ -1,13 +1,12 @@
 package uva.poo.practica2;
-import uva.poo.practica2.BateriaBike;
 
 /**
  * 
  * @author jagarci
  * @author fralomo
  */
+
 public class ElectricBike extends AdultBike {
-	private int talla;
 	private BateriaBike bateria;
 	private double parMotorNM;
 	
@@ -91,6 +90,19 @@ public class ElectricBike extends AdultBike {
 		return super.toString()+ "Talla: "+getTalla()+".\n"+ bateria.toString()+ "Par motor: "+ getParMotorNM() +" newtons/metro.\n";
 	}
 	
+	@Override
+	public boolean equals(Object otro) {
+		if (otro==null) {
+			throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
+		}
+		return getIdentificador().equals(((ElectricBike) otro).getIdentificador());
+	}
 	
+	@Override
+	 public Bike clone() {
+		ElectricBike clon= new ElectricBike( getMarca(), getModelo(), getTalla(), getPeso(), getNumPlatos(), getNumPinones(), getBateria(), getParMotorNM());
+		clon.setIdentificador(getIdentificador());
+		return clon;
+	}
 	
 }

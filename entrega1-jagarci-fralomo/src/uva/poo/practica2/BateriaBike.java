@@ -1,6 +1,7 @@
 package uva.poo.practica2;
 /**
  * 
+ * Tipo de datos que representa una bateria de una bici
  * @author jagarci
  * @author fralomo
  *
