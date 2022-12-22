@@ -351,7 +351,31 @@ public class CityBikeSystem {
 		 }
 		 throw new IllegalArgumentException("El identificador no corresponde a ningun punto de aparcamiento");
 	 }
-
+	 
+	 /**
+	  * Proporciona un nuevo valor para la fianza del CityBikeSystem
+	  * @param fianza Fianza del sistema
+	  */
+	 public void setFianza(double fianza) {
+		 for (int i =0; i<getListaPuntosAparcamiento().size(); i++) {
+			 getListaPuntosAparcamiento().get(i).setFianza(fianza);
+		 }
+	 }
+	 
+	 /**
+	  * Devuelve la fianza del CityBikeSystem. Todos los puntos de aparcamiento deben tener la misma
+	  * @return fianza Fianza del sistema
+	  * @throws IllegalStateException si la fianza es distinta en algun punto de aparcamiento
+	  */
+	 public double getFianza() {
+		 double fianza=getListaPuntosAparcamiento().get(0).getFianza();
+		 for (int i=1; i<getListaPuntosAparcamiento().size(); i++) {
+			 if (fianza!=getListaPuntosAparcamiento().get(i).getFianza()) {
+				 throw new IllegalStateException("la fianza debe ser igual en todos los puntos de aparcamiento");
+			 }
+		 }
+		 return fianza;
+	 }
 	 /**
 	  * Devuelve un String con el valor de la fianza del sistema y la cantidad de puntos de aparcamiento
 	  */

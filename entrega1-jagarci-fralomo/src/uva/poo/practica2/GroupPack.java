@@ -38,6 +38,7 @@ public class GroupPack extends Pack {
 		}
 	}
 	
+	
 
 	@Override
 	/**
@@ -50,6 +51,11 @@ public class GroupPack extends Pack {
 			throw new IllegalArgumentException("El deposito debe ser mayor que 0");
 		}
 		return sumaDepositos(deposit)*0.8;
+	}
+	
+	@Override
+	public String toString() {
+		return "Pack de grupo\n" + super.toString();
 	}
 
 	

@@ -105,6 +105,36 @@ public abstract class Pack implements Resource {
 		throw new IllegalStateException("No existe ninguna bici con ese identificador");
 	}
 	
+	public int getCantidadBicisElectricas() {
+		int contador=0;
+		for (int i=0; i<getListaBicis().size(); i++) {
+			if (getListaBicis().get(i) instanceof ElectricBike) {
+				contador++;
+			}
+		}
+		return contador;
+	}
+	
+	public int getCantidadBicisAdultas() {
+		int contador=0;
+		for (int i=0; i<getListaBicis().size(); i++) {
+			if (getListaBicis().get(i) instanceof AdultBike) {
+				contador++;
+			}
+		}
+		return contador-getCantidadBicisElectricas();
+	}
+	
+	public int getCantidadBicisInfantiles() {
+		int contador=0;
+		for (int i=0; i<getListaBicis().size(); i++) {
+			if (getListaBicis().get(i) instanceof ChildBike) {
+				contador++;
+			}
+		}
+		return contador;
+	}
+	
 	/**
 	 * Devuelve la suma de depositos de las bicis de la lista
 	 * @param deposit Deposito
@@ -120,5 +150,10 @@ public abstract class Pack implements Resource {
 	}
 	
 	public abstract void quitaBike(Bike bici);
+	
+	@Override
+	public String toString() {
+		return "Pack: "+ getCantidadBicis() +" bicis, " +getCantidadBicisAdultas()+ " bicis de adulto, " + getCantidadBicisElectricas() +" bicis electricas, "+ getCantidadBicisInfantiles() + " bicis infantiles\n";
+	}
 	
 }

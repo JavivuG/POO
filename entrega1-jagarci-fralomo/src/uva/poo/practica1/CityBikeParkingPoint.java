@@ -73,7 +73,7 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 	 public void setFianza(double fianza) {
 		 if (fianza<0) {
 				throw new IllegalArgumentException("No puede tener fianza menor que 0");
-			}
+		 }
 		 this.fianza= fianza;
 	 }
 	 /**

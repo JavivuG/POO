@@ -1,5 +1,7 @@
 package uva.poo.practica1;
 
+import uva.poo.practica2.*;
+
 /**
  * Tipo de datos que representa un anclaje en un punto de aparcamiento
  * @author jagarci

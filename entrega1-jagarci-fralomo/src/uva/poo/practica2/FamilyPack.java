@@ -66,4 +66,9 @@ public class FamilyPack extends Pack{
 		}
 		return sumaDepositos(deposit)*0.5;
 	}
+	
+	@Override
+	public String toString() {
+		return "Pack familiar\n" + super.toString();
+	}
 }
