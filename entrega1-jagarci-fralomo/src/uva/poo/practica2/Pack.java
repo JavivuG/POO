@@ -131,7 +131,7 @@ public abstract class Pack implements Resource {
 	 * Devuelve la cantidad de bicis de adulto que hay en el pack
 	 * @return cantidad de bicis de adulto
 	 */
-	public int getCantidadBicisAdultas() {
+	public int getCantidadBicisAdultos() {
 		int contador=0;
 		for (int i=0; i<getListaBicis().size(); i++) {
 			if (getListaBicis().get(i) instanceof AdultBike) {
@@ -182,7 +182,7 @@ public abstract class Pack implements Resource {
 	 * Devuelve un String con las caracteristicas del pack
 	 */
 	public String toString() {
-		return "Pack: "+ getCantidadBicis() +" bicis, " +getCantidadBicisAdultas()+ " bicis de adulto, " + getCantidadBicisElectricas() +" bicis electricas, "+ getCantidadBicisInfantiles() + " bicis infantiles\n";
+		return "Pack: "+ getCantidadBicis() +" bicis, " +getCantidadBicisAdultos()+ " bicis de adulto, " + getCantidadBicisElectricas() +" bicis electricas, "+ getCantidadBicisInfantiles() + " bicis infantiles\n";
 	}
 	
 }

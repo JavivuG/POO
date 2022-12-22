@@ -76,4 +76,22 @@ public class BateriaBike {
 	public String toString() {
 		return "Bateria: "+ getVoltaje()+" voltios, "+getCarga()+" amperios/hora, "+ getEnergiaAlmacenada()+" kw/h.\n";
 	}
+	
+	@Override
+	/**
+	 * Comprueba si dos baterias son iguales, es decir, tienen misma carga y misma bateria
+	 */
+	public boolean equals(Object otro) {
+		if(otro==null) {
+			throw new IllegalArgumentException("Llamada incorrecta: otro==null");
+		}
+		else {
+			if (otro instanceof BateriaBike) {
+				return (((BateriaBike) otro).getCarga()==getCarga() && ((BateriaBike) otro).getVoltaje()==getVoltaje());
+			}
+			return false;
+		}
+
+		
+	}
 }
