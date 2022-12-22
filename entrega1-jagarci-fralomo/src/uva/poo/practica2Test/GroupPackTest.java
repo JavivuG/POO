@@ -369,6 +369,30 @@ public class GroupPackTest {
 		assertEquals(deposito, packGrupo1.getDepositToPay(fianzaInicial), 0.01);
 	}
 	
+	@Test
+	public void testEquals() {
+		BateriaBike bateria=new BateriaBike(48, 13);
+		Bike[] listaBicis=new Bike[12];
+		int pos=0;
+		for (int i=0; i<4; i++) {
+			Bike adulto= new AdultBike("BH" , "Oregon" ,"L", 10, 34, 5);
+			listaBicis[pos]=adulto;
+			pos++;
+		}
+		for (int i=0; i<3; i++) {
+			Bike infantil= new ChildBike("BH" , "Oregon" ,22, 10, 34, 5);
+			listaBicis[pos]=infantil;
+			pos++;
+		}
+		for (int i=0; i<5; i++) {
+			Bike electrica= new ElectricBike("Orbea", "Arriba", "M", 10,12,3 ,bateria, 8);
+			listaBicis[pos]=electrica;
+			pos++;
+		}
+		GroupPack otro=new GroupPack(listaBicis);
+		assertFalse(packGrupo.equals(otro));
+	}
+	
 	
 	
 	

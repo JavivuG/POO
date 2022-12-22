@@ -89,30 +89,31 @@ public class FamilyPack extends Pack{
 	 * Comprueba si dos packs familiares son iguales
 	 */
 	public boolean equals(Object otro) {
-		if (otro==null) {
-			throw new IllegalArgumentException("Llamada incorrecta: otro==null");
-		}
-		else {
-			if (otro instanceof FamilyPack) {
-				if (getListaBicis().length==((FamilyPack) otro).getListaBicis().length) {
-					for (int i=0; i<getListaBicis().length; i++) {
-						Bike biciActual=getListaBicis()[i];
-						boolean iguales=false;
-						int j=0;
-						do {
-							if (biciActual.equals(((FamilyPack) otro).getListaBicis()[j])){
-								iguales=true;
-							}
-							j++;
-						}while(j<((FamilyPack) otro).getListaBicis().length && !iguales);
-						if (!iguales) {
-							return iguales;
-						}
-					}
-				}
-				return false;
-			}
-			return false;
-		}
+	    if (otro == null )  {
+	        throw new IllegalArgumentException("Llamada incorrecta: otro==null");
+	    }
+	    else {
+	    	if (otro instanceof FamilyPack) {
+	    	    FamilyPack otroPack = (FamilyPack) otro;
+	    	    if (getListaBicis().length != otroPack.getListaBicis().length) {
+	    	        return false;
+	    	    }
+	    	    for (Bike bici : getListaBicis()) {
+	    	        boolean encontrada = false;
+	    	        int i = 0;
+	    	        while (i < otroPack.getListaBicis().length && !encontrada) {
+	    	            if (bici.equals(otroPack.getListaBicis()[i])) {
+	    	                encontrada = true;
+	    	            }
+	    	            i++;
+	    	        }
+	    	        if (!encontrada) {
+	    	            return false;
+	    	        }
+	    	    }
+	    	    return true;
+	    	}
+	    	return false;
+	    }
 	}
 }
