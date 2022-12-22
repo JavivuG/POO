@@ -198,6 +198,7 @@ public abstract class Pack implements Resource {
 	@Override
 	/**
 	 * Comprueba si dos packs son iguales
+	 * @throws IllegalArgumentException si otro==null
 	 */
 	public boolean equals(Object otro) {
 	    if (otro == null )  {

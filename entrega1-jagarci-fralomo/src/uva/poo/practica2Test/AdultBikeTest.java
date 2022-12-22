@@ -18,6 +18,17 @@ public class AdultBikeTest {
 	public void setUp() throws Exception {
 		bici=new AdultBike("BH" , "Oregon" ,"L", 10, 34, 5);
 	}
+	
+	@Test
+	public void testConstructorBike() {
+		AdultBike bici1=new AdultBike("BH" , "Oregon" ,"L", 10, 34, 5);
+		assertEquals("BH", bici1.getMarca());
+		assertEquals("Oregon", bici1.getModelo());
+		assertEquals("L", bici1.getTalla());
+		assertEquals(10, bici1.getPeso(), 0.01);
+		assertSame(34, bici1.getNumPlatos());
+		assertSame(5,bici1.getNumPinones());
+	}
 
 	@Test
 	public void testSetTalla() {
@@ -110,6 +121,52 @@ public class AdultBikeTest {
 		assertEquals(bici.getNumPlatos(), biciAdulto.getNumPlatos());
 	}
 
+	@Test
+	public void testSetGetMarca() {
+		bici.setMarca("Mercadona");
+		assertEquals(bici.getMarca(), "Mercadona");
+	}
+	
+	@Test
+	public void testSetGetModelo() {
+		bici.setModelo("Hacendado");
+		assertEquals(bici.getModelo(), "Hacendado");
+	}
+	
+	@Test
+	public void testSetGetPeso() {
+		bici.setPeso(12.5);
+		assertEquals(bici.getPeso(), 12.5, 0.01);
+	}
+	
+	@Test (expected=IllegalArgumentException.class)
+	public void testSetPesoNegativo() {
+		bici.setPeso(-12);
+
+	}
+	
+	@Test
+	public void testSetGetNumPlatos() {
+		bici.setNumPlatos(2);
+		assertEquals(bici.getNumPlatos(), 2);
+	}
+	
+	@Test (expected=IllegalArgumentException.class)
+	public void testSetNumPlatosMenosDe1() {
+		bici.setNumPlatos(0);
+	}
+	
+	@Test
+	public void testSetGetNumPinones() {
+		bici.setNumPinones(2);
+		assertEquals(bici.getNumPinones(), 2);
+	}
+	
+	@Test (expected=IllegalArgumentException.class)
+	public void testSetNumPinonesMenosDe1() {
+		bici.setNumPinones(0);
+	}
+	
 	
 	
 

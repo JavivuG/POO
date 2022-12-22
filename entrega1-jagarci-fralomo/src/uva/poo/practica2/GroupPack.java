@@ -72,6 +72,7 @@ public class GroupPack extends Pack {
 	@Override
 	/**
 	 * Comprueba si dos packs de grupo son iguales
+	 * @throws IllegalArgumentException si otro==null
 	 */
 	public boolean equals(Object otro) {
 	    if (otro == null )  {
