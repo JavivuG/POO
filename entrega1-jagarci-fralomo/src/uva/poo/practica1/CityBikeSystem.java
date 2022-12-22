@@ -45,6 +45,16 @@ public class CityBikeSystem {
 	}
 	
 	/**
+	 * Inicializa una instancia de CityBikeSystem copiando otra
+	 * @param listaPuntosAparcamiento Lista de Puntos de Aparcamiento
+	 * @throws IllegalArgumentException si punto de aparcamiento de copia es null
+	 */
+	public CityBikeSystem(ArrayList<CityBikeParkingPoint> listaPuntosAparcamiento) {
+		setListaPuntosAparcamiento(listaPuntosAparcamiento);
+		
+	}
+	
+	/**
 	 * Devuelve la cantidad de puntos de Aparcamiento que tiene el sistema
 	 * @return cantidad de puntos de aparcamiento del Sistema de bicis
 	 */
@@ -95,17 +105,12 @@ public class CityBikeSystem {
 		else {
 			ArrayList<CityBikeParkingPoint> clon= new ArrayList<>();
 			for (int i=0 ; i<listaPuntosAparcamiento.size() ; i++) {
-				clon.add(listaPuntosAparcamiento.get(i).clone());
+				clon.add(listaPuntosAparcamiento.get(i));
 			}
 			this.listaPuntosAparcamiento= clon;
 		}
 	}
 	
-	public void setFianzaGlobal(double fianza) {
-		for (int i=0 ; i<listaPuntosAparcamiento.size() ; i++) {
-			listaPuntosAparcamiento.get(i).setFianza(fianza);
-		}
-	}
 	/**
 	 * Añade un CityBikeParkingPoint dado a la lista de parkings
 	 * @param puntoAparcamiento a añadir
@@ -356,9 +361,9 @@ public class CityBikeSystem {
 	  * Proporciona un nuevo valor para la fianza del CityBikeSystem
 	  * @param fianza Fianza del sistema
 	  */
-	 public void setFianza(double fianza) {
-		 for (int i =0; i<getListaPuntosAparcamiento().size(); i++) {
-			 getListaPuntosAparcamiento().get(i).setFianza(fianza);
+	 public void setFianzaGlobal(double fianza) {
+		 for (int i =0; i<listaPuntosAparcamiento.size(); i++) {
+			 listaPuntosAparcamiento.get(i).setFianza(fianza);
 		 }
 	 }
 	 
@@ -368,9 +373,9 @@ public class CityBikeSystem {
 	  * @throws IllegalStateException si la fianza es distinta en algun punto de aparcamiento
 	  */
 	 public double getFianza() {
-		 double fianza=getListaPuntosAparcamiento().get(0).getFianza();
-		 for (int i=1; i<getListaPuntosAparcamiento().size(); i++) {
-			 if (fianza!=getListaPuntosAparcamiento().get(i).getFianza()) {
+		 double fianza=listaPuntosAparcamiento.get(0).getFianza();
+		 for (int i=1; i<listaPuntosAparcamiento.size(); i++) {
+			 if (fianza!=listaPuntosAparcamiento.get(i).getFianza()) {
 				 throw new IllegalStateException("la fianza debe ser igual en todos los puntos de aparcamiento");
 			 }
 		 }

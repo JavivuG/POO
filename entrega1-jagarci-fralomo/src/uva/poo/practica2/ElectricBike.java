@@ -96,7 +96,7 @@ public class ElectricBike extends AdultBike {
 	 * Devuelve un String con las caracteristicas de la bici electrica y de la bateria
 	 */
 	public String toString() {
-		return super.toString()+ "Talla: "+getTalla()+".\n"+ bateria.toString()+ "Par motor: "+ getParMotorNM() +" newtons/metro.\n";
+		return super.toString() + bateria.toString()+ "Par motor: "+ getParMotorNM() +" newtons/metro.\n";
 	}
 	
 	@Override

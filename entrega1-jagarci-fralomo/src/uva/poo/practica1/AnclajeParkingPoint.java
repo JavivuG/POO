@@ -12,14 +12,15 @@ public class AnclajeParkingPoint {
 	private boolean reservado;
 	private boolean ocupado;
 	private boolean vacio;
+	private Bike bici;
 	
 	/**
 	 * Contructor por defecto (inicialmente esta ocupado, es decir, con una bici)
 	 */
 	public AnclajeParkingPoint() {
-		setOcupado(true);
+		setOcupado(false);
 		setReservado(false);
-		setVacio(false);
+		setVacio(true);
 	}
 	
 	/**
@@ -36,6 +37,17 @@ public class AnclajeParkingPoint {
 		setVacio(anclaje.isVacio());
 	}
 	
+	public void setBici(Bike bici) {
+		if (bici==null) {
+			throw new IllegalArgumentException("LLamada incorrecta: bici==null");
+		}
+		this.bici=bici;
+	}
+	
+	public Bike getBici() {
+		return bici.clone();
+	}
+	
 	/**
 	 * Comprueba que un anclaje este reservado o no
 	 * @return true si esta reservado, false si no lo esta
@@ -49,7 +61,7 @@ public class AnclajeParkingPoint {
 	 * @param reservado true si pongo el anclaje reservado y false si no pongo estado reservado
 	 */
 	public void setReservado(boolean reservado) {
-		if ((isOcupado() || isVacio()) && reservado==true) {
+		if ((isOcupado() || isVacio()) && reservado) {
 			setOcupado(false);
 			setVacio(false);
 			this.reservado = reservado;
@@ -66,13 +78,9 @@ public class AnclajeParkingPoint {
 	public boolean isOcupado() {
 		return ocupado;
 	}
-	
-	/**
-	 * Pongo el estado del anclaje en ocupado
-	 * @param ocupado true si pongo el anclaje ocupado y false si no pongo estado ocupado
-	 */
-	public void setOcupado(boolean ocupado) {
-		if ((isReservado() || isVacio()) && ocupado==true) {
+
+	private void setOcupado(boolean ocupado) {
+		if ((isReservado() || isVacio()) && ocupado) {
 			setReservado(false);
 			setVacio(false);
 			this.ocupado = ocupado;
@@ -80,6 +88,16 @@ public class AnclajeParkingPoint {
 		else {
 			this.ocupado=ocupado;
 		}
+	}
+	
+	/**
+	 * Pongo el estado del anclaje en ocupado y le asigno la bici al anclaje
+	 * @param ocupado true si pongo el anclaje ocupado y false si no pongo estado ocupado
+	 * @param bici Bici que se pone en el anclaje
+	 */
+	public void setOcupado(boolean ocupado, Bike bici) {
+		setOcupado(ocupado);
+		setBici(bici);
 	}
 	
 	/**
@@ -95,13 +113,14 @@ public class AnclajeParkingPoint {
 	 * @param vacio true si pongo el anclaje vacio y false si no pongo estado vacio
 	 */
 	public void setVacio(boolean vacio) {
-		if ((isReservado() || isOcupado()) && vacio==true) {
+		if ((isReservado() || isOcupado()) && vacio) {
 			setReservado(false);
 			setOcupado(false);
 			this.vacio = vacio;
 		}
 		else {
 			this.vacio=vacio;
+			this.bici=null;
 		}
 	}
 	
@@ -111,13 +130,13 @@ public class AnclajeParkingPoint {
 	 * @throws IllegalStateException si no se tiene ningun estado
 	 */
 	public String getEstado() {
-		if (isReservado() && (isOcupado()==false && isVacio()==false)) {
+		if (isReservado() && (!isOcupado() && !isVacio())) {
 			return ("Reservado");
 		}
-		else if(isOcupado() && (isReservado()==false && isVacio()==false)){
+		else if(isOcupado() && (!isReservado() && !isVacio())){
 			return ("Ocupado");
 		}
-		else if(isVacio() && (isReservado()==false && isOcupado()==false)) {
+		else if(isVacio() && (!isReservado() && !isOcupado())) {
 			return ("Vacio");
 		}
 		else {

@@ -62,7 +62,7 @@ public class AnclajeParkingPointTest {
 		AnclajeParkingPoint a=new AnclajeParkingPoint();
 		a.setReservado(true);
 		
-		assertTrue(a.isReservado());;
+		assertTrue(a.isReservado());
 	}
 	
 	@Test 

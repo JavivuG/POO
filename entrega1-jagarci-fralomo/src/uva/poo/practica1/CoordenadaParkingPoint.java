@@ -13,9 +13,9 @@ public class CoordenadaParkingPoint {
 	
 	// Inicializadores
 	/**
-	 * 
-	 * @param coordenadaGPSLatitud
-	 * @param coordenadaGPSLongitud
+	 * Constructor de las coordenadas de un punto de aparcamiento indicando la coordenada en grados decimales
+	 * @param coordenadaGDLatitud Coordenadas en grados decimales latitud
+	 * @param coordenadaGDLongitud Coordenadas en grados decimales longitud
 	 */
 	public CoordenadaParkingPoint(double coordenadaGDLatitud, double coordenadaGDLongitud) {
 		this.coordenadaGPSLatitud=coordenadaGDLatitud;
@@ -23,45 +23,39 @@ public class CoordenadaParkingPoint {
 	}
 	
 	/**
-	 * 
-	 * @param coordenadaGMSLatitud
-	 * @param coordenadaGMSLongitud
+	 * Contructor de las coordenadas de un punto de aparcamiento indicado las coordenadas en grados minutos y segundo
+	 * @param coordenadaGMSLatitud Coordenadas en grados, minutos y segundos Latitud
+	 * @param coordenadaGMSLongitud Coordenadas en grados, minutos y segundos Longitud
 	 */
 	public CoordenadaParkingPoint(double[] coordenadaGMSLatitud, double[] coordenadaGMSLongitud) {
 		this.coordenadaGPSLatitud=coordenadasGMSaGD(coordenadaGMSLatitud);
 		this.coordenadaGPSLongitud=coordenadasGMSaGD(coordenadaGMSLongitud);
 	}
 	
+
+	
 	/**
-	 * 
-	 * @return
+	 * Devuelve el valor de las coordenadas de la latitud en grados decimales
+	 * @return coordenadasGPSLatitud Coordenadas latitud en grados decimales
 	 */
 	public double getCoordenadaGPSLatitud() {
 		return coordenadaGPSLatitud;
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Devuelve el valor de las coordenadas de la longitud en grados decimales
+	 * @return coordenadasGPSLongitud Coordenadas longitud en grados decimales
 	 */
 	public double getCoordenadaGPSLongitud() {
 		return coordenadaGPSLongitud;
 	}
 	
 	/**
-	 * 
-	 * @param coordenadaGDLatitud
+	 * Proporciona el valor de las coordenadas de la latitud en grados decimales
+	 * @param coordenadaGDLatitud Coordenadas de la latitud en grados decimales
 	 */
 	public void setCoordenadaGPSLatitud(double coordenadaGDLatitud) {
 		this.coordenadaGPSLatitud=coordenadaGDLatitud;
-	}
-	
-	/**
-	 * 
-	 * @param coordenadaGMSLatitud
-	 */
-	public void setCoordenadaGPSLatitud(double[] coordenadaGMSLatitud) {
-		this.coordenadaGPSLatitud=coordenadasGMSaGD(coordenadaGMSLatitud);
 	}
 	
 	/**
@@ -73,33 +67,40 @@ public class CoordenadaParkingPoint {
 	}
 	
 	/**
-	 * 
-	 * @param coordenadaGMSLongitud
+	 * Proporciona el valor de las coordenadas latitud en grados, minutos y segundos
+	 * @param coordenadaGMSLatitud Coordenadas latitud en grados, minutos y segundos
+	 */
+	public void setCoordenadaGPSLatitud(double[] coordenadaGMSLatitud) {
+		this.coordenadaGPSLatitud=coordenadasGMSaGD(coordenadaGMSLatitud);
+	}
+	
+
+	
+	/**
+	 * Proporciona el valor de las coordenadas longitud en grados, minutos y segundos
+	 * @param coordenadaGMSLongitud Coordenadas longitud en grados, minutos y segundos
 	 */
 	public void setCoordeadaGPSLongitud(double[] coordenadaGMSLongitud) {
 		this.coordenadaGPSLatitud=coordenadasGMSaGD(coordenadaGMSLongitud);
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Devuelve las coordenadas de la latitud en grados,minutos y segundos
 	 */
 	public double[] getCoordenadasGMSLatitud() {
 		return coordenadasGDaGMS(getCoordenadaGPSLatitud());
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Devuelve las coordenadas de la latitud en grados,minutos y segundos
 	 */
 	public double[] getCoordenadasGMSLongitud() {
 		return coordenadasGDaGMS(getCoordenadaGPSLongitud());
 	}
 	
 	/**
-	 * 
-	 * @param coordenadasGMS
-	 * @return
+	 * Devuelve un String con los grados, minutos y segundos. Primera posicion del vector los grados, segunda los minutos y tercera los segundos
+	 * @param coordenadasGMS Coordenadas en grados minutos y segundos. Vector de tres posiciones
 	 */
 	public String imprimeGMS(double[] coordenadasGMS) {
 		int grados=(int)coordenadasGMS[0];

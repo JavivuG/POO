@@ -65,7 +65,7 @@ public class AdultBike extends Bike {
 	 * Devuelve un String con las caracteristicas de la bici
 	 */
 	public String toString() {
-		return super.toString() + "Talla: "+ getTalla();
+		return super.toString() + "Talla: "+ getTalla() +"\n";
 	}
 	
 	@Override

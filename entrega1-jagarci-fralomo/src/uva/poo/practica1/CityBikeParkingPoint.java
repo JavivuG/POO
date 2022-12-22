@@ -1,6 +1,6 @@
 package uva.poo.practica1;
 import uva.poo.practica1.AnclajeParkingPoint;
-
+import uva.poo.practica2.*;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -56,10 +56,34 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 		 coordenadaGPS.setCoordeadaGPSLongitud(longitudGMS);
 	 }
 	 
+	 /**
+	  * Constructor de un CityBikeParkingPoint
+	  * @param cantidadAnclajes Numero de anclajes que quiero que tenga el punto de aparcamiento 
+	  * @param coordenadasGPS CoordenadasGPS del punto de Aparcamiento
+	  */
+	 public CityBikeParkingPoint(int cantidadAnclajes, CoordenadaParkingPoint coordenadasGPS) {
+		 if (cantidadAnclajes<=0) {
+			 throw new IllegalStateException("La cantidad de anclajes no puede ser menor o igual que 0");
+		 }
+		 else if (coordenadasGPS==null) {
+			 throw new IllegalArgumentException("Llamada incorrecta: coordenadas==null");
+		 }
+		 this.coordenadaGPS=coordenadasGPS;
+		 setCantidadAnclajes(cantidadAnclajes);
+		 
+	 }
+	 
 	 // METODOS
 	 /**
+	  * 
+	  * @return
+	  */
+	 public CoordenadaParkingPoint getCoordenadas() {
+		 return new CoordenadaParkingPoint(coordenadaGPS.getCoordenadaGPSLatitud(), coordenadaGPS.getCoordenadaGPSLongitud());
+	 }
+	 /**
 	 * Devuelve el valor de la fianza de CityBikeSystem
-	 * @return valor de la fianza
+	 * @return fianza valor de la fianza
 	 */
 	 public double getFianza() {
 		 return fianza;
@@ -175,9 +199,10 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 	 
 	 @Override
 	 public CityBikeParkingPoint clone() {
-		 CityBikeParkingPoint clon= new CityBikeParkingPoint(getCantidadAnclajes(),coordenadaGPS.getCoordenadaGPSLatitud(),coordenadaGPS.getCoordenadaGPSLongitud());
+		 CityBikeParkingPoint clon= new CityBikeParkingPoint(getCantidadAnclajes(),getCoordenada());
          clon.idPuntoAparcamiento= this.idPuntoAparcamiento;
          clon.setListaAnclajes(getListaAnclajes());
+         clon.setFianza(fianza);
          return clon;
      }
 	 
@@ -200,19 +225,22 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 		 * @throws IllegalStateException El anclade del que se quiere alquilar la bicicleta está vacío o reservado o si no hay saldo suficiente en la tarjeta
 		 * @throws IllegalArgumentException si tarjeta==null
 		 */
-		 public void alquilarBici(TarjetaMonedero tarjeta,AnclajeParkingPoint anclaje) {
+		 public void alquilarBici(TarjetaMonedero tarjeta,Bike bici) {
 			 if (tarjeta==null) {
+				 throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
+			 }
+			 else if(bici==null) {
 				 throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
 			 }
 			 else if (tarjeta.getSaldoActual()<getFianza()) {
 				 throw new IllegalStateException("No hay saldo suficiente en la tarjeta para pagar la fianza");
 			 }
-			 else if (!Arrays.asList(listaAnclajes).contains(anclaje)) {
+			 else if (!Arrays.asList(listaAnclajes).contains(getAnclajeDeBici(bici))) {
 				 throw new IllegalArgumentException("Llamada incorrecta: El anclaje elegido no pertenece a este ParkingPoint");
 			 }
-			 else if (anclaje.isOcupado()){
-				 tarjeta.descontarDelSaldo("***REMOVED***", fianza);
-			 	 anclaje.setVacio(true);
+			 else if (getAnclajeDeBici(bici).isOcupado()){
+				 tarjeta.descontarDelSaldo("***REMOVED***", bici.getDepositToPay(getFianza()));
+			 	 getAnclajeDeBici(bici).setVacio(true);
 			 }
 			 else {
 				 throw new IllegalStateException("El anclaje del que se quiere alquilar la bicicleta está vacío o reservado.");
@@ -226,20 +254,19 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 		 * @throws IllegalStateException El anclaje donde se quiere dejar la bicicleta está ocupado por otra bicicleta.
 		 * @throws IllegalArgumentException si tarjeta==null
 		 */
-		 public void devolverBici(TarjetaMonedero tarjeta,AnclajeParkingPoint anclaje) {
+		 public void devolverBici(TarjetaMonedero tarjeta, Bike bici) {
 			 if (tarjeta==null) {
 				 throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
 			 }
-			 else if (!Arrays.asList(listaAnclajes).contains(anclaje)) {
-				 throw new IllegalArgumentException("Llamada incorrecta: El anclaje elegido no pertenece a este ParkingPoint");
-			 }
-			 else if (anclaje.isVacio()){
-				 tarjeta.recargaSaldo("A156Bv09_1zXo894", fianza);
-				 anclaje.setOcupado(true);
+			 else if(bici==null) {
+				 throw new IllegalArgumentException("Llamada incorrecta: bici==null");
 			 }
 			 else {
-				 throw new IllegalStateException("El anclaje donde se quiere dejar la bicicleta está ocupado por otra bicicleta.");
+				 getAnclajeVacio().setOcupado(true, bici);
+				 tarjeta.recargaSaldo("A156Bv09_1zXo894",bici.getDepositToPay(fianza)); 
 			 }
+
+				
 		 }
 		 
 		 /**
@@ -250,24 +277,118 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 		 * @throws IllegalArgumentException si tarjeta==null
 		 * @throws IllegalStateException si no hay saldo suficiente en la tarjeta
 		 */
-		 public void reservarBici(TarjetaMonedero tarjeta,AnclajeParkingPoint anclaje) {
+		 public void reservarBici(TarjetaMonedero tarjeta,Bike bici) {
 			 if (tarjeta==null) {
 				 throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
 			 }
-			 else if (!Arrays.asList(listaAnclajes).contains(anclaje)) {
-				 throw new IllegalArgumentException("Llamada incorrecta: El anclaje elegido no pertenece a este ParkingPoint");
+			 else if(bici==null) {
+				 throw new IllegalArgumentException("Llamada incorrecta: bici==null");
 			 }
 			 else if (tarjeta.getSaldoActual()<getFianza()) {
 				 throw new IllegalStateException("No hay saldo suficiente en la tarjeta para pagar la fianza");
 			 }
-			 else if(anclaje.isOcupado()) {
-				 tarjeta.descontarDelSaldo("***REMOVED***", fianza);
-				 anclaje.setReservado(true);
+			 else if(getAnclajeDeBici(bici).isOcupado()) {
+				 tarjeta.descontarDelSaldo("***REMOVED***", bici.getDepositToPay(fianza));
+				 getAnclajeDeBici(bici).setReservado(true);
 			 }
 			 else {
 				 throw new IllegalStateException("El anclaje del que se quiere reservar la bicicleta está vacío o ya reservado para otro cliente.");
 			 }
 			 
+		 }
+		 
+		 /**
+		  * 
+		  * @param tarjeta
+		  * @param packBicis
+		  */
+		 public void alquilarPack(TarjetaMonedero tarjeta, Pack packBicis) {
+			 if (tarjeta==null) {
+				 throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
+			 }
+			 else if(packBicis==null) {
+				 throw new IllegalArgumentException("Llamada incorrecta: packBicis==null");
+			 }
+			 else if(packBicis.getCantidadBicis()>getCantidadAnclajesOcupados()) {
+				 throw new IllegalStateException("No hay tantas bicis disponibles");
+			 }else {
+				 for (int i=0; i<packBicis.getCantidadBicis(); i++) {
+					 Bike biciActual=packBicis.getListaBicis().get(i);
+					 if (getAnclajeDeBici(biciActual).isOcupado()){ // Encuentro el anclaje de la bici y miro si esta disponible
+					 	 getAnclajeDeBici(biciActual).setVacio(true); // Si esta disponible pongo el anclaje como vacio
+					 }
+				 }
+				 tarjeta.descontarDelSaldo("***REMOVED***", packBicis.sumaDepositos(getFianza()));
+			 }
+			 
+		 }
+		 
+		 /**
+		  * 
+		  * @param tarjeta
+		  * @param packBicis
+		  */
+		 public void reservarPack(TarjetaMonedero tarjeta, Pack packBicis) {
+			 if (tarjeta==null) {
+				 throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
+			 }
+			 else if(packBicis==null) {
+				 throw new IllegalArgumentException("Llamada incorrecta: packBicis==null");
+			 }
+			 else if(packBicis.getCantidadBicis()>getCantidadAnclajesOcupados()) {
+				 throw new IllegalStateException("No hay tantas bicis disponibles");
+			 }else {
+				 for (int i=0; i<packBicis.getCantidadBicis(); i++) {
+					 Bike biciActual=packBicis.getListaBicis().get(i);
+					 if (getAnclajeDeBici(biciActual).isOcupado()){ // Encuentro el anclaje de la bici y miro si esta disponible
+					 	 getAnclajeDeBici(biciActual).setReservado(true); // Si esta disponible pongo el anclaje como reservado
+					 }
+				 }
+				 tarjeta.descontarDelSaldo("***REMOVED***", packBicis.sumaDepositos(getFianza()));
+			 }
+			 
+		 }
+		 
+		 /**
+		  * 
+		  * @param tarjeta
+		  * @param packBicis
+		  */
+		 public void devolverPack(TarjetaMonedero tarjeta, Pack packBicis) {
+			 if (tarjeta==null) {
+				 throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
+			 }
+			 else if(packBicis==null) {
+				 throw new IllegalArgumentException("Llamada incorrecta: packBicis==null");
+			 }
+			 else if(packBicis.getCantidadBicis()>getCantidadAnclajesVacios()) {
+				 throw new IllegalStateException("No hay tantos anclajes libres");
+			 }else {
+				 for (int i=0; i<packBicis.getCantidadBicis(); i++) {
+					 Bike biciActual=packBicis.getListaBicis().get(i);
+					 getAnclajeVacio().setOcupado(true, biciActual);
+				 }
+				 tarjeta.recargaSaldo("A156Bv09_1zXo894", packBicis.sumaDepositos(getFianza()));
+			 }
+			 
+		 }
+		 
+		 private AnclajeParkingPoint getAnclajeVacio() {
+			 for (int i=0; i<listaAnclajes.length; i++) {
+				 if (listaAnclajes[i].isVacio()) {
+					 return listaAnclajes[i];
+				 }
+			 }
+			 throw new IllegalStateException("No hay ningun anclaje vacio");
+		 }
+		 
+		 private AnclajeParkingPoint getAnclajeDeBici(Bike bici) {
+			 for (int i=0; i<listaAnclajes.length; i++) {
+				 if (listaAnclajes[i].getBici().equals(bici)) {
+					 return listaAnclajes[i];
+				 }
+			 }
+			 throw new IllegalStateException("Ningun anclaje tiene esa bici");
 		 }
 
 }
