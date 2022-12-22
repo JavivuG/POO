@@ -19,9 +19,9 @@ public class AnclajeParkingPointTest {
 	@Test
 	public void testConstructorAnclaje() {
 		AnclajeParkingPoint a=new AnclajeParkingPoint();
-		assertTrue(a.isOcupado());
+		assertFalse(a.isOcupado());
 		assertFalse(a.isReservado());
-		assertFalse(a.isVacio());
+		assertTrue(a.isVacio());
 	}
 	
 	// Tests del constructor de copia

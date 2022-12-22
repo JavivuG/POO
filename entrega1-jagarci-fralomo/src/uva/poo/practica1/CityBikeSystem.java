@@ -19,10 +19,11 @@ public class CityBikeSystem {
 	 * @throws IllegalArgumentException Si fianza menor que 0
 	 * @throws IllegalArgumentException Si punto de aparcamiento menor que 1
 	 */
-	public CityBikeSystem(int cantidadPuntosAparcamiento) {
+	public CityBikeSystem(double fianza, int cantidadPuntosAparcamiento) {
 		if (cantidadPuntosAparcamiento>0) {
 			listaPuntosAparcamiento= new ArrayList<>();
 			setCantidadPuntosAparcamiento(cantidadPuntosAparcamiento);
+			setFianzaGlobal(fianza);
 		}
 		else if(cantidadPuntosAparcamiento<1) {
 			throw new IllegalArgumentException("No puede tener cantidad de puntos de aparcamiento menor que 1");
@@ -251,7 +252,7 @@ public class CityBikeSystem {
 	
 	/**
 	 * Devuelve lista de puntos de aparcamiento cercanos
-	 * @param posicionGPS desde donde se desean saber los puntos cercanos
+	 * @param coordenadaGPS CoordenadaGPS desde donde se desean saber los puntos cercanos
 	 * @param radio de búsqueda alrededor de la posición inicial
 	 * @return lista de puntos de aparcamiento cercanos
 	 * @throws IllegalArgumentException si radio es menor o igual 0 
@@ -280,7 +281,7 @@ public class CityBikeSystem {
 	
 	/**
 	 * Devuelve una lista de puntos de aparcamiento cercanos con anclajes vacios para dejar la bici dada una posicion GPS y un radio dado
-	 * @param posicionGPS desde donde se desean saber los puntos cercanos con anclajes vacíos
+	 * @param coordenadaGPS Coordenadas desde donde se desean saber los puntos cercanos con anclajes vacíos
 	 * @param radio de búsqueda alrededor de la posición inicial
 	 * @return Lista de puntos de aparcamiento cercanos con anclajes vacios
 	 * @throws IllegalArgumentException si radio menor o igual que 0 
@@ -309,7 +310,7 @@ public class CityBikeSystem {
 
 	/**
 	 * Devuelve una lista de puntos de aparcamiento cercanos con bicis disponibles dada una posicion GPS y un radio dado
-	 * @param posicionGPS desde donde se desean saber los puntos cercanos con bicis disponibles
+	 * @param coordenadaGPS Coordenadas desde donde se desean saber los puntos cercanos con bicis disponibles
 	 * @param radio de búsqueda alrededor de la posición inicial
 	 * @return lista de puntos de aparcamiento cercanos con bicis disponibles
 	 * @throws IllegalArgumentException si radio menor o igual que 0 

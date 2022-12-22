@@ -59,10 +59,10 @@ public class CoordenadaParkingPoint {
 	}
 	
 	/**
-	 * 
-	 * @param coordenadaGDLongitud
+	 * Proporciona un valor para las coordenadas longitud en grados decimales
+	 * @param coordenadaGDLongitud Coordenadas de la longitud en grados decimales
 	 */
-	public void setCoordeadaGPSLongitud(double coordenadaGDLongitud) {
+	public void setCoordenadaGPSLongitud(double coordenadaGDLongitud) {
 		this.coordenadaGPSLongitud=coordenadaGDLongitud;
 	}
 	
@@ -86,6 +86,7 @@ public class CoordenadaParkingPoint {
 	
 	/**
 	 * Devuelve las coordenadas de la latitud en grados,minutos y segundos
+	 * @return coordenadas en grados, minutos y segundos
 	 */
 	public double[] getCoordenadasGMSLatitud() {
 		return coordenadasGDaGMS(getCoordenadaGPSLatitud());
@@ -93,6 +94,7 @@ public class CoordenadaParkingPoint {
 	
 	/**
 	 * Devuelve las coordenadas de la latitud en grados,minutos y segundos
+	 * @return coordenadas en grados, minutos y segundos
 	 */
 	public double[] getCoordenadasGMSLongitud() {
 		return coordenadasGDaGMS(getCoordenadaGPSLongitud());
@@ -101,6 +103,7 @@ public class CoordenadaParkingPoint {
 	/**
 	 * Devuelve un String con los grados, minutos y segundos. Primera posicion del vector los grados, segunda los minutos y tercera los segundos
 	 * @param coordenadasGMS Coordenadas en grados minutos y segundos. Vector de tres posiciones
+	 * @return string con las coordenadas en grados, minutos y segundos
 	 */
 	public String imprimeGMS(double[] coordenadasGMS) {
 		int grados=(int)coordenadasGMS[0];
@@ -140,8 +143,7 @@ public class CoordenadaParkingPoint {
 	 
 	 /**
 	  * Calcula la distancia de un punto de aparcamiento a una posicion GPS dada
-	  * @param posicionGPSLatitud Latitud en grados decimales
-	  * @param posicionGPSLongitud Longitud en grados decimales
+	  * @param coordenadaGPS Coordenadas GPS
 	  * @return distancia entre el punto de aparcamiento y la posicion GPS dada
 	  * @throws IllegalArgumentException si las coordenadas GPS estan fuera de los limites
 	  */

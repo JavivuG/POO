@@ -11,7 +11,7 @@ public class GroupPack extends Pack {
 	//Inicializadores
 	/**
 	 * Constructor de un pack de grupo indicando la lista de bicis
-	 * @param listaBicis
+	 * @param listaBicis Lista de bicis que forman el pack
 	 * @throws IllegalArgumentException si hay menos de 10 bicis
 	 */
 	public GroupPack(ArrayList<Bike> listaBicis) {
@@ -54,6 +54,9 @@ public class GroupPack extends Pack {
 	}
 	
 	@Override
+	/**
+	 * Devuelve un String con las caracteristicas del pack de grupo
+	 */
 	public String toString() {
 		return "Pack de grupo\n" + super.toString();
 	}

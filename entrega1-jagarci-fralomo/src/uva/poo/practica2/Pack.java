@@ -78,6 +78,7 @@ public abstract class Pack implements Resource {
 	
 	/**
 	 * Devuelve la cantidad de bicis que forman el pack
+	 * @return cantidad de bicis del pack
 	 */
 	public int getCantidadBicis() {
 		return getListaBicis().size();
@@ -87,6 +88,7 @@ public abstract class Pack implements Resource {
 	 * Devuelve true o false si una bici esta en el pack
 	 * @param bici Bici que se quiere comprobar que esta en el pack
 	 * @throws IllegalArgumentException si bici==null
+	 * @return True si la bici esta en el pack y false si no esta en el pack
 	 */
 	public boolean estaEnLista(Bike bici) {
 		if (bici==null) {
@@ -95,6 +97,12 @@ public abstract class Pack implements Resource {
 		return getListaBicis().contains(bici);
 	}
 	
+	/**
+	 * Devuelve una bici dado su identificador
+	 * @param id Identificador de la bici que se desea obtener
+	 * @return clon Clon de la bici
+	 * @throws IllegalStateException si no existe ninguna bici con ese identificador en el pack
+	 */
 	public Bike getBici(String id) {
 		for (int i=0; i<getListaBicis().size(); i++) {
 			if (getListaBicis().get(i).getIdentificador().equals(id)) {
@@ -105,6 +113,10 @@ public abstract class Pack implements Resource {
 		throw new IllegalStateException("No existe ninguna bici con ese identificador");
 	}
 	
+	/**
+	 * Devuelve la cantidad de bicis electricas que hay en el pack
+	 * @return cantidad de bicis electricas que hay
+	 */
 	public int getCantidadBicisElectricas() {
 		int contador=0;
 		for (int i=0; i<getListaBicis().size(); i++) {
@@ -115,6 +127,10 @@ public abstract class Pack implements Resource {
 		return contador;
 	}
 	
+	/**
+	 * Devuelve la cantidad de bicis de adulto que hay en el pack
+	 * @return cantidad de bicis de adulto
+	 */
 	public int getCantidadBicisAdultas() {
 		int contador=0;
 		for (int i=0; i<getListaBicis().size(); i++) {
@@ -125,6 +141,10 @@ public abstract class Pack implements Resource {
 		return contador-getCantidadBicisElectricas();
 	}
 	
+	/**
+	 * Devuelve la cantidad de bicis infantiles que hay en el pack
+	 * @return Cantidad de bicis infantiles
+	 */
 	public int getCantidadBicisInfantiles() {
 		int contador=0;
 		for (int i=0; i<getListaBicis().size(); i++) {
@@ -149,9 +169,18 @@ public abstract class Pack implements Resource {
 		return sumaDepositos;
 	}
 	
+	/**
+	 * Quita una bici de la lista
+	 * @param bici Bici que se desea quitar del pack
+	 */
 	public abstract void quitaBike(Bike bici);
 	
+	public abstract double getDepositToPay(double deposit);
+	
 	@Override
+	/**
+	 * Devuelve un String con las caracteristicas del pack
+	 */
 	public String toString() {
 		return "Pack: "+ getCantidadBicis() +" bicis, " +getCantidadBicisAdultas()+ " bicis de adulto, " + getCantidadBicisElectricas() +" bicis electricas, "+ getCantidadBicisInfantiles() + " bicis infantiles\n";
 	}

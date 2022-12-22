@@ -87,7 +87,7 @@ public abstract class Bike implements Resource {
 
 	/**
 	 * Devuelve el valor del peso de la bici en kilogramos
-	 * @param peso
+	 * @param peso Peso de la bici
 	 * @throws IllegalArgumentException si el peso es menor o igual que 0
 	 */
 	public void setPeso(double peso) {
@@ -107,7 +107,7 @@ public abstract class Bike implements Resource {
 
 	/**
 	 * Proporciona un valor para el numero de platos de la bici
-	 * @param numPlatos
+	 * @param numPlatos Numero de platos de la bicicleta
 	 * @throws IllegalArgumentException si el numero de platos es menor que 1
 	 */
 	public void setNumPlatos(int numPlatos) {
@@ -128,7 +128,7 @@ public abstract class Bike implements Resource {
 
 	/**
 	 * Proporciona un valor para el numero de pinones de la bici
-	 * @param numPinones
+	 * @param numPinones Numero de pinones de la bici
 	 * @throws IllegalArgumentException si el numero de pinones es menor que 1
 	 */
 	public void setNumPinones(int numPinones) {

@@ -36,7 +36,7 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 		 }
 		 setCantidadAnclajes(cantidadAnclajes);
 		 coordenadaGPS.setCoordenadaGPSLatitud(latitudGradosDecimales);
-		 coordenadaGPS.setCoordeadaGPSLongitud(longitudGradosDecimales);
+		 coordenadaGPS.setCoordenadaGPSLongitud(longitudGradosDecimales);
 	 }
 	 
 	 /**
@@ -75,10 +75,10 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 	 
 	 // METODOS
 	 /**
-	  * 
-	  * @return
+	  * Devuelve las coordenadas del punto de aparcamiento
+	  * @return Coordenadas del punto de aparcamiento
 	  */
-	 public CoordenadaParkingPoint getCoordenadas() {
+	 public CoordenadaParkingPoint getCoordenada() {
 		 return new CoordenadaParkingPoint(coordenadaGPS.getCoordenadaGPSLatitud(), coordenadaGPS.getCoordenadaGPSLongitud());
 	 }
 	 /**
@@ -100,13 +100,6 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 		 }
 		 this.fianza= fianza;
 	 }
-	 /**
-	  * 
-	  * @return
-	  */
-	 public CoordenadaParkingPoint getCoordenada() {
-		 return coordenadaGPS;
-	 } 
 	 
 	 /**
 	  * Devuelve el identificador del punto de Aparcamiento
@@ -221,22 +214,20 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 	 /**
 		 * Permite a un cliente alquilar la bicicleta de un anclaje y se le descuenta la fianza de su TarjetaMonedero
 		 * @param tarjeta del cliente que quiere alquilar la bicicleta
-		 * @param anclaje del que se quiere alquilar la bicicleta
-		 * @throws IllegalStateException El anclade del que se quiere alquilar la bicicleta está vacío o reservado o si no hay saldo suficiente en la tarjeta
+		 * @param bici Bicicleta que se quiere alquilas
 		 * @throws IllegalArgumentException si tarjeta==null
+		 * @throws IllegalArgumentException si bici==null
+		 * @throws IllegalStateException si no hay saldo suficiente en la tarjeta
 		 */
 		 public void alquilarBici(TarjetaMonedero tarjeta,Bike bici) {
 			 if (tarjeta==null) {
 				 throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
 			 }
 			 else if(bici==null) {
-				 throw new IllegalArgumentException("Llamada incorrecta: tarjeta==null");
+				 throw new IllegalArgumentException("Llamada incorrecta: bici==null");
 			 }
 			 else if (tarjeta.getSaldoActual()<getFianza()) {
 				 throw new IllegalStateException("No hay saldo suficiente en la tarjeta para pagar la fianza");
-			 }
-			 else if (!Arrays.asList(listaAnclajes).contains(getAnclajeDeBici(bici))) {
-				 throw new IllegalArgumentException("Llamada incorrecta: El anclaje elegido no pertenece a este ParkingPoint");
 			 }
 			 else if (getAnclajeDeBici(bici).isOcupado()){
 				 tarjeta.descontarDelSaldo("***REMOVED***", bici.getDepositToPay(getFianza()));
@@ -250,8 +241,8 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 		 /**
 		 * Permite al cliente devolver una bicicleta alquilada y se le devuelve la fianza en su TarjetaMonedero
 		 * @param tarjeta del cliente que quiere devolver la bicicleta
-		 * @param anclaje donde se quiere devolver la bicicleta
-		 * @throws IllegalStateException El anclaje donde se quiere dejar la bicicleta está ocupado por otra bicicleta.
+		 * @param bici Bicicleta que se quiere devolver
+		 * @throws IllegalArgumentException si bici==nulls
 		 * @throws IllegalArgumentException si tarjeta==null
 		 */
 		 public void devolverBici(TarjetaMonedero tarjeta, Bike bici) {
@@ -271,10 +262,10 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 		 
 		 /**
 		 * Permite al cliente reservar la bicicleta de un anclaje y se le decuenta la fianza de su TarjetaMonedero
-		 * @param tarjeta del cliente que quiere reservar la bicicleta
-		 * @param anclaje del que se quiere reserervar la bicicleta
-		 * @throws IllegalStateException El anclaje del que se quiere reservar la bicicleta está vacío o ya reservado para otro cliente
+		 * @param tarjeta Tarjeta del cliente que quiere reservar la bicicleta
+		 * @param bici Bicicleta que se quiere reservar
 		 * @throws IllegalArgumentException si tarjeta==null
+		 * @throws IllegalArgumentException si bici==null
 		 * @throws IllegalStateException si no hay saldo suficiente en la tarjeta
 		 */
 		 public void reservarBici(TarjetaMonedero tarjeta,Bike bici) {
@@ -298,9 +289,12 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 		 }
 		 
 		 /**
-		  * 
-		  * @param tarjeta
-		  * @param packBicis
+		  * Permite a un cliente alquilar un pack de bicicletas de un punto de aparcamiento y se le descuenta la fianza de su TarjetaMonedero
+		  * @param tarjeta Tarjeta del cliente que quiere alquilar el pack de bicis
+		  * @param packBicis Pack de bicis que se desea alquilar
+		  * @throws IllegalArgumentException si la tarjeta==null
+		  * @throws IllegalArgumentException si packBicis==null
+		  * @throws IllegalStateException si no hay tantas bicis disponibles en el punto de aparcamiento como bicis tiene el pack
 		  */
 		 public void alquilarPack(TarjetaMonedero tarjeta, Pack packBicis) {
 			 if (tarjeta==null) {
@@ -324,9 +318,12 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 		 }
 		 
 		 /**
-		  * 
-		  * @param tarjeta
-		  * @param packBicis
+		  * Permite a un cliente reservar un pack de bicicletas de un punto de aparcamiento y se le descuenta la fianza de su TarjetaMonedero
+		  * @param tarjeta Tarjeta del cliente que quiere reservar el pack de bicis 
+		  * @param packBicis Pack de bicis que se desea reservar
+		  * @throws IllegalArgumentException si tarjeta==null
+		  * @throws IllegalArgumentException si packBicis==null
+		  * @throws IllegalStateException si no hay tantas bicis disponibles en el punto de aparcamiento como bicis hay en el pack
 		  */
 		 public void reservarPack(TarjetaMonedero tarjeta, Pack packBicis) {
 			 if (tarjeta==null) {
@@ -350,9 +347,12 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 		 }
 		 
 		 /**
-		  * 
-		  * @param tarjeta
-		  * @param packBicis
+		  * Permite a un cliente devolver un pack de bicicletas de un punto de aparcamiento y se le descuenta la fianza de su TarjetaMonedero
+		  * @param tarjeta Tarjeta del cliente que quiere devolver el pack de bicis
+		  * @param packBicis Pack de bicis que se desea devolver
+		  * @throws IllegalArgumentException si tarjeta==null
+		  * @throws IllegalArgumentException si packBicis==null
+		  * @throws IllegalStateException si no hay tantos anclajes vacios para dejar las bicis del pack
 		  */
 		 public void devolverPack(TarjetaMonedero tarjeta, Pack packBicis) {
 			 if (tarjeta==null) {

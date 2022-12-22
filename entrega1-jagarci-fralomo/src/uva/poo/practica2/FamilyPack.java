@@ -33,11 +33,12 @@ public class FamilyPack extends Pack{
 		}
 		return contador;
 	}
+
+	@Override
 	/**
 	 * Quita una bici de la lista de bicis
-	 * @throws new IllegalStateException si el numero de bicis de la lista es 4, el minimo posible
+	 * @throws IllegalStateException si el numero de bicis de la lista es 4, el minimo posible
 	 */
-	@Override
 	public void quitaBike(Bike bici) {
 		if (getCantidadBicis()==4) {
 			throw new IllegalStateException("Debe añadir una bici antes de eliminarla");
@@ -68,6 +69,9 @@ public class FamilyPack extends Pack{
 	}
 	
 	@Override
+	/**
+	 * Devuelve un String con las caracteristicas del pack familiar
+	 */
 	public String toString() {
 		return "Pack familiar\n" + super.toString();
 	}

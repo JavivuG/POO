@@ -13,8 +13,8 @@ public class BateriaBike {
 	// Inicializadores
 	/**
 	 * Constructor dado un voltaje en voltios y una carga en amperios/hora
-	 * @param voltaje
-	 * @param cargaAh
+	 * @param voltaje Voltaje de una bateria en voltios
+	 * @param cargaAh Carga de una bateria en amperios/hora
 	 * @throws IllegalStateException si el voltaje proporcionado distinto de 24, 36 o 48 voltios
 	 * @throws IllegalStateException si la carga en Amperios/hora es menor o igual que 0
 	 */
@@ -55,7 +55,7 @@ public class BateriaBike {
 	
 	/**
 	 * Devuelve la carga de la bateria
-	 * @return
+	 * @return cargaAh Devuelve la carga de la bateria en amperios/hora
 	 */
 	public double getCarga() {
 		return cargaAh;
@@ -63,6 +63,7 @@ public class BateriaBike {
 	
 	/**
 	 * Devuelve energía almacenada en la batería en kilowatiosHora
+	 * @return energia almacenada en kw/h
 	 */
 	public double getEnergiaAlmacenada() {
 		return voltaje * cargaAh;
