@@ -83,4 +83,36 @@ public class FamilyPack extends Pack{
 	public String toString() {
 		return "Pack familiar\n" + super.toString();
 	}
+	
+	@Override
+	/**
+	 * Comprueba si dos packs familiares son iguales
+	 */
+	public boolean equals(Object otro) {
+		if (otro==null) {
+			throw new IllegalArgumentException("Llamada incorrecta: otro==null");
+		}
+		else {
+			if (otro instanceof FamilyPack) {
+				if (getListaBicis().length==((FamilyPack) otro).getListaBicis().length) {
+					for (int i=0; i<getListaBicis().length; i++) {
+						Bike biciActual=getListaBicis()[i];
+						boolean iguales=false;
+						int j=0;
+						do {
+							if (biciActual.equals(((FamilyPack) otro).getListaBicis()[j])){
+								iguales=true;
+							}
+							j++;
+						}while(j<((FamilyPack) otro).getListaBicis().length && !iguales);
+						if (!iguales) {
+							return iguales;
+						}
+					}
+				}
+				return false;
+			}
+			return false;
+		}
+	}
 }

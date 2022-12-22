@@ -307,7 +307,7 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 				 throw new IllegalStateException("No hay tantas bicis disponibles");
 			 }else {
 				 for (int i=0; i<packBicis.getCantidadBicis(); i++) {
-					 Bike biciActual=packBicis.getListaBicis().get(i);
+					 Bike biciActual=packBicis.getListaBicis()[i];
 					 if (getAnclajeDeBici(biciActual).isOcupado()){ // Encuentro el anclaje de la bici y miro si esta disponible
 					 	 getAnclajeDeBici(biciActual).setVacio(true); // Si esta disponible pongo el anclaje como vacio
 					 }
@@ -336,7 +336,7 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 				 throw new IllegalStateException("No hay tantas bicis disponibles");
 			 }else {
 				 for (int i=0; i<packBicis.getCantidadBicis(); i++) {
-					 Bike biciActual=packBicis.getListaBicis().get(i);
+					 Bike biciActual=packBicis.getListaBicis()[i];
 					 if (getAnclajeDeBici(biciActual).isOcupado()){ // Encuentro el anclaje de la bici y miro si esta disponible
 					 	 getAnclajeDeBici(biciActual).setReservado(true); // Si esta disponible pongo el anclaje como reservado
 					 }
@@ -365,7 +365,7 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 				 throw new IllegalStateException("No hay tantos anclajes libres");
 			 }else {
 				 for (int i=0; i<packBicis.getCantidadBicis(); i++) {
-					 Bike biciActual=packBicis.getListaBicis().get(i);
+					 Bike biciActual=packBicis.getListaBicis()[i];
 					 getAnclajeVacio().setOcupado(true, biciActual);
 				 }
 				 tarjeta.recargaSaldo("A156Bv09_1zXo894", packBicis.sumaDepositos(getFianza()));

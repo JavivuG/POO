@@ -1,5 +1,4 @@
 package uva.poo.practica2;
-import java.util.ArrayList;
 
 /**
  * Tipo de datos que representa un pack de grupo de bicis
@@ -68,6 +67,38 @@ public class GroupPack extends Pack {
 	 */
 	public String toString() {
 		return "Pack de grupo\n" + super.toString();
+	}
+	
+	@Override
+	/**
+	 * Comprueba si dos packs de grupo son iguales
+	 */
+	public boolean equals(Object otro) {
+		if (otro==null) {
+			throw new IllegalArgumentException("Llamada incorrecta: otro==null");
+		}
+		else {
+			if (otro instanceof GroupPack) {
+				if (getListaBicis().length==((GroupPack) otro).getListaBicis().length) {
+					for (int i=0; i<getListaBicis().length; i++) {
+						Bike biciActual=getListaBicis()[i];
+						boolean iguales=false;
+						int j=0;
+						do {
+							if (biciActual.equals(((GroupPack) otro).getListaBicis()[j])){
+								iguales=true;
+							}
+							j++;
+						}while(j<((GroupPack) otro).getListaBicis().length && !iguales);
+						if (!iguales) {
+							return iguales;
+						}
+					}
+				}
+				return false;
+			}
+			return false;
+		}
 	}
 
 	

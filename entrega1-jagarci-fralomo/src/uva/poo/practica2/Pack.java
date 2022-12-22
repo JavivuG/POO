@@ -194,4 +194,36 @@ public abstract class Pack implements Resource {
 		return "Pack: "+ getCantidadBicis() +" bicis, " +getCantidadBicisAdultos()+ " bicis de adulto, " + getCantidadBicisElectricas() +" bicis electricas, "+ getCantidadBicisInfantiles() + " bicis infantiles\n";
 	}
 	
+	
+	@Override
+	/**
+	 * Comprueba si dos packs son iguales
+	 */
+	public boolean equals(Object otro) {
+		if (otro==null) {
+			throw new IllegalArgumentException("Llamada incorrecta: otro==null");
+		}
+		else {
+			if (otro instanceof Pack) {
+				if (getListaBicis().length==((Pack) otro).getListaBicis().length) {
+					for (int i=0; i<getListaBicis().length; i++) {
+						Bike biciActual=getListaBicis()[i];
+						boolean iguales=false;
+						int j=0;
+						do {
+							if (biciActual.equals(((Pack) otro).getListaBicis()[j])){
+								iguales=true;
+							}
+							j++;
+						}while(j<((Pack) otro).getListaBicis().length && !iguales);
+						if (!iguales) {
+							return iguales;
+						}
+					}
+				}
+				return false;
+			}
+			return false;
+		}
+	}
 }
