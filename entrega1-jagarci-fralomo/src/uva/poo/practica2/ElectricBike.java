@@ -80,11 +80,14 @@ public class ElectricBike extends AdultBike {
         	throw new IllegalArgumentException("El deposito no puede ser menor o igual que 0");
         }
         else {
-    		if (bateria.getVoltaje()==36) {
-    			incremento=0.1;
+    		if (bateria.getVoltaje()==24) {
+    			incremento=0.24;
+    		}
+    		else if (bateria.getVoltaje()==36) {
+    			incremento=0.36;
     		}
     		else if (bateria.getVoltaje()==48) {
-    			incremento=0.2;
+    			incremento=0.48;
     		}
         	return deposit + (deposit * incremento);
         }
