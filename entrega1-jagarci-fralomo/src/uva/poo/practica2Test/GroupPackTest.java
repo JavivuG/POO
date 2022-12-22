@@ -15,32 +15,39 @@ public class GroupPackTest {
 	@Before
 	public void setUp() throws Exception {
 		BateriaBike bateria=new BateriaBike(48, 13);
-		ArrayList<Bike> listaBicis=new ArrayList<>();
+		Bike[] listaBicis=new Bike[12];
+		int pos=0;
 		for (int i=0; i<4; i++) {
 			Bike adulto= new AdultBike("BH" , "Oregon" ,"L", 10, 34, 5);
-			listaBicis.add(adulto);
+			listaBicis[pos]=adulto;
+			pos++;
 		}
 		for (int i=0; i<3; i++) {
 			Bike infantil= new ChildBike("BH" , "Oregon" ,22, 10, 34, 5);
-			listaBicis.add(infantil);
+			listaBicis[pos]=infantil;
+			pos++;
 		}
 		for (int i=0; i<5; i++) {
 			Bike electrica= new ElectricBike("Orbea", "Arriba", "M", 10,12,3 ,bateria, 8);
-			listaBicis.add(electrica);
+			listaBicis[pos]=electrica;
+			pos++;
 		}
 		packGrupo=new GroupPack(listaBicis);
 	}
 
 	@Test (expected=IllegalArgumentException.class)
 	public void testConstructorGroupPackMenosDe10() {
-		ArrayList<Bike> listaBicis=new ArrayList<>();
+		Bike[] listaBicis=new Bike[7];
+		int pos=0;
 		for (int i=0; i<4; i++) {
 			Bike adulto= new AdultBike("BH" , "Oregon" ,"L", 10, 34, 5);
-			listaBicis.add(adulto);
+			listaBicis[pos]=adulto;
+			pos++;
 		}
 		for (int i=0; i<3; i++) {
 			Bike infantil= new ChildBike("BH" , "Oregon" ,22, 10, 34, 5);
-			listaBicis.add(infantil);
+			listaBicis[pos]=infantil;
+			pos++;
 		}
 		Pack packGrupo1=new GroupPack(listaBicis);
 	}
@@ -49,22 +56,25 @@ public class GroupPackTest {
 	public void testQuitaBike() {
 		boolean estaEnPack=false;
 		BateriaBike bateria=new BateriaBike(48, 13);
-		ArrayList<Bike> listaBicis=new ArrayList<>();
+		Bike[] listaBicis=new Bike[12];
+		int pos=0;
 		for (int i=0; i<5; i++) {
 			Bike adulto= new AdultBike("BH" , "Oregon" ,"L", 10, 34, 5);
-			listaBicis.add(adulto);
+			listaBicis[pos]=adulto;
+			pos++;
 		}
 		for (int i=0; i<6; i++) {
 			Bike infantil= new ChildBike("BH" , "Oregon" ,22, 10, 34, 5);
-			listaBicis.add(infantil);
+			listaBicis[pos]=infantil;
+			pos++;
 		}
 		Bike electrica= new ElectricBike("Orbea", "Arriba", "M", 10,12,3 ,bateria, 8);
-		listaBicis.add(electrica);
+		listaBicis[pos]=electrica;
 		Pack packGrupo1=new GroupPack(listaBicis);
 		packGrupo1.quitaBike(electrica);
 		listaBicis=packGrupo1.getListaBicis();
-		for (int i=0; i<listaBicis.size(); i++) {
-			if (listaBicis.get(i).equals(electrica)) {
+		for (int i=0; i<listaBicis.length; i++) {
+			if (listaBicis[i].equals(electrica)) {
 				estaEnPack=true;
 			}
 		}
@@ -74,17 +84,20 @@ public class GroupPackTest {
 	@Test(expected=IllegalStateException.class)
 	public void testQuitaBikeCon10Bicis() {
 		BateriaBike bateria=new BateriaBike(48, 13);
-		ArrayList<Bike> listaBicis=new ArrayList<>();
+		Bike[] listaBicis=new Bike[10];
+		int pos=0;
 		for (int i=0; i<6; i++) {
 			Bike adulto= new AdultBike("BH" , "Oregon" ,"L", 10, 34, 5);
-			listaBicis.add(adulto);
+			listaBicis[pos]=adulto;
+			pos++;
 		}
 		for (int i=0; i<3; i++) {
 			Bike infantil= new ChildBike("BH" , "Oregon" ,22, 10, 34, 5);
-			listaBicis.add(infantil);
+			listaBicis[pos]=infantil;
+			pos++;
 		}
 		Bike electrica= new ElectricBike("Orbea", "Arriba", "M", 10,12,3 ,bateria, 8);
-		listaBicis.add(electrica);
+		listaBicis[pos]=electrica;
 		Pack packGrupo1=new GroupPack(listaBicis);
 		packGrupo1.quitaBike(electrica);
 	}
@@ -93,22 +106,26 @@ public class GroupPackTest {
 	public void testGetDepositToPay() {
 		double fianzaInicial=10;
 		BateriaBike bateria=new BateriaBike(48, 13);
-		ArrayList<Bike> listaBicis=new ArrayList<>();
+		Bike[] listaBicis=new Bike[12];
 		double deposito=0;
+		int pos=0;
 		for (int i=0; i<4; i++) {
 			Bike adulto= new AdultBike("BH" , "Oregon" ,"L", 10, 34, 5);
-			listaBicis.add(adulto);
+			listaBicis[pos]=adulto;
 			deposito+=adulto.getDepositToPay(fianzaInicial);
+			pos++;
 		}
 		for (int i=0; i<3; i++) {
 			Bike infantil= new ChildBike("BH" , "Oregon" ,22, 10, 34, 5);
-			listaBicis.add(infantil);
+			listaBicis[pos]=infantil;
 			deposito+=infantil.getDepositToPay(fianzaInicial);
+			pos++;
 		}
 		for (int i=0; i<5; i++) {
 			Bike electrica= new ElectricBike("Orbea", "Arriba", "M", 10,12,3 ,bateria, 8);
-			listaBicis.add(electrica);
+			listaBicis[pos]=electrica;
 			deposito+=electrica.getDepositToPay(fianzaInicial);
+			pos++;
 		}
 		deposito=deposito*0.8;
 		Pack packGrupo1=new GroupPack(listaBicis);
@@ -123,52 +140,53 @@ public class GroupPackTest {
 	
 	@Test (expected=IllegalArgumentException.class)
 	public void testSetListaBicisListaNull() {
-		ArrayList<Bike> listaBicis=null;
-		packGrupo.setListaBicis(listaBicis);
-	}
-	
-	@Test (expected=IllegalArgumentException.class)
-	public void testSetListaBicisVacia() {
-		ArrayList<Bike> listaBicis=new ArrayList<>();
+		Bike[] listaBicis=null;
 		packGrupo.setListaBicis(listaBicis);
 	}
 	
 	@Test (expected=IllegalStateException.class)
 	public void testSetListaBicisIgualesEnLista() {
-		ArrayList<Bike> listaBicis=new ArrayList<>();
+		Bike[] listaBicis=new Bike[13];
 		BateriaBike bateria=new BateriaBike(48, 13);
+		int pos=0;
 		for (int i=0; i<4; i++) {
 			Bike adulto= new AdultBike("BH" , "Oregon" ,"L", 10, 34, 5);
-			listaBicis.add(adulto);
+			listaBicis[pos]=adulto;
+			pos++;
 		}
 		for (int i=0; i<7; i++) {
 			Bike infantil= new ChildBike("BH" , "Oregon" ,22, 10, 34, 5);
-			listaBicis.add(infantil);
+			listaBicis[pos]=infantil;
+			pos++;
 		}
 		Bike electrica= new ElectricBike("Orbea", "Arriba", "M", 10,12,3 ,bateria, 8);
-		listaBicis.add(electrica);
-		listaBicis.add(electrica.clone());
+		listaBicis[pos]=electrica;
+		pos++;
+		listaBicis[pos]=electrica.clone();
 		packGrupo.setListaBicis(listaBicis);
 	}
 	
 	@Test
 	public void testSetListaBicis() {
 		boolean listaAplicada=true;
-		ArrayList<Bike> listaBicis=new ArrayList<>();
-		ArrayList<String> identificadores=new ArrayList<>();
+		Bike[] listaBicis=new Bike[11];
+		String[] identificadores=new String[11];
+		int pos=0;
 		for (int i=0; i<4; i++) {
 			Bike adulto= new AdultBike("BH" , "Oregon" ,"L", 10, 34, 5);
-			identificadores.add(adulto.getIdentificador());
-			listaBicis.add(adulto);
+			identificadores[pos]=adulto.getIdentificador();
+			listaBicis[pos]=adulto;
+			pos++;
 		}
 		for (int i=0; i<7; i++) {
 			Bike infantil= new ChildBike("BH" , "Oregon" ,22, 10, 34, 5);
-			identificadores.add(infantil.getIdentificador());
-			listaBicis.add(infantil);
+			identificadores[pos]=infantil.getIdentificador();
+			listaBicis[pos]=infantil;
+			pos++;
 		}
 		packGrupo.setListaBicis(listaBicis);
 		for (int i=0; i<11; i++) {
-			if (!packGrupo.getListaBicis().get(i).getIdentificador().equals(identificadores.get(i))) {
+			if (!packGrupo.getListaBicis()[i].getIdentificador().equals(identificadores[i])) {
 				listaAplicada=false;
 			}
 		}
@@ -177,20 +195,23 @@ public class GroupPackTest {
 	
 	@Test
 	public void testGetListaBicis() {
-		ArrayList<Bike> listaBicis=new ArrayList<>();
+		Bike[] listaBicis=new Bike[11];
 		boolean mismosIdentificadores=true;
+		int pos=0;
 		for (int i=0; i<4; i++) {
 			Bike adulto= new AdultBike("BH" , "Oregon" ,"L", 10, 34, 5);
-			listaBicis.add(adulto);
+			listaBicis[pos]=adulto;
+			pos++;
 		}
 		for (int i=0; i<7; i++) {
 			Bike infantil= new ChildBike("BH" , "Oregon" ,22, 10, 34, 5);
-			listaBicis.add(infantil);
+			listaBicis[pos]=infantil;
+			pos++;
 		}
 		packGrupo.setListaBicis(listaBicis);
-		ArrayList<Bike> listaBicisRecibida=packGrupo.getListaBicis();
-		for (int i=0; i<listaBicisRecibida.size(); i++) {
-			if (!listaBicis.get(i).equals(listaBicisRecibida.get(i))) {
+		Bike[] listaBicisRecibida=packGrupo.getListaBicis();
+		for (int i=0; i<listaBicisRecibida.length; i++) {
+			if (!listaBicis[i].equals(listaBicisRecibida[i])) {
 				mismosIdentificadores=false;
 			}
 		}
@@ -213,7 +234,7 @@ public class GroupPackTest {
 	
 	@Test
 	public void testGetCantidadBicis() {
-		int tamano=packGrupo.getListaBicis().size();
+		int tamano=packGrupo.getListaBicis().length;
 		assertEquals(tamano, packGrupo.getCantidadBicis());
 	}
 	
@@ -234,16 +255,18 @@ public class GroupPackTest {
 	public void testGetCantidadBicisElectricas() {
 		int contadorBicisElectricas=0;
 		BateriaBike bateria=new BateriaBike(48, 13);
-		ArrayList<Bike> listaBicis=new ArrayList<>();
-
+		Bike[] listaBicis=new Bike[13];
+		int pos=0;
 		for (int i=0; i<8; i++) {
 			Bike infantil= new ChildBike("BH" , "Oregon" ,22, 10, 34, 5);
-			listaBicis.add(infantil);
+			listaBicis[pos]=infantil;
+			pos++;
 		}
 		for (int i=0; i<5; i++) {
 			Bike electrica= new ElectricBike("Orbea", "Arriba", "M", 10,12,3 ,bateria, 8);
-			listaBicis.add(electrica);
+			listaBicis[pos]=electrica;
 			contadorBicisElectricas++;
+			pos++;
 		}
 		Pack packGrupo1=new GroupPack(listaBicis);
 		assertEquals(contadorBicisElectricas, packGrupo1.getCantidadBicisElectricas());
@@ -254,19 +277,23 @@ public class GroupPackTest {
 	public void testGetCantidadBicisAdulto() {
 		int contadorBicisAdulto=0;
 		BateriaBike bateria=new BateriaBike(48, 13);
-		ArrayList<Bike> listaBicis=new ArrayList<>();
+		Bike[] listaBicis=new Bike[12];
+		int pos=0;
 		for (int i=0; i<4; i++) {
 			Bike adulto= new AdultBike("BH" , "Oregon" ,"L", 10, 34, 5);
-			listaBicis.add(adulto);
+			listaBicis[pos]=adulto;
 			contadorBicisAdulto++;
+			pos++;
 		}
 		for (int i=0; i<3; i++) {
 			Bike infantil= new ChildBike("BH" , "Oregon" ,22, 10, 34, 5);
-			listaBicis.add(infantil);
+			listaBicis[pos]=infantil;
+			pos++;
 		}
 		for (int i=0; i<5; i++) {
 			Bike electrica= new ElectricBike("Orbea", "Arriba", "M", 10,12,3 ,bateria, 8);
-			listaBicis.add(electrica);
+			listaBicis[pos]=electrica;
+			pos++;
 		}
 		Pack packGrupo1=new GroupPack(listaBicis);
 		assertEquals(contadorBicisAdulto, packGrupo1.getCantidadBicisAdultos());
@@ -276,20 +303,24 @@ public class GroupPackTest {
 	public void testGetCantidadBicisInfantiles() {
 		int contadorBicisInfantiles=0;
 		BateriaBike bateria=new BateriaBike(48, 13);
-		ArrayList<Bike> listaBicis=new ArrayList<>();
+		Bike[] listaBicis=new Bike[12];
+		int pos=0;
 		for (int i=0; i<4; i++) {
 			Bike adulto= new AdultBike("BH" , "Oregon" ,"L", 10, 34, 5);
-			listaBicis.add(adulto);
+			listaBicis[pos]=adulto;
+			pos++;
 			
 		}
 		for (int i=0; i<3; i++) {
 			Bike infantil= new ChildBike("BH" , "Oregon" ,22, 10, 34, 5);
-			listaBicis.add(infantil);
+			listaBicis[pos]=infantil;
 			contadorBicisInfantiles++;
+			pos++;
 		}
 		for (int i=0; i<5; i++) {
 			Bike electrica= new ElectricBike("Orbea", "Arriba", "M", 10,12,3 ,bateria, 8);
-			listaBicis.add(electrica);
+			listaBicis[pos]=electrica;
+			pos++;
 		}
 		Pack packGrupo1=new GroupPack(listaBicis);
 		assertEquals(contadorBicisInfantiles, packGrupo1.getCantidadBicisInfantiles());
@@ -312,26 +343,30 @@ public class GroupPackTest {
 	public void testSumaDepositos() {
 		double fianzaInicial=10;
 		BateriaBike bateria=new BateriaBike(48, 13);
-		ArrayList<Bike> listaBicis=new ArrayList<>();
+		Bike[] listaBicis=new Bike[12];
 		double deposito=0;
+		int posicion=0;
 		for (int i=0; i<4; i++) {
 			Bike adulto= new AdultBike("BH" , "Oregon" ,"L", 10, 34, 5);
-			listaBicis.add(adulto);
+			listaBicis[posicion]=adulto;
 			deposito+=adulto.getDepositToPay(fianzaInicial);
+			posicion++;
 		}
 		for (int i=0; i<3; i++) {
 			Bike infantil= new ChildBike("BH" , "Oregon" ,22, 10, 34, 5);
-			listaBicis.add(infantil);
+			listaBicis[posicion]=infantil;
 			deposito+=infantil.getDepositToPay(fianzaInicial);
+			posicion++;
 		}
 		for (int i=0; i<5; i++) {
 			Bike electrica= new ElectricBike("Orbea", "Arriba", "M", 10,12,3 ,bateria, 8);
-			listaBicis.add(electrica);
+			listaBicis[posicion]=electrica;
 			deposito+=electrica.getDepositToPay(fianzaInicial);
+			posicion++;
 		}
 		deposito=deposito*0.8;
 		Pack packGrupo1=new GroupPack(listaBicis);
-		assertEquals(deposito, packGrupo.getDepositToPay(fianzaInicial), 0.01);
+		assertEquals(deposito, packGrupo1.getDepositToPay(fianzaInicial), 0.01);
 	}
 	
 	

@@ -64,11 +64,11 @@ public class PolimorfismoTest {
 		Bike infantil= new ChildBike("BH" , "Oregon" ,22, 10, 34, 5);
 		Bike infantil2= new ChildBike("BH" , "Oregon" ,22, 10, 34, 5);
 		double deposito=(adulto.getDepositToPay(fianzaInicial)+electrica.getDepositToPay(fianzaInicial)+infantil.getDepositToPay(fianzaInicial)+infantil2.getDepositToPay(fianzaInicial))*0.5;
-		ArrayList<Bike> listaBicis=new ArrayList<>();
-		listaBicis.add(adulto);
-		listaBicis.add(electrica);
-		listaBicis.add(infantil2);
-		listaBicis.add(infantil);
+		Bike[] listaBicis=new Bike[4];
+		listaBicis[0]=adulto;
+		listaBicis[1]=electrica;
+		listaBicis[2]=infantil2;
+		listaBicis[3]=infantil;
 		Resource packFamiliar=new FamilyPack(listaBicis);
 		assertEquals(deposito, packFamiliar.getDepositToPay(fianzaInicial), 0.01);
 	}
@@ -77,22 +77,26 @@ public class PolimorfismoTest {
 	public void fianzaPackGrupo() {
 		double fianzaInicial=10;
 		BateriaBike bateria=new BateriaBike(48, 13);
-		ArrayList<Bike> listaBicis=new ArrayList<>();
+		Bike[] listaBicis=new Bike[12];
 		double deposito=0;
+		int posicion=0;
 		for (int i=0; i<4; i++) {
 			Bike adulto= new AdultBike("BH" , "Oregon" ,"L", 10, 34, 5);
-			listaBicis.add(adulto);
+			listaBicis[posicion]=adulto;
 			deposito+=adulto.getDepositToPay(fianzaInicial);
+			posicion++;
 		}
 		for (int i=0; i<3; i++) {
 			Bike infantil= new ChildBike("BH" , "Oregon" ,22, 10, 34, 5);
-			listaBicis.add(infantil);
+			listaBicis[posicion]=infantil;
 			deposito+=infantil.getDepositToPay(fianzaInicial);
+			posicion++;
 		}
 		for (int i=0; i<5; i++) {
 			Bike electrica= new ElectricBike("Orbea", "Arriba", "M", 10,12,3 ,bateria, 8);
-			listaBicis.add(electrica);
+			listaBicis[posicion]=electrica;
 			deposito+=electrica.getDepositToPay(fianzaInicial);
+			posicion++;
 		}
 		deposito=deposito*0.8;
 		Resource packGrupo=new GroupPack(listaBicis);

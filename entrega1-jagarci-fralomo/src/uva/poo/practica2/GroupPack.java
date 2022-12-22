@@ -14,9 +14,9 @@ public class GroupPack extends Pack {
 	 * @param listaBicis Lista de bicis que forman el pack
 	 * @throws IllegalArgumentException si hay menos de 10 bicis
 	 */
-	public GroupPack(ArrayList<Bike> listaBicis) {
+	public GroupPack(Bike[] listaBicis) {
 		super(listaBicis);
-		if (listaBicis.size()<10) {
+		if (listaBicis.length<10) {
 			throw new IllegalArgumentException("Debe de haber como minimo 10 bicis");
 		}
 	}
@@ -32,8 +32,17 @@ public class GroupPack extends Pack {
 			throw new IllegalStateException("Debes de añadir una bici antes de eliminarla");
 		}
 		else {
-			ArrayList<Bike> listaBicis= getListaBicis();
-			listaBicis.remove(bici);
+			Bike[] listaBicis=new Bike[getListaBicis().length-1];
+			int posicion=0;
+			for (int i=0; i<getListaBicis().length; i++){
+				if (!getListaBicis()[i].equals(bici)){
+					listaBicis[posicion]=getListaBicis()[i];
+					posicion++;
+				}
+				else {
+					posicion--;
+				}
+			}
 			setListaBicis(listaBicis);
 		}
 	}

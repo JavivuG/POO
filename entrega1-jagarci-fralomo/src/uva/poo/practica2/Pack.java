@@ -1,5 +1,4 @@
 package uva.poo.practica2;
-import java.util.ArrayList;
 /**
  * Tipo de datos que representa un pack
  * @author jagarci
@@ -7,14 +6,14 @@ import java.util.ArrayList;
  *
  */
 public abstract class Pack implements Resource {
-	private ArrayList<Bike> listaBicis;
+	private Bike[] listaBicis;
 	
 	// Inicializadores
 	/**
 	 * Constructor de un pack de bicis indicando la lista de bicis
 	 * @param listaBicis Lista de bicis
 	 */
-	public Pack(ArrayList<Bike> listaBicis) {
+	public Pack(Bike[] listaBicis) {
 		setListaBicis(listaBicis);
 	}
 	
@@ -24,26 +23,28 @@ public abstract class Pack implements Resource {
 	 * @throws IllegalArgumentException si la listaBicis esta vacia o listaBicis==null
 	 * @throws IllegalStateException si hay bicis repetidas en la lista de bicis
 	 */
-	public void setListaBicis(ArrayList<Bike> listaBicis) {
-		if (listaBicis==null || listaBicis.isEmpty()) {
+	public void setListaBicis(Bike[] listaBicis) {
+		if (listaBicis==null) {
 			throw new IllegalArgumentException("LLamada incorrecta: lista nula o vacía");
 		}
 		else if (bicisIgualesEnLista(listaBicis)) {
 			throw new IllegalStateException("No puede haber bicis repetidas en la lista");
 		}
 		else {
-			ArrayList<Bike> clon= new ArrayList<>();
-			for (int i=0 ; i<listaBicis.size() ; i++) {
-				clon.add(listaBicis.get(i).clone()); 
+			Bike[] clon=new Bike[listaBicis.length];
+			for (int i=0 ; i<listaBicis.length ; i++) {
+				clon[i]=listaBicis[i]; 
 			}
 			this.listaBicis= clon;
 		}
 	}
 	
-	private boolean bicisIgualesEnLista(ArrayList<Bike> listaBicis) {
-		for (int i=0; i<listaBicis.size(); i++) {
-			if (listaBicis.subList(i + 1, listaBicis.size()).contains(listaBicis.get(i))) {
-                return true;
+	private boolean bicisIgualesEnLista(Bike[] listaBicis) {
+		for (int i=0; i<listaBicis.length; i++) {
+			for (int j=i+1; j<listaBicis.length; j++) {
+				if (listaBicis[j].equals(listaBicis[i])) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -53,10 +54,10 @@ public abstract class Pack implements Resource {
 	 * Devuelve la lista de bicis del pack
 	 * @return clon Lista de bicis
 	 */
-	public ArrayList<Bike> getListaBicis(){
-		ArrayList<Bike> clon= new ArrayList<>();
-		for (int i=0 ; i<listaBicis.size() ; i++) {
-			clon.add(listaBicis.get(i).clone()); 
+	public Bike[] getListaBicis(){
+		Bike[] clon=new Bike[listaBicis.length]; 
+		for (int i=0 ; i<listaBicis.length ; i++) {
+			clon[i]=listaBicis[i].clone();
 		}
 		
 		return clon;
@@ -71,8 +72,11 @@ public abstract class Pack implements Resource {
 		if (bici==null) {
 			throw new IllegalArgumentException("Llamada incorrecta: bici==null");
 		}
-		ArrayList<Bike> listaBicis= getListaBicis();
-		listaBicis.add(bici);
+		Bike[] listaBicis= new Bike[getListaBicis().length+1];
+		for (int i=0; i<getListaBicis().length; i++) {
+			listaBicis[i]=getListaBicis()[i];
+		}
+		listaBicis[getListaBicis().length]=bici;
 		setListaBicis(listaBicis);
 	}
 	
@@ -81,7 +85,7 @@ public abstract class Pack implements Resource {
 	 * @return cantidad de bicis del pack
 	 */
 	public int getCantidadBicis() {
-		return getListaBicis().size();
+		return getListaBicis().length;
 	}
 	
 	/**
@@ -94,7 +98,12 @@ public abstract class Pack implements Resource {
 		if (bici==null) {
 			throw new IllegalArgumentException("Llamada incorrecta: bici==null");
 		}
-		return getListaBicis().contains(bici);
+		for (int i=0; i<getListaBicis().length; i++) {
+			if (getListaBicis()[i].equals(bici)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -104,9 +113,9 @@ public abstract class Pack implements Resource {
 	 * @throws IllegalStateException si no existe ninguna bici con ese identificador en el pack
 	 */
 	public Bike getBici(String id) {
-		for (int i=0; i<getListaBicis().size(); i++) {
-			if (getListaBicis().get(i).getIdentificador().equals(id)) {
-				Bike clon=getListaBicis().get(i).clone();
+		for (int i=0; i<getListaBicis().length; i++) {
+			if (getListaBicis()[i].getIdentificador().equals(id)) {
+				Bike clon=getListaBicis()[i].clone();
 				return clon;
 			}
 		}
@@ -119,8 +128,8 @@ public abstract class Pack implements Resource {
 	 */
 	public int getCantidadBicisElectricas() {
 		int contador=0;
-		for (int i=0; i<getListaBicis().size(); i++) {
-			if (getListaBicis().get(i) instanceof ElectricBike) {
+		for (int i=0; i<getListaBicis().length; i++) {
+			if (getListaBicis()[i] instanceof ElectricBike) {
 				contador++;
 			}
 		}
@@ -133,8 +142,8 @@ public abstract class Pack implements Resource {
 	 */
 	public int getCantidadBicisAdultos() {
 		int contador=0;
-		for (int i=0; i<getListaBicis().size(); i++) {
-			if (getListaBicis().get(i) instanceof AdultBike) {
+		for (int i=0; i<getListaBicis().length; i++) {
+			if (getListaBicis()[i] instanceof AdultBike) {
 				contador++;
 			}
 		}
@@ -147,8 +156,8 @@ public abstract class Pack implements Resource {
 	 */
 	public int getCantidadBicisInfantiles() {
 		int contador=0;
-		for (int i=0; i<getListaBicis().size(); i++) {
-			if (getListaBicis().get(i) instanceof ChildBike) {
+		for (int i=0; i<getListaBicis().length; i++) {
+			if (getListaBicis()[i] instanceof ChildBike) {
 				contador++;
 			}
 		}
@@ -162,9 +171,9 @@ public abstract class Pack implements Resource {
 	 */
 	public double sumaDepositos(double deposit){
 		double sumaDepositos=0;
-		ArrayList<Bike> listaBicis= getListaBicis();
-		for (int i=0; i<listaBicis.size(); i++) {
-			sumaDepositos+=listaBicis.get(i).getDepositToPay(deposit);
+		Bike[] listaBicis= getListaBicis();
+		for (int i=0; i<listaBicis.length; i++) {
+			sumaDepositos+=listaBicis[i].getDepositToPay(deposit);
 		}
 		return sumaDepositos;
 	}

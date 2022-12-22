@@ -1,5 +1,5 @@
 package uva.poo.practica2;
-import java.util.ArrayList;
+
 /**
  * Tipo de datos que representa un pack familiar de bicis
  * @author jagarci
@@ -14,9 +14,9 @@ public class FamilyPack extends Pack{
 	 * @throws IllegalArgumentException si no hay 4 o mas bicis
 	 * @throws IllegalArgumentException si no hay 2 o mas bicis infantiles
 	 */
-	public FamilyPack(ArrayList<Bike> listaBicis) {
+	public FamilyPack(Bike[] listaBicis) {
 		super(listaBicis);
-		if (listaBicis.size()<4) {
+		if (listaBicis.length<4) {
 			throw new IllegalArgumentException("Debe de haber como minimo 4 bicis");
 		}else if(contadorBicisInfantiles(listaBicis)<2) {
 			throw new IllegalArgumentException("Debe de tener como minino 2 bicis infantiles");
@@ -24,10 +24,10 @@ public class FamilyPack extends Pack{
 	}
 	
 	// Cuenta la cantidad de bicis infantiles que tiene la lista
-	private int contadorBicisInfantiles(ArrayList<Bike> listaBicis) {
+	private int contadorBicisInfantiles(Bike[] listaBicis) {
 		int contador=0;
-		for (int i=0; i<listaBicis.size(); i++) {
-			if (listaBicis.get(i) instanceof ChildBike) {
+		for (int i=0; i<listaBicis.length; i++) {
+			if (listaBicis[i] instanceof ChildBike) {
 				contador++;
 			}
 		}
@@ -43,12 +43,20 @@ public class FamilyPack extends Pack{
 		if (getCantidadBicis()==4) {
 			throw new IllegalStateException("Debe añadir una bici antes de eliminarla");
 		}
+		else if (contadorBicisInfantiles(getListaBicis())==2 && bici instanceof ChildBike) {
+			throw new IllegalArgumentException("Debe de tener como minino 2 bicis infantiles");
+		}
 		else {
-			ArrayList<Bike> listaBicis= getListaBicis();
-			listaBicis.remove(bici);
-			contadorBicisInfantiles(listaBicis);
-			if(contadorBicisInfantiles(listaBicis)<2) {
-				throw new IllegalArgumentException("Debe de tener como minino 2 bicis infantiles");
+			Bike[] listaBicis= new Bike[getListaBicis().length-1];
+			int posicion=0;
+			for (int i=0; i<getListaBicis().length; i++) {
+				if (!getListaBicis()[i].equals(bici)) {
+					listaBicis[posicion]=getListaBicis()[i];
+					posicion++;
+				}
+				else {
+					posicion--;
+				}
 			}
 			setListaBicis(listaBicis);
 		}
