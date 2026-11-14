@@ -13,6 +13,9 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
  *
  */
  public class CityBikeParkingPoint {
+	/** Credencial de la tarjeta monedero; se lee de la variable de entorno TARJETA_MONEDERO_CREDENCIAL. */
+	private static final String CREDENCIAL_MONEDERO = System.getenv().getOrDefault("TARJETA_MONEDERO_CREDENCIAL", "");
+
 	 private AnclajeParkingPoint[] listaAnclajes;
 	 private CoordenadaParkingPoint coordenadaGPS;
 	 private String idPuntoAparcamiento=UUID.randomUUID().toString();
@@ -230,7 +233,7 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 				 throw new IllegalStateException("No hay saldo suficiente en la tarjeta para pagar la fianza");
 			 }
 			 else if (getAnclajeDeBici(bici).isOcupado()){
-				 tarjeta.descontarDelSaldo("***REMOVED***", bici.getDepositToPay(getFianza()));
+				 tarjeta.descontarDelSaldo(CREDENCIAL_MONEDERO, bici.getDepositToPay(getFianza()));
 			 	 getAnclajeDeBici(bici).setVacio(true);
 			 }
 			 else {
@@ -279,7 +282,7 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 				 throw new IllegalStateException("No hay saldo suficiente en la tarjeta para pagar la fianza");
 			 }
 			 else if(getAnclajeDeBici(bici).isOcupado()) {
-				 tarjeta.descontarDelSaldo("***REMOVED***", bici.getDepositToPay(fianza));
+				 tarjeta.descontarDelSaldo(CREDENCIAL_MONEDERO, bici.getDepositToPay(fianza));
 				 getAnclajeDeBici(bici).setReservado(true);
 			 }
 			 else {
@@ -312,7 +315,7 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 					 	 getAnclajeDeBici(biciActual).setVacio(true); // Si esta disponible pongo el anclaje como vacio
 					 }
 				 }
-				 tarjeta.descontarDelSaldo("***REMOVED***", packBicis.sumaDepositos(getFianza()));
+				 tarjeta.descontarDelSaldo(CREDENCIAL_MONEDERO, packBicis.sumaDepositos(getFianza()));
 			 }
 			 
 		 }
@@ -341,7 +344,7 @@ import fabricante.externo.tarjetas.TarjetaMonedero;
 					 	 getAnclajeDeBici(biciActual).setReservado(true); // Si esta disponible pongo el anclaje como reservado
 					 }
 				 }
-				 tarjeta.descontarDelSaldo("***REMOVED***", packBicis.sumaDepositos(getFianza()));
+				 tarjeta.descontarDelSaldo(CREDENCIAL_MONEDERO, packBicis.sumaDepositos(getFianza()));
 			 }
 			 
 		 }
